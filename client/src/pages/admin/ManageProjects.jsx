@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getProjects, createProject, updateProject, deleteProject } from '../../api';
-import { Pencil, Trash2, Plus, X, Star } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, ExternalLink, Star } from 'lucide-react';
+import FileUpload from '../../components/FileUpload';
 
 const emptyForm = { title: '', description: '', imageUrl: '', link: '', githubUrl: '', tags: '', featured: false, year: new Date().getFullYear() };
 
@@ -65,7 +66,14 @@ const ManageProjects = () => {
             ) : (
                 <div className="space-y-3">
                     {items.map((item) => (
-                        <div key={item._id} className="flex items-start justify-between gap-4 rounded-lg border border-slate-700 bg-slate-800/30 p-4">
+                        <div key={item._id} className="flex items-start gap-4 rounded-lg border border-slate-700 bg-slate-800/30 p-4">
+                            {item.imageUrl ? (
+                                <img src={item.imageUrl} alt={item.title} className="w-24 h-16 rounded-md object-cover border border-slate-700 shrink-0 bg-slate-800" />
+                            ) : (
+                                <div className="w-24 h-16 rounded-md border border-slate-700 bg-slate-800 flex items-center justify-center shrink-0">
+                                    <span className="text-xs text-slate-500">No Img</span>
+                                </div>
+                            )}
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className="text-xs font-semibold text-slate-500">{item.year}</span>
@@ -114,9 +122,12 @@ const ManageProjects = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-1">Image URL</label>
-                                    <input value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} placeholder="https://..."
-                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                    <FileUpload
+                                        label="Thumbnail Image"
+                                        value={form.imageUrl}
+                                        onChange={(url) => setForm({ ...form, imageUrl: url })}
+                                    />
+                                    {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 h-16 rounded object-cover border border-slate-600" />}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-1">Project Link</label>
