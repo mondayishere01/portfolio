@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getProjects, createProject, updateProject, deleteProject } from '../../api';
 import { Pencil, Trash2, Plus, X, Star } from 'lucide-react';
 
-const emptyForm = { title: '', description: '', imageUrl: '', link: '', tags: '', featured: false, year: new Date().getFullYear() };
+const emptyForm = { title: '', description: '', imageUrl: '', link: '', githubUrl: '', tags: '', featured: false, year: new Date().getFullYear() };
 
 const ManageProjects = () => {
     const [items, setItems] = useState([]);
@@ -25,7 +25,7 @@ const ManageProjects = () => {
     const openCreate = () => { setEditing(null); setForm(emptyForm); setError(''); setShowModal(true); };
     const openEdit = (item) => {
         setEditing(item._id);
-        setForm({ title: item.title, description: item.description, imageUrl: item.imageUrl || '', link: item.link || '', tags: (item.tags || []).join(', '), featured: item.featured || false, year: item.year || new Date().getFullYear() });
+        setForm({ title: item.title, description: item.description, imageUrl: item.imageUrl || '', link: item.link || '', githubUrl: item.githubUrl || '', tags: (item.tags || []).join(', '), featured: item.featured || false, year: item.year || new Date().getFullYear() });
         setError('');
         setShowModal(true);
     };
@@ -123,6 +123,11 @@ const ManageProjects = () => {
                                     <input value={form.link} onChange={e => setForm({...form, link: e.target.value})} placeholder="https://..."
                                         className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
                                 </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-300 mb-1">GitHub URL</label>
+                                <input value={form.githubUrl} onChange={e => setForm({...form, githubUrl: e.target.value})} placeholder="https://github.com/..."
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>

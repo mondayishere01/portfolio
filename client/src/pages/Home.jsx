@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { ExternalLink } from 'lucide-react';
 import Layout from '../components/Layout';
 import ExperienceCard from '../components/ExperienceCard';
 import ProjectCard from '../components/ProjectCard';
 import ContactForm from '../components/ContactForm';
-import { getAbout, getExperiences, getFeaturedProjects } from '../api';
+import { getAbout, getExperiences, getFeaturedProjects, getSkills, getCertifications } from '../api';
 
 const sectionVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -17,23 +18,51 @@ const staggerContainer = {
     visible: { transition: { staggerChildren: 0.1 } },
 };
 
+const SKILL_CATEGORIES = [
+    'Languages',
+    'Frontend',
+    'Backend',
+    'Databases',
+    'Cloud & DevOps',
+    'Tools & Practices',
+];
+
+const ProficiencyDots = ({ level }) => (
+    <div className="flex gap-1 mt-1">
+        {[1, 2, 3, 4, 5].map((i) => (
+            <span
+                key={i}
+                className={`inline-block w-2 h-2 rounded-full ${
+                    i <= level ? 'bg-teal-400' : 'bg-slate-600'
+                }`}
+            />
+        ))}
+    </div>
+);
+
 const Home = () => {
     const [about, setAbout] = useState(null);
     const [experiences, setExperiences] = useState([]);
     const [projects, setProjects] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [certifications, setCertifications] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [aboutRes, expRes, projRes] = await Promise.all([
+                const [aboutRes, expRes, projRes, skillRes, certRes] = await Promise.all([
                     getAbout().catch(() => ({ data: null })),
                     getExperiences().catch(() => ({ data: [] })),
                     getFeaturedProjects().catch(() => ({ data: [] })),
+                    getSkills().catch(() => ({ data: [] })),
+                    getCertifications().catch(() => ({ data: [] })),
                 ]);
                 setAbout(aboutRes.data);
                 setExperiences(Array.isArray(expRes.data) ? expRes.data : []);
                 setProjects(Array.isArray(projRes.data) ? projRes.data : []);
+                setSkills(Array.isArray(skillRes.data) ? skillRes.data : []);
+                setCertifications(Array.isArray(certRes.data) ? certRes.data : []);
             } catch (err) {
                 console.error('Failed to fetch data:', err);
             } finally {
@@ -42,6 +71,12 @@ const Home = () => {
         };
         fetchData();
     }, []);
+
+    // Group skills by category
+    const groupedSkills = SKILL_CATEGORIES.map((cat) => ({
+        category: cat,
+        items: skills.filter((s) => s.category === cat),
+    })).filter((g) => g.items.length > 0);
 
     return (
         <Layout>
@@ -131,6 +166,68 @@ const Home = () => {
                 </motion.div>
             </motion.section>
 
+            {/* ─── Skills ──────────────────────────────────── */}
+            <motion.section
+                id="skills"
+                className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+                aria-label="Skills"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                variants={sectionVariants}
+            >
+                <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+                    <h2 className="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">Skills</h2>
+                </div>
+                {loading ? (
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                        {[...Array(10)].map((_, i) => (
+                            <div key={i} className="h-24 rounded-lg bg-slate-700/30 animate-pulse" />
+                        ))}
+                    </div>
+                ) : groupedSkills.length > 0 ? (
+                    <div className="space-y-10">
+                        {groupedSkills.map((group) => (
+                            <div key={group.category}>
+                                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">{group.category}</h3>
+                                <motion.div
+                                    className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3"
+                                    variants={staggerContainer}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true }}
+                                >
+                                    {group.items.map((skill) => (
+                                        <motion.div
+                                            key={skill._id}
+                                            variants={sectionVariants}
+                                            className="group flex flex-col items-center gap-2 rounded-lg border border-slate-700/50 bg-slate-800/30 p-3 text-center transition hover:border-teal-400/30 hover:bg-slate-800/60"
+                                        >
+                                            {skill.imageUrl ? (
+                                                <img
+                                                    src={skill.imageUrl}
+                                                    alt={skill.name}
+                                                    className="w-10 h-10 object-contain"
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <div className="w-10 h-10 rounded bg-slate-700/50 flex items-center justify-center text-lg font-bold text-teal-400">
+                                                    {skill.name.charAt(0)}
+                                                </div>
+                                            )}
+                                            <span className="text-xs font-medium text-slate-300 leading-tight">{skill.name}</span>
+                                            <ProficiencyDots level={skill.proficiency} />
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-slate-500 text-sm">Skills will appear here once added via the admin panel.</p>
+                )}
+            </motion.section>
+
             {/* ─── Projects ──────────────────────────────── */}
             <motion.section
                 id="projects"
@@ -165,6 +262,7 @@ const Home = () => {
                                     description={proj.description}
                                     imageUrl={proj.imageUrl || ''}
                                     link={proj.link || '#'}
+                                    githubUrl={proj.githubUrl || ''}
                                     tags={proj.tags || []}
                                 />
                             </motion.div>
@@ -191,6 +289,50 @@ const Home = () => {
                         </svg>
                     </Link>
                 </div>
+            </motion.section>
+
+            {/* ─── Certifications ───────────────────────────── */}
+            <motion.section
+                id="certifications"
+                className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+                aria-label="Certifications"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={sectionVariants}
+            >
+                <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+                    <h2 className="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">Certifications</h2>
+                </div>
+                {loading ? (
+                    <div className="space-y-3">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="h-6 w-3/4 rounded bg-slate-700/50 animate-pulse" />
+                        ))}
+                    </div>
+                ) : certifications.length > 0 ? (
+                    <motion.ul className="space-y-3" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                        {certifications.map((cert) => (
+                            <motion.li key={cert._id} variants={sectionVariants}>
+                                {cert.credentialUrl ? (
+                                    <a
+                                        href={cert.credentialUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="group inline-flex items-center gap-2 text-slate-300 hover:text-teal-300 transition"
+                                    >
+                                        <span className="text-sm font-medium">{cert.title}</span>
+                                        <ExternalLink size={14} className="text-slate-500 group-hover:text-teal-400 transition" />
+                                    </a>
+                                ) : (
+                                    <span className="text-sm font-medium text-slate-300">{cert.title}</span>
+                                )}
+                            </motion.li>
+                        ))}
+                    </motion.ul>
+                ) : (
+                    <p className="text-slate-500 text-sm">Certifications will appear here once added via the admin panel.</p>
+                )}
             </motion.section>
 
             {/* ─── Contact ───────────────────────────────── */}

@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Download } from 'lucide-react';
 import useScrollSpy from '../hooks/useScrollSpy';
 import SocialIcons from './SocialIcons';
+import { getAbout } from '../api';
 
 const NAV_ITEMS = [
     { id: 'about', label: 'About' },
     { id: 'experience', label: 'Experience' },
+    { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Projects' },
+    { id: 'certifications', label: 'Certifications' },
     { id: 'contact', label: 'Contact' },
 ];
 
@@ -14,6 +18,18 @@ const Layout = ({ children }) => {
         NAV_ITEMS.map((item) => item.id),
         80
     );
+
+    const [resumeUrl, setResumeUrl] = useState('');
+
+    useEffect(() => {
+        const fetchResume = async () => {
+            try {
+                const { data } = await getAbout();
+                if (data?.resumeUrl) setResumeUrl(data.resumeUrl);
+            } catch { /* ignore */ }
+        };
+        fetchResume();
+    }, []);
 
     // ─── Mouse-follow spotlight gradient ────────────────
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -86,9 +102,22 @@ const Layout = ({ children }) => {
                             })}
                         </ul>
                     </nav>
+
+                    {/* Resume Download Button */}
+                    {resumeUrl && (
+                        <a
+                            href={resumeUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-6 inline-flex items-center gap-2 rounded-md border border-teal-400/30 bg-teal-500/10 px-4 py-2 text-sm font-medium text-teal-300 hover:bg-teal-500/20 hover:border-teal-400/50 transition"
+                        >
+                            <Download size={16} />
+                            Resume
+                        </a>
+                    )}
                 </div>
 
-                {/* Social Icons (Lucide) */}
+                {/* Social Icons (Dynamic from API) */}
                 <SocialIcons />
             </header>
 

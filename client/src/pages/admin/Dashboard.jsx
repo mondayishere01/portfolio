@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Briefcase, FolderGit2, User, MessageSquare, LogOut, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Briefcase, FolderGit2, User, MessageSquare, LogOut, ArrowLeft, Sparkles, Award, Settings } from 'lucide-react';
 
 const Dashboard = () => {
     const { logout } = useAuth();
@@ -17,8 +17,11 @@ const Dashboard = () => {
         { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
         { label: 'Experiences', path: '/admin/experiences', icon: Briefcase },
         { label: 'Projects', path: '/admin/projects', icon: FolderGit2 },
+        { label: 'Skills', path: '/admin/skills', icon: Sparkles },
+        { label: 'Certifications', path: '/admin/certifications', icon: Award },
         { label: 'About', path: '/admin/about', icon: User },
         { label: 'Messages', path: '/admin/messages', icon: MessageSquare },
+        { label: 'Settings', path: '/admin/settings', icon: Settings },
     ];
 
     return (

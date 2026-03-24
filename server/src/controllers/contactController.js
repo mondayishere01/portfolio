@@ -1,4 +1,6 @@
 const ContactMessage = require('../models/ContactMessage');
+const Settings = require('../models/Settings');
+const { sendContactNotification } = require('../utils/emailService');
 
 /**
  * @route   POST /api/contact
@@ -16,6 +18,14 @@ const submitMessage = async (req, res) => {
         }
 
         const contactMessage = await ContactMessage.create({ name, email, message });
+
+        // Fire-and-forget email notification (never blocks the response)
+        Settings.findOne().then(settings => {
+            if (settings?.notifyEmail) {
+                sendContactNotification({ name, email, message, notifyEmail: settings.notifyEmail });
+            }
+        }).catch(() => {});
+
         res.status(201).json({ message: 'Message sent successfully', id: contactMessage._id });
     } catch (err) {
         res.status(500).json({ error: 'Failed to send message' });

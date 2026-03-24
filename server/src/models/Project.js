@@ -22,6 +22,11 @@ const projectSchema = new mongoose.Schema(
             trim: true,
             default: '',
         },
+        githubUrl: {
+            type: String,
+            trim: true,
+            default: '',
+        },
         tags: {
             type: [String],
             default: [],
