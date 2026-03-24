@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getSkills, createSkill, updateSkill, deleteSkill } from '../../api';
 import { Plus, Pencil, Trash2, X } from 'lucide-react';
+import FileUpload from '../../components/FileUpload';
 
 const CATEGORIES = ['Languages', 'Frontend', 'Backend', 'Databases', 'Cloud & DevOps', 'Tools & Practices'];
 
@@ -126,9 +127,13 @@ const ManageSkills = () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-slate-400 mb-1">Image URL (optional)</label>
-                                <input value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" placeholder="https://cdn.example.com/react.svg" />
-                                {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 w-10 h-10 object-contain rounded border border-slate-600" />}
+                                <FileUpload
+                                    label="Image / Icon URL (optional)"
+                                    value={form.imageUrl}
+                                    onChange={(url) => setForm({ ...form, imageUrl: url })}
+                                    accept="image/*"
+                                />
+                                {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 w-10 h-10 object-contain rounded border border-slate-600 bg-slate-800 p-1" />}
                             </div>
                             <button onClick={handleSave} className="w-full rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500 transition">
                                 {editing ? 'Update Skill' : 'Create Skill'}

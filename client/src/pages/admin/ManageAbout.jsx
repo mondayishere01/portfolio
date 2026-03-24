@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAbout, updateAbout } from '../../api';
 import { Save, Plus, Trash2 } from 'lucide-react';
+import FileUpload from '../../components/FileUpload';
 
 const PLATFORMS = ['GitHub', 'LinkedIn', 'Twitter', 'Instagram', 'Email', 'Website'];
 
@@ -76,12 +77,12 @@ const ManageAbout = () => {
                         className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-3 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-y leading-relaxed"
                     />
                 </div>
+                {/* Profile Image */}
                 <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Profile Image URL</label>
-                    <input
-                        value={imageUrl} onChange={e => setImageUrl(e.target.value)}
-                        placeholder="https://example.com/your-photo.jpg"
-                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                    <FileUpload
+                        label="Profile Image"
+                        value={imageUrl}
+                        onChange={setImageUrl}
                     />
                     {imageUrl && (
                         <div className="mt-3">
@@ -92,13 +93,13 @@ const ManageAbout = () => {
                 </div>
 
                 {/* Resume URL */}
-                <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Resume URL</label>
-                    <p className="text-xs text-slate-500 mb-2">Link to your downloadable resume (Google Drive, Dropbox, or direct PDF URL).</p>
-                    <input
-                        value={resumeUrl} onChange={e => setResumeUrl(e.target.value)}
-                        placeholder="https://drive.google.com/file/d/.../view"
-                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                <div className="pt-2">
+                    <p className="text-xs text-slate-500 mb-2">Upload your resume PDF. Visitors can download it directly from your site.</p>
+                    <FileUpload
+                        label="Resume PDF"
+                        value={resumeUrl}
+                        onChange={setResumeUrl}
+                        accept="application/pdf"
                     />
                 </div>
 

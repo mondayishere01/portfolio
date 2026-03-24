@@ -55,4 +55,8 @@ export const deleteCertification = (id) => api.delete(`/certifications/${id}`);
 export const getSettings = () => api.get('/settings');
 export const updateSettings = (data) => api.put('/settings', data);
 
+export const uploadFile = (formData) => api.post('/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+});
+
 export default api;
