@@ -17,7 +17,7 @@ const Login = () => {
         setError('');
         try {
             const res = await login({ email, password });
-            loginUser(res.data.token);
+            loginUser(res.data.token, res.data.user);
             navigate('/admin/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed');
@@ -36,8 +36,8 @@ const Login = () => {
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     {error && <p className="text-sm text-red-400 text-center">{error}</p>}
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1">Email</label>
-                        <input type="email" id="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                        <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1">Username</label>
+                        <input type="text" id="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                             className="w-full rounded-md border border-slate-700 bg-slate-800 px-4 py-2.5 text-slate-200 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400 transition" />
                     </div>
                     <div>

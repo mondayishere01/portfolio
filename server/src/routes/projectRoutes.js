@@ -6,11 +6,11 @@ const {
     updateProject,
     deleteProject,
 } = require('../controllers/projectController');
-const requireAuth = require('../middleware/authMiddleware');
+const { requireAuth, requireAdmin } = require('../middleware/authMiddleware');
 
 router.get('/', getAllProjects);
-router.post('/', requireAuth, createProject);
-router.put('/:id', requireAuth, updateProject);
-router.delete('/:id', requireAuth, deleteProject);
+router.post('/', requireAuth, requireAdmin, createProject);
+router.put('/:id', requireAuth, requireAdmin, updateProject);
+router.delete('/:id', requireAuth, requireAdmin, deleteProject);
 
 module.exports = router;

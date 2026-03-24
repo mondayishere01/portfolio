@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Briefcase, FolderGit2, User, MessageSquare, LogOut, ArrowLeft, Sparkles, Award, Settings } from 'lucide-react';
+import { LayoutDashboard, Briefcase, FolderGit2, User, MessageSquare, LogOut, ArrowLeft, Sparkles, Award, Settings, UserPlus, BookOpen } from 'lucide-react';
 
 const Dashboard = () => {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -13,16 +13,27 @@ const Dashboard = () => {
         navigate('/admin/login');
     };
 
-    const navItems = [
+    const adminItems = [
         { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+        { label: 'My Account', path: '/admin/profile', icon: User },
+        { label: 'Blogs', path: '/admin/blogs', icon: BookOpen },
         { label: 'Experiences', path: '/admin/experiences', icon: Briefcase },
         { label: 'Projects', path: '/admin/projects', icon: FolderGit2 },
         { label: 'Skills', path: '/admin/skills', icon: Sparkles },
         { label: 'Certifications', path: '/admin/certifications', icon: Award },
         { label: 'About', path: '/admin/about', icon: User },
         { label: 'Messages', path: '/admin/messages', icon: MessageSquare },
+        { label: 'Users', path: '/admin/users', icon: UserPlus },
         { label: 'Settings', path: '/admin/settings', icon: Settings },
     ];
+
+    const authorItems = [
+        { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+        { label: 'My Profile', path: '/admin/profile', icon: User },
+        { label: 'Blogs', path: '/admin/blogs', icon: BookOpen },
+    ];
+
+    const navItems = user?.role === 'admin' ? adminItems : authorItems;
 
     return (
         <div className="min-h-screen bg-slate-900 lg:flex">

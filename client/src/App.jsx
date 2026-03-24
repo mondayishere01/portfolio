@@ -6,6 +6,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Public Pages
 import Home from './pages/Home';
 import Archive from './pages/Archive';
+import BlogList from './pages/BlogList';
+import BlogPost from './pages/BlogPost';
 
 // Admin Pages
 import Login from './pages/admin/Login';
@@ -17,6 +19,9 @@ import ManageSkills from './pages/admin/ManageSkills';
 import ManageCertifications from './pages/admin/ManageCertifications';
 import ManageSettings from './pages/admin/ManageSettings';
 import Messages from './pages/admin/Messages';
+import ManageUsers from './pages/admin/ManageUsers';
+import ManageProfile from './pages/admin/ManageProfile';
+import ManageBlogs from './pages/admin/ManageBlogs';
 
 function App() {
   return (
@@ -26,6 +31,8 @@ function App() {
           {/* ── Public Routes ───────────────────────────── */}
           <Route path="/" element={<Home />} />
           <Route path="/archive" element={<Archive />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
 
           {/* ── Admin Routes ────────────────────────────── */}
           <Route path="/admin/login" element={<Login />} />
@@ -45,6 +52,9 @@ function App() {
             <Route path="about" element={<ManageAbout />} />
             <Route path="messages" element={<Messages />} />
             <Route path="settings" element={<ManageSettings />} />
+            <Route path="users" element={<ManageUsers />} />
+            <Route path="profile" element={<ManageProfile />} />
+            <Route path="blogs" element={<ManageBlogs />} />
           </Route>
         </Routes>
       </Router>
