@@ -18,6 +18,19 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+// Auto-logout on token expiry (401)
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/admin/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
 // ─── Public Endpoints ────────────────────────────────────
 export const getAbout = () => api.get('/about');
 export const getExperiences = () => api.get('/experiences');
