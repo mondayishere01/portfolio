@@ -6,6 +6,9 @@ const experienceRoutes = require('./routes/experienceRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const authRoutes = require('./routes/authRoutes');
+const skillRoutes = require('./routes/skillRoutes');
+const certificationRoutes = require('./routes/certificationRoutes');
+const settingsRoutes = require('./routes/settingsRoutes');
 
 const app = express();
 
@@ -33,6 +36,9 @@ app.use('/api/experiences', experienceRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/skills', skillRoutes);
+app.use('/api/certifications', certificationRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // ─── Health Check ───────────────────────────────────────
 app.get('/', (req, res) => {

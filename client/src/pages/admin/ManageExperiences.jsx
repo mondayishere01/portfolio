@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getExperiences, createExperience, updateExperience, deleteExperience } from '../../api';
 import { Pencil, Trash2, Plus, X } from 'lucide-react';
 
-const emptyForm = { date: '', title: '', company: '', companyUrl: '', description: '', tags: '', order: 0 };
+const emptyForm = { date: '', title: '', company: '', companyUrl: '', imageUrl: '', description: '', tags: '', order: 0 };
 
 const ManageExperiences = () => {
     const [items, setItems] = useState([]);
@@ -25,7 +25,7 @@ const ManageExperiences = () => {
     const openCreate = () => { setEditing(null); setForm(emptyForm); setError(''); setShowModal(true); };
     const openEdit = (item) => {
         setEditing(item._id);
-        setForm({ date: item.date, title: item.title, company: item.company, companyUrl: item.companyUrl || '', description: item.description, tags: (item.tags || []).join(', '), order: item.order || 0 });
+        setForm({ date: item.date, title: item.title, company: item.company, companyUrl: item.companyUrl || '', imageUrl: item.imageUrl || '', description: item.description, tags: (item.tags || []).join(', '), order: item.order || 0 });
         setError('');
         setShowModal(true);
     };
@@ -129,6 +129,12 @@ const ManageExperiences = () => {
                                     <input value={form.companyUrl} onChange={e => setForm({...form, companyUrl: e.target.value})} placeholder="https://..."
                                         className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
                                 </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-300 mb-1">Company Logo URL</label>
+                                <input value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} placeholder="https://cdn.example.com/logo.png"
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 w-10 h-10 object-contain rounded border border-slate-600" />}
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Description *</label>

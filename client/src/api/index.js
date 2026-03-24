@@ -24,6 +24,8 @@ export const getExperiences = () => api.get('/experiences');
 export const getProjects = () => api.get('/projects');
 export const getFeaturedProjects = () => api.get('/projects?featured=true');
 export const submitContact = (data) => api.post('/contact', data);
+export const getSkills = () => api.get('/skills');
+export const getCertifications = () => api.get('/certifications');
 
 // ─── Auth ────────────────────────────────────────────────
 export const login = (credentials) => api.post('/auth/login', credentials);
@@ -41,5 +43,16 @@ export const deleteProject = (id) => api.delete(`/projects/${id}`);
 
 export const getMessages = () => api.get('/contact/messages');
 export const deleteMessage = (id) => api.delete(`/contact/messages/${id}`);
+
+export const createSkill = (data) => api.post('/skills', data);
+export const updateSkill = (id, data) => api.put(`/skills/${id}`, data);
+export const deleteSkill = (id) => api.delete(`/skills/${id}`);
+
+export const createCertification = (data) => api.post('/certifications', data);
+export const updateCertification = (id, data) => api.put(`/certifications/${id}`, data);
+export const deleteCertification = (id) => api.delete(`/certifications/${id}`);
+
+export const getSettings = () => api.get('/settings');
+export const updateSettings = (data) => api.put('/settings', data);
 
 export default api;
