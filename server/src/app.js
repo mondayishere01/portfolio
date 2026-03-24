@@ -11,7 +11,7 @@ const app = express();
 
 // ─── Global Middleware ──────────────────────────────────
 const allowedOrigins = process.env.CLIENT_URL
-    ? process.env.CLIENT_URL.split(',')
+    ? process.env.CLIENT_URL.split(',').map(url => url.trim().replace(/\/$/, ''))
     : ['http://localhost:5173', 'http://localhost:3000'];
 
 app.use(cors({
