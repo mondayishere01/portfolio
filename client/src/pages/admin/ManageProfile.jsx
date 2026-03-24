@@ -9,6 +9,14 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     return config;
 });
+api.interceptors.response.use((res) => res, (err) => {
+    if (err.response?.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/admin/login';
+    }
+    return Promise.reject(err);
+});
 
 const ManageProfile = () => {
     const { user, loginUser } = useAuth(); // Need to re-trigger AuthContext if we update our name/image
