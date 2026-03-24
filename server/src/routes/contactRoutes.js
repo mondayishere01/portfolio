@@ -5,10 +5,10 @@ const {
     getAllMessages,
     deleteMessage,
 } = require('../controllers/contactController');
-const requireAuth = require('../middleware/authMiddleware');
+const { requireAuth, requireAdmin } = require('../middleware/authMiddleware');
 
 router.post('/', submitMessage);
-router.get('/messages', requireAuth, getAllMessages);
-router.delete('/messages/:id', requireAuth, deleteMessage);
+router.get('/messages', requireAuth, requireAdmin, getAllMessages);
+router.delete('/messages/:id', requireAuth, requireAdmin, deleteMessage);
 
 module.exports = router;

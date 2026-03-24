@@ -6,11 +6,11 @@ const {
     updateExperience,
     deleteExperience,
 } = require('../controllers/experienceController');
-const requireAuth = require('../middleware/authMiddleware');
+const { requireAuth, requireAdmin } = require('../middleware/authMiddleware');
 
 router.get('/', getAllExperiences);
-router.post('/', requireAuth, createExperience);
-router.put('/:id', requireAuth, updateExperience);
-router.delete('/:id', requireAuth, deleteExperience);
+router.post('/', requireAuth, requireAdmin, createExperience);
+router.put('/:id', requireAuth, requireAdmin, updateExperience);
+router.delete('/:id', requireAuth, requireAdmin, deleteExperience);
 
 module.exports = router;

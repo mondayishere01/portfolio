@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Download, ArrowRight } from 'lucide-react';
 import useScrollSpy from '../hooks/useScrollSpy';
 import SocialIcons from './SocialIcons';
 import { getAbout } from '../api';
@@ -115,6 +116,14 @@ const Layout = ({ children }) => {
                             Resume
                         </a>
                     )}
+                    
+                    <div className="mt-12 flex flex-col gap-2 border-t border-slate-700/50 pt-8 hidden lg:flex">
+                        <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Also check out</span>
+                        <Link to="/blog" className="group inline-flex items-center gap-2 text-xl font-bold text-slate-200 hover:text-teal-300 transition">
+                            My Engineering Blog 
+                            <ArrowRight size={18} className="text-teal-400 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Social Icons (Dynamic from API) */}

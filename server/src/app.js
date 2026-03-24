@@ -10,6 +10,8 @@ const skillRoutes = require('./routes/skillRoutes');
 const certificationRoutes = require('./routes/certificationRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const userRoutes = require('./routes/userRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -41,6 +43,8 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/certifications', certificationRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/blogs', blogRoutes);
 
 // ─── Health Check ───────────────────────────────────────
 app.get('/', (req, res) => {

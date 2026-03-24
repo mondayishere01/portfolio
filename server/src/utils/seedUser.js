@@ -1,41 +1,39 @@
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Admin = require('../models/Admin');
+const User = require('../models/User');
 
 const SALT_ROUNDS = 10;
 
 const DEFAULT_ADMIN = {
-    email: 'admin@portfolio.com',
-    password: 'admin123',
+    name: 'Devesh Pandey',
+    email: 'Devesh@version.prime', // User will change this to their real email if needed
+    password: 'Version1A',
+    role: 'admin',
 };
 
 /**
  * Seeds the database with an initial admin user.
- *
- * Usage:
- *   node server/src/utils/seedAdmin.js
- *
- * If an admin with the default email already exists, the script
- * skips creation and exits cleanly.
  */
-const seedAdmin = async () => {
+const seedUser = async () => {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
 
     try {
         await mongoose.connect(mongoUri);
         console.log('✓ Connected to MongoDB');
 
-        const existingAdmin = await Admin.findOne({ email: DEFAULT_ADMIN.email });
+        const existingAdmin = await User.findOne({ role: 'admin' });
 
         if (existingAdmin) {
-            console.log(`⚠ Admin "${DEFAULT_ADMIN.email}" already exists — skipping seed.`);
+            console.log(`⚠ Admin user already exists (Email: ${existingAdmin.email}) — skipping seed.`);
         } else {
             const passwordHash = await bcrypt.hash(DEFAULT_ADMIN.password, SALT_ROUNDS);
 
-            await Admin.create({
+            await User.create({
+                name: DEFAULT_ADMIN.name,
                 email: DEFAULT_ADMIN.email,
                 passwordHash,
+                role: 'admin'
             });
 
             console.log(`✓ Admin user created: ${DEFAULT_ADMIN.email}`);
@@ -50,7 +48,7 @@ const seedAdmin = async () => {
 
 // Run directly when invoked as a standalone script
 if (require.main === module) {
-    seedAdmin();
+    seedUser();
 }
 
-module.exports = seedAdmin;
+module.exports = seedUser;
