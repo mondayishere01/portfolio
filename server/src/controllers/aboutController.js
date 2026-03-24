@@ -1,0 +1,47 @@
+const About = require('../models/About');
+
+/**
+ * @route   GET /api/about
+ * @desc    Get the single About document (bio + image)
+ * @access  Public
+ */
+const getAbout = async (req, res) => {
+    try {
+        const about = await About.findOne();
+
+        if (!about) {
+            return res.json({ bio: '', imageUrl: '' });
+        }
+
+        res.json(about);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch about information' });
+    }
+};
+
+/**
+ * @route   PUT /api/about
+ * @desc    Create or update the About document (upsert)
+ * @access  Admin
+ */
+const updateAbout = async (req, res) => {
+    try {
+        const { bio, imageUrl } = req.body;
+
+        if (!bio) {
+            return res.status(400).json({ error: 'Bio text is required' });
+        }
+
+        const about = await About.findOneAndUpdate(
+            {},
+            { bio, imageUrl: imageUrl || '' },
+            { new: true, upsert: true, runValidators: true }
+        );
+
+        res.json(about);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update about information' });
+    }
+};
+
+module.exports = { getAbout, updateAbout };
