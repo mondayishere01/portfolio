@@ -403,6 +403,7 @@ const ManageExperiences = () => {
                   label="Company Logo"
                   value={form.imageUrl}
                   onChange={(url) => setForm({ ...form, imageUrl: url })}
+                  folder="Experiences"
                 />
                 {form.imageUrl && (
                   <img

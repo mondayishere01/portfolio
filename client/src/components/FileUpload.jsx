@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { uploadFile } from '../api';
 import { UploadCloud, Loader2 } from 'lucide-react';
 
-const FileUpload = ({ value, onChange, accept = "image/*", label = "Upload File" }) => {
+const FileUpload = ({ value, onChange, accept = "image/*", label = "Upload File", folder = "portfolio" }) => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState('');
 
@@ -17,7 +17,7 @@ const FileUpload = ({ value, onChange, accept = "image/*", label = "Upload File"
         formData.append('file', file);
 
         try {
-            const { data } = await uploadFile(formData);
+            const { data } = await uploadFile(formData, folder);
             onChange(data.url);
         } catch (err) {
             setError(err.response?.data?.error || 'Upload failed');

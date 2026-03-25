@@ -171,6 +171,7 @@ const Home = () => {
                     title={exp.title}
                     company={exp.company}
                     companyUrl={exp.companyUrl || "#"}
+                    imageUrl={exp.imageUrl}
                     description={exp.description}
                     tags={exp.tags || []}
                   />

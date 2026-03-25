@@ -21,7 +21,7 @@ const getAllExperiences = async (req, res) => {
  */
 const createExperience = async (req, res) => {
     try {
-        const { date, title, company, companyUrl, description, tags, order } = req.body;
+        const { date, title, company, companyUrl, imageUrl, description, tags, order } = req.body;
 
         if (!date || !title || !company || !description) {
             return res.status(400).json({
@@ -34,6 +34,7 @@ const createExperience = async (req, res) => {
             title,
             company,
             companyUrl: companyUrl || '',
+            imageUrl: imageUrl || '',
             description,
             tags: tags || [],
             order: order ?? 0,
@@ -53,11 +54,11 @@ const createExperience = async (req, res) => {
 const updateExperience = async (req, res) => {
     try {
         const { id } = req.params;
-        const { date, title, company, companyUrl, description, tags, order } = req.body;
+        const { date, title, company, companyUrl, imageUrl, description, tags, order } = req.body;
 
         const experience = await Experience.findByIdAndUpdate(
             id,
-            { date, title, company, companyUrl, description, tags, order },
+            { date, title, company, companyUrl, imageUrl, description, tags, order },
             { new: true, runValidators: true }
         );
 

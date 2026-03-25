@@ -115,7 +115,7 @@ const ManageProfile = () => {
                     <h3 className="text-lg font-semibold text-teal-400 border-b border-slate-700 pb-3 mb-5">Public Profile (Blog Footer)</h3>
                     
                     <div className="mb-6">
-                        <FileUpload label="Profile Avatar" value={form.imageUrl} onChange={(url) => setForm({ ...form, imageUrl: url })} />
+                        <FileUpload label="Profile Avatar" value={form.imageUrl} onChange={(url) => setForm({ ...form, imageUrl: url })} folder="Profile" />
                         {form.imageUrl && <img src={form.imageUrl} alt="Avatar" className="mt-4 h-24 w-24 rounded-full object-cover border border-slate-600" />}
                     </div>
 

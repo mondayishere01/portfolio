@@ -126,6 +126,7 @@ const ManageProjects = () => {
                                         label="Thumbnail Image"
                                         value={form.imageUrl}
                                         onChange={(url) => setForm({ ...form, imageUrl: url })}
+                                        folder="Projects"
                                     />
                                     {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 h-16 rounded object-cover border border-slate-600" />}
                                 </div>

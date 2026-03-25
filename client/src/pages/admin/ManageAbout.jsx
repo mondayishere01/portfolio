@@ -159,6 +159,7 @@ const ManageAbout = () => {
             label="Profile Image"
             value={imageUrl}
             onChange={setImageUrl}
+            folder="Profile"
           />
           {imageUrl && (
             <div className="mt-3">
@@ -186,6 +187,7 @@ const ManageAbout = () => {
             value={resumeUrl}
             onChange={setResumeUrl}
             accept="application/pdf"
+            folder="Resume"
           />
         </div>
 

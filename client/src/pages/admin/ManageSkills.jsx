@@ -141,6 +141,7 @@ const ManageSkills = () => {
                                     value={form.imageUrl}
                                     onChange={(url) => setForm({ ...form, imageUrl: url })}
                                     accept="image/*"
+                                    folder={`Skills/${form.category}`}
                                 />
                                 {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 w-10 h-10 object-contain rounded border border-slate-600 bg-slate-800 p-1" />}
                             </div>

@@ -201,6 +201,7 @@ const ManageBlogs = () => {
                                     label="Cover Image"
                                     value={form.imageUrl}
                                     onChange={(url) => setForm({ ...form, imageUrl: url })}
+                                    folder="Blogs"
                                 />
                                 {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-3 h-32 rounded-lg object-cover border border-slate-600" />}
                             </div>
