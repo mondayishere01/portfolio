@@ -1,16 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const settingsSchema = new mongoose.Schema(
-    {
-        notifyEmail: {
-            type: String,
-            trim: true,
-            default: '',
-        },
+  {
+    notifyEmail: {
+      type: String,
+      trim: true,
+      default: "",
     },
-    {
-        timestamps: true,
-    }
+    blogTitle: {
+      type: String,
+      trim: true,
+      default: "Writings & Thoughts",
+    },
+    blogSubtitle: {
+      type: String,
+      trim: true,
+      default:
+        "Insights on software engineering, web development, and my technical journey.",
+    },
+  },
+  {
+    timestamps: true,
+  },
 );
 
-module.exports = mongoose.model('Settings', settingsSchema);
+module.exports = mongoose.model("Settings", settingsSchema);

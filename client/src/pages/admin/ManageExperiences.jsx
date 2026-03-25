@@ -112,7 +112,6 @@ const ManageExperiences = () => {
       companyUrl: item.companyUrl || "",
       imageUrl: item.imageUrl || "",
       description: item.description,
-      tags: (item.tags || []).join(", "),
       order: item.order || 0,
     });
     setError("");
@@ -126,10 +125,6 @@ const ManageExperiences = () => {
     const payload = {
       ...form,
       date: buildDateString(form),
-      tags: form.tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
       order: Number(form.order),
     };
     try {
@@ -200,19 +195,9 @@ const ManageExperiences = () => {
                 <h3 className="font-medium text-slate-200">
                   {item.title} · {item.company}
                 </h3>
-                <p className="text-sm text-slate-400 mt-1 line-clamp-2">
+                <p className="text-sm text-slate-400 mt-1 line-clamp-2 whitespace-pre-line">
                   {item.description}
                 </p>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {item.tags?.map((tag, i) => (
-                    <span
-                      key={i}
-                      className="rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-300"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
               <div className="flex gap-2 shrink-0">
                 <button
@@ -439,17 +424,6 @@ const ManageExperiences = () => {
                     setForm({ ...form, description: e.target.value })
                   }
                   className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Tags (comma-separated)
-                </label>
-                <input
-                  value={form.tags}
-                  onChange={(e) => setForm({ ...form, tags: e.target.value })}
-                  placeholder="React, TypeScript, Node.js"
-                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
                 />
               </div>
               <div className="flex gap-3 pt-2">

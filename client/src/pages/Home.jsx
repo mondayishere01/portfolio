@@ -12,6 +12,7 @@ import {
   getFeaturedProjects,
   getSkills,
   getCertifications,
+  getSkillCategories,
 } from "../api";
 
 const sectionVariants = {
@@ -23,15 +24,6 @@ const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
 };
-
-const SKILL_CATEGORIES = [
-  "Languages",
-  "Frontend",
-  "Backend",
-  "Databases",
-  "Cloud & DevOps",
-  "Tools & Practices",
-];
 
 const ProficiencyDots = ({ level }) => (
   <div className="flex gap-1 mt-1">
@@ -51,25 +43,28 @@ const Home = () => {
   const [experiences, setExperiences] = useState([]);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [certifications, setCertifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [aboutRes, expRes, projRes, skillRes, certRes] =
+        const [aboutRes, expRes, projRes, skillRes, certRes, catRes] =
           await Promise.all([
             getAbout().catch(() => ({ data: null })),
             getExperiences().catch(() => ({ data: [] })),
             getFeaturedProjects().catch(() => ({ data: [] })),
             getSkills().catch(() => ({ data: [] })),
             getCertifications().catch(() => ({ data: [] })),
+            getSkillCategories().catch(() => ({ data: [] })),
           ]);
         setAbout(aboutRes.data);
         setExperiences(Array.isArray(expRes.data) ? expRes.data : []);
         setProjects(Array.isArray(projRes.data) ? projRes.data : []);
         setSkills(Array.isArray(skillRes.data) ? skillRes.data : []);
         setCertifications(Array.isArray(certRes.data) ? certRes.data : []);
+        setCategories(Array.isArray(catRes.data) ? catRes.data : []);
       } catch (err) {
         console.error("Failed to fetch data:", err);
       } finally {
@@ -80,7 +75,7 @@ const Home = () => {
   }, []);
 
   // Group skills by category
-  const groupedSkills = SKILL_CATEGORIES.map((cat) => ({
+  const groupedSkills = categories.map((cat) => ({
     category: cat,
     items: skills.filter((s) => s.category === cat),
   })).filter((g) => g.items.length > 0);

@@ -4,6 +4,8 @@ import { Save, Mail, Info } from 'lucide-react';
 
 const ManageSettings = () => {
     const [notifyEmail, setNotifyEmail] = useState('');
+    const [blogTitle, setBlogTitle] = useState('');
+    const [blogSubtitle, setBlogSubtitle] = useState('');
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [status, setStatus] = useState({ type: '', message: '' });
@@ -13,6 +15,8 @@ const ManageSettings = () => {
             try {
                 const { data } = await getSettings();
                 setNotifyEmail(data?.notifyEmail || '');
+                setBlogTitle(data?.blogTitle || '');
+                setBlogSubtitle(data?.blogSubtitle || '');
             } catch { /* ignore */ }
             finally { setLoading(false); }
         };
@@ -24,7 +28,7 @@ const ManageSettings = () => {
         setSaving(true);
         setStatus({ type: '', message: '' });
         try {
-            await updateSettings({ notifyEmail });
+            await updateSettings({ notifyEmail, blogTitle, blogSubtitle });
             setStatus({ type: 'success', message: 'Settings saved successfully!' });
         } catch (err) {
             setStatus({ type: 'error', message: err.response?.data?.error || 'Failed to save settings' });
@@ -63,6 +67,36 @@ const ManageSettings = () => {
                             placeholder="your@email.com"
                             className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
                         />
+                    </div>
+                </div>
+
+                {/* Blog Settings */}
+                <div className="rounded-lg border border-slate-700 bg-slate-800/30 p-5">
+                    <div className="flex items-center gap-2 mb-4">
+                        <Info size={18} className="text-teal-400" />
+                        <h3 className="text-sm font-semibold text-slate-200">Blog Settings</h3>
+                    </div>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Blog Page Title</label>
+                            <input
+                                type="text"
+                                value={blogTitle}
+                                onChange={e => setBlogTitle(e.target.value)}
+                                placeholder="Writings & Thoughts"
+                                className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Blog Page Subtitle</label>
+                            <textarea
+                                value={blogSubtitle}
+                                onChange={e => setBlogSubtitle(e.target.value)}
+                                placeholder="Insights on software engineering..."
+                                rows={2}
+                                className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-none"
+                            />
+                        </div>
                     </div>
                 </div>
 

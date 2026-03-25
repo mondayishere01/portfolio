@@ -26,7 +26,8 @@ const getAbout = async (req, res) => {
  */
 const updateAbout = async (req, res) => {
   try {
-    const { bio, imageUrl, resumeUrl, socialLinks } = req.body;
+    const { bio, imageUrl, resumeUrl, socialLinks, title, tagline, name } =
+      req.body;
 
     if (!bio) {
       return res.status(400).json({ error: "Bio text is required" });
@@ -36,6 +37,9 @@ const updateAbout = async (req, res) => {
       {},
       {
         bio,
+        name: name || "",
+        title: title || "",
+        tagline: tagline || "",
         imageUrl: imageUrl || "",
         resumeUrl: resumeUrl || "",
         socialLinks: socialLinks || [],

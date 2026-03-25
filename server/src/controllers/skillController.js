@@ -45,4 +45,12 @@ const deleteSkill = async (req, res) => {
     }
 };
 
-module.exports = { getAllSkills, createSkill, updateSkill, deleteSkill };
+const getSkillCategories = async (req, res) => {
+    try {
+        res.json(Skill.SKILL_CATEGORIES);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch categories' });
+    }
+};
+
+module.exports = { getAllSkills, createSkill, updateSkill, deleteSkill, getSkillCategories };

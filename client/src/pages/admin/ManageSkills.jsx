@@ -1,30 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { getSkills, createSkill, updateSkill, deleteSkill } from '../../api';
+import { getSkills, createSkill, updateSkill, deleteSkill, getSkillCategories } from '../../api';
 import { Plus, Pencil, Trash2, X } from 'lucide-react';
 import FileUpload from '../../components/FileUpload';
 
-const CATEGORIES = ['Languages', 'Frontend', 'Backend', 'Databases', 'Cloud & DevOps', 'Tools & Practices'];
-
-const blankForm = { name: '', category: 'Languages', proficiency: 3, imageUrl: '' };
-
 const ManageSkills = () => {
+    const [categories, setCategories] = useState([]);
     const [skills, setSkills] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editing, setEditing] = useState(null);
-    const [form, setForm] = useState(blankForm);
+    const [form, setForm] = useState({ name: '', category: '', proficiency: 3, imageUrl: '' });
 
-    const fetchSkills = async () => {
+    const fetchData = async () => {
         try {
-            const { data } = await getSkills();
-            setSkills(Array.isArray(data) ? data : []);
+            const [skillRes, catRes] = await Promise.all([
+                getSkills(),
+                getSkillCategories()
+            ]);
+            setSkills(Array.isArray(skillRes.data) ? skillRes.data : []);
+            const cats = Array.isArray(catRes.data) ? catRes.data : [];
+            setCategories(cats);
+            if (!form.category && cats.length > 0) {
+                setForm(prev => ({ ...prev, category: cats[0] }));
+            }
         } catch { /* ignore */ }
         setLoading(false);
     };
 
-    useEffect(() => { fetchSkills(); }, []);
+    useEffect(() => { fetchData(); }, []);
 
-    const openNew = () => { setEditing(null); setForm(blankForm); setShowModal(true); };
+    const openNew = () => { 
+        setEditing(null); 
+        setForm({ name: '', category: categories[0] || '', proficiency: 3, imageUrl: '' }); 
+        setShowModal(true); 
+    };
     const openEdit = (s) => { setEditing(s); setForm({ name: s.name, category: s.category, proficiency: s.proficiency, imageUrl: s.imageUrl || '' }); setShowModal(true); };
 
     const handleSave = async () => {
@@ -35,17 +44,17 @@ const ManageSkills = () => {
                 await createSkill(form);
             }
             setShowModal(false);
-            fetchSkills();
+            fetchData();
         } catch (err) { console.error(err); }
     };
 
     const handleDelete = async (id) => {
         if (!window.confirm('Delete this skill?')) return;
-        try { await deleteSkill(id); fetchSkills(); } catch { /* ignore */ }
+        try { await deleteSkill(id); fetchData(); } catch { /* ignore */ }
     };
 
     // Group by category
-    const grouped = CATEGORIES.map(cat => ({
+    const grouped = categories.map(cat => ({
         category: cat,
         items: skills.filter(s => s.category === cat),
     })).filter(g => g.items.length > 0);
@@ -110,7 +119,7 @@ const ManageSkills = () => {
                             <div>
                                 <label className="block text-xs font-medium text-slate-400 mb-1">Category</label>
                                 <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none">
-                                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                                    {categories.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
                             <div>
