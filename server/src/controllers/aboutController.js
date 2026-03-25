@@ -1,4 +1,4 @@
-const About = require('../models/About');
+const About = require("../models/About");
 
 /**
  * @route   GET /api/about
@@ -6,17 +6,17 @@ const About = require('../models/About');
  * @access  Public
  */
 const getAbout = async (req, res) => {
-    try {
-        const about = await About.findOne();
+  try {
+    const about = await About.findOne();
 
-        if (!about) {
-            return res.json({ bio: '', imageUrl: '' });
-        }
-
-        res.json(about);
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch about information' });
+    if (!about) {
+      return res.json({ bio: "", imageUrl: "" });
     }
+
+    res.json(about);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch about information" });
+  }
 };
 
 /**
@@ -25,23 +25,28 @@ const getAbout = async (req, res) => {
  * @access  Admin
  */
 const updateAbout = async (req, res) => {
-    try {
-        const { bio, imageUrl } = req.body;
+  try {
+    const { bio, imageUrl, resumeUrl, socialLinks } = req.body;
 
-        if (!bio) {
-            return res.status(400).json({ error: 'Bio text is required' });
-        }
-
-        const about = await About.findOneAndUpdate(
-            {},
-            { bio, imageUrl: imageUrl || '' },
-            { new: true, upsert: true, runValidators: true }
-        );
-
-        res.json(about);
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to update about information' });
+    if (!bio) {
+      return res.status(400).json({ error: "Bio text is required" });
     }
+
+    const about = await About.findOneAndUpdate(
+      {},
+      {
+        bio,
+        imageUrl: imageUrl || "",
+        resumeUrl: resumeUrl || "",
+        socialLinks: socialLinks || [],
+      },
+      { new: true, upsert: true, runValidators: true },
+    );
+
+    res.json(about);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update about information" });
+  }
 };
 
 module.exports = { getAbout, updateAbout };

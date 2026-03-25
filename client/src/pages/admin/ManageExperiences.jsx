@@ -19,7 +19,6 @@ const emptyForm = {
   companyUrl: "",
   imageUrl: "",
   description: "",
-  tags: "",
   order: 0,
 };
 
