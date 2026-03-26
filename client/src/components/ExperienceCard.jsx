@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Briefcase } from "lucide-react";
 
 const ExperienceCard = ({
   date,
@@ -9,6 +10,7 @@ const ExperienceCard = ({
   tags,
   imageUrl,
 }) => {
+  const [imageError, setImageError] = useState(false);
   return (
     <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
       <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-[12px] transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-[#111111] lg:group-hover:border lg:group-hover:border-white/15 lg:group-hover:shadow-2xl"></div>
@@ -16,14 +18,19 @@ const ExperienceCard = ({
         className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2"
         aria-label={date}
       >
-        {imageUrl && (
-          <div className="w-12 h-12 rounded-lg bg-white p-1.5 mb-3 border border-slate-700/50 flex items-center justify-center overflow-hidden">
+        {imageUrl && !imageError ? (
+          <div className="w-20 h-20 rounded-lg bg-white p-2 mb-3 border border-slate-700/50 flex items-center justify-center overflow-hidden">
             <img
               src={imageUrl}
               alt={company}
+              onError={() => setImageError(true)}
               className="w-full h-full object-contain"
               loading="lazy"
             />
+          </div>
+        ) : (
+          <div className="w-20 h-20 rounded-lg bg-slate-800/50 p-2 mb-3 border border-slate-700/50 flex items-center justify-center overflow-hidden text-slate-500 relative z-10">
+            <Briefcase size={32} />
           </div>
         )}
         {date}

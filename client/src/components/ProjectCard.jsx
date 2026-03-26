@@ -1,7 +1,8 @@
-import React from 'react';
-import { Github } from 'lucide-react';
+import React, { useState } from 'react';
+import { Github, Folder } from 'lucide-react';
 
 const ProjectCard = ({ title, description, imageUrl, link, githubUrl, tags, year }) => {
+    const [imageError, setImageError] = useState(false);
     return (
         <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
             <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-[12px] transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-[#111111] lg:group-hover:border lg:group-hover:border-white/15 lg:group-hover:shadow-2xl"></div>
@@ -39,10 +40,15 @@ const ProjectCard = ({ title, description, imageUrl, link, githubUrl, tags, year
                 </ul>
             </div>
             <div className="z-10 sm:order-1 sm:col-span-2">
-                {imageUrl ? (
-                    <img alt={title} loading="lazy" width="200" height="48" decoding="async" data-nimg="1" className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 sm:order-1 sm:col-span-2 sm:translate-y-1" style={{ color: 'transparent' }} src={imageUrl} />
+                {imageUrl && !imageError ? (
+                    <img alt={title} loading="lazy" width="200" height="48" decoding="async" data-nimg="1" 
+                        onError={() => setImageError(true)}
+                        className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 sm:order-1 sm:col-span-2 sm:translate-y-1 w-full aspect-video object-cover" 
+                        style={{ color: 'transparent' }} src={imageUrl} />
                 ) : (
-                    <div className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 w-full h-24 bg-slate-800/50"></div>
+                    <div className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 w-full h-24 bg-slate-800/50 flex items-center justify-center text-slate-500 sm:translate-y-1">
+                        <Folder size={32} />
+                    </div>
                 )}
             </div>
         </div>
