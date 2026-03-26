@@ -29,20 +29,28 @@ const SCROLL_THRESHOLD = 60;
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
   const boxRef = useRef(null);
 
   const currentPage = PAGE_LABELS[location.pathname] ?? "Page";
 
-  // pill mode = scrolled on home, or any other page
-  const isPill = !isHome || scrolled;
+  // pill mode = scrolled on home, any other page, OR mobile viewport
+  const isPill = !isHome || scrolled || isMobile;
+
+  // mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // scroll detection
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
     window.addEventListener("scroll", onScroll, { passive: true });
-    // set initial state immediately
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -97,9 +105,10 @@ const Navigation = () => {
       {/*
        * Single container that morphs between:
        *   full-bar  → top:0, left:0, right:0, no border, no bg, no radius
-       *   pill      → top:20px, left:20px, w:260px, border, bg, radius
+       *   pill      → top:20px, left:20px, dynamic width
        *
-       * All via CSS transition on the inline styles + tailwind classes.
+       * Mobile pill: calc(100% - 40px) — full width with margins
+       * Desktop pill: 320px
        */}
       <div
         ref={boxRef}
@@ -108,7 +117,11 @@ const Navigation = () => {
           top: "20px",
           left: "20px",
           right: isPill ? "auto" : "20px",
-          width: isPill ? "260px" : "calc(100% - 40px)",
+          width: isPill
+            ? isMobile
+              ? "calc(100% - 40px)"
+              : "320px"
+            : "calc(100% - 40px)",
           borderRadius: "12px",
           background: isPill ? "#111111" : "transparent",
           border: isPill

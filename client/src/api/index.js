@@ -39,6 +39,7 @@ export const getFeaturedProjects = () => api.get('/projects?featured=true');
 export const submitContact = (data) => api.post('/contact', data);
 export const getSkills = () => api.get('/skills');
 export const getCertifications = () => api.get('/certifications');
+export const getBlogs = () => api.get('/blogs');
 
 // ─── Auth ────────────────────────────────────────────────
 export const login = (credentials) => api.post('/auth/login', credentials);
