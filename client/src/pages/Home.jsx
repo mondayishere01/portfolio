@@ -80,11 +80,11 @@ const Home = () => {
       </motion.section>
 
       {/* ─── Footer ──────────────────────────────── */}
-      <footer className="max-w-md pb-16 text-sm text-slate-500 sm:pb-0">
-        <p>
+      <footer className="max-w-md pb-24 pt-12 text-xs text-slate-500 sm:pb-12 text-center lg:text-left">
+        <p className="leading-relaxed">
           Designed in{" "}
           <a
-            className="font-medium text-slate-400 hover:text-[#ffeb00]"
+            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
             href="https://www.figma.com/"
             target="_blank"
             rel="noreferrer"
@@ -93,7 +93,7 @@ const Home = () => {
           </a>{" "}
           and coded in{" "}
           <a
-            className="font-medium text-slate-400 hover:text-[#ffeb00]"
+            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
             href="https://code.visualstudio.com/"
             target="_blank"
             rel="noreferrer"
@@ -102,7 +102,7 @@ const Home = () => {
           </a>
           . Built with{" "}
           <a
-            className="font-medium text-slate-400 hover:text-[#ffeb00]"
+            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
             href="https://react.dev/"
             target="_blank"
             rel="noreferrer"
@@ -111,7 +111,7 @@ const Home = () => {
           </a>{" "}
           and{" "}
           <a
-            className="font-medium text-slate-400 hover:text-[#ffeb00]"
+            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
             href="https://tailwindcss.com/"
             target="_blank"
             rel="noreferrer"
@@ -119,6 +119,9 @@ const Home = () => {
             Tailwind CSS
           </a>
           .
+        </p>
+        <p className="mt-2 text-slate-600">
+          &copy; {new Date().getFullYear()} Devesh. All rights reserved.
         </p>
       </footer>
     </Layout>

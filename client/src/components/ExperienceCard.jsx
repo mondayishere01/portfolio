@@ -17,12 +17,14 @@ const ExperienceCard = ({
         aria-label={date}
       >
         {imageUrl && (
-          <img
-            src={imageUrl}
-            alt={company}
-            className="w-10 h-10 rounded object-contain mb-2 border border-slate-700"
-            loading="lazy"
-          />
+          <div className="w-12 h-12 rounded-lg bg-white p-1.5 mb-3 border border-slate-700/50 flex items-center justify-center overflow-hidden">
+            <img
+              src={imageUrl}
+              alt={company}
+              className="w-full h-full object-contain"
+              loading="lazy"
+            />
+          </div>
         )}
         {date}
       </header>

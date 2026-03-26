@@ -5,7 +5,7 @@ import SectionHeader from "../components/SectionHeader";
 const AboutSection = ({ about, loading }) => (
   <motion.section
     id="about"
-    className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+    className="mb-12 scroll-mt-16 md:mb-16 lg:mb-24 lg:scroll-mt-24"
     aria-label="About me"
     initial="hidden"
     whileInView="visible"

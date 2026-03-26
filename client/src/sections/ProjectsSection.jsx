@@ -61,17 +61,17 @@ const ProjectsSection = ({ projects, loading }) => (
       )}
     </motion.div>
 
-    <div className="mt-12">
+    <div className="mt-16 flex justify-center">
       <Link
         to="/archive"
-        className="inline-flex items-center font-medium leading-tight text-slate-200 hover:text-[#ffeb00] group"
+        className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
       >
         View Full Project Archive
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-2"
+          className="h-4 w-4 transition-transform group-hover:translate-x-1"
           aria-hidden="true"
         >
           <path
