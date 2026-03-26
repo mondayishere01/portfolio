@@ -22,7 +22,7 @@ const Archive = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-black px-6 py-12 md:px-12 md:py-20 lg:px-24">
+        <div className="min-h-screen bg-black px-6 py-12 md:px-12 md:py-20 lg:pl-0 lg:pr-24">
             <Link to="/" className="group mb-2 inline-flex items-center font-semibold leading-tight text-teal-300">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="mr-1 h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-2" aria-hidden="true">
                     <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
