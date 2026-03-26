@@ -35,12 +35,9 @@ const BlogList = () => {
     const clearFilters = () => setSearchParams({});
 
     return (
-        <div className="min-h-screen bg-black px-6 py-12 md:px-12 md:py-20 lg:pl-0 lg:pr-24 text-left">
+        <div className="min-h-screen bg-black px-6 py-12 md:px-12 md:py-20 lg:pl-3 lg:pr-12 text-left">
             <div className="lg:max-w-none lg:mx-0">
                 <header className="mb-12">
-                    <Link to="/" className="group inline-flex items-center gap-2 text-sm text-slate-400 hover:text-teal-300 transition mb-6">
-                        <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Portfolio
-                    </Link>
                     <h1 className="text-4xl font-bold tracking-tight text-slate-200 sm:text-5xl">Writings & Thoughts</h1>
                     <p className="mt-4 max-w-2xl text-lg text-slate-400">
                         Insights on software engineering, web development, and my technical journey.

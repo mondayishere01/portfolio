@@ -9,7 +9,6 @@ const NAV_ITEMS = [
   { id: "certifications", label: "Certifications", path: "/", isAnchor: true },
   { id: "contact", label: "Contact", path: "/", isAnchor: true },
   { id: "blog", label: "Blog", path: "/blog", isAnchor: false },
-  { id: "archive", label: "Archive", path: "/archive", isAnchor: false },
 ];
 
 const SOCIAL_LINKS = [
@@ -291,6 +290,38 @@ const Navigation = () => {
           </div>
         </div>
       </div>
+      {/* ── Back to Portfolio Pill ─────────────────────────────────────────── */}
+      {!isHome && !isMobile && (
+        <Link
+          to="/"
+          className="fixed z-50 px-5 py-3 flex items-center gap-2 group transition-all duration-300 hover:border-white/30"
+          style={{
+            top: "20px",
+            left: "350px", // 20 gap + 320 nav pill + 10 gap
+            background: "#111111",
+            border: "1px solid rgba(255,255,255,0.15)",
+            borderRadius: "12px",
+            height: "48px", // Matches nav pill approximate height
+          }}
+          data-cursor-text="Home"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="h-4 w-4 text-slate-400 group-hover:text-teal-300 transition-transform group-hover:-translate-x-1"
+          >
+            <path
+              fillRule="evenodd"
+              d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span className="text-sm font-semibold text-slate-200 group-hover:text-teal-300 transition-colors">
+            Back to Portfolio
+          </span>
+        </Link>
+      )}
     </>
   );
 };

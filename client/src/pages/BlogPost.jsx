@@ -42,11 +42,8 @@ const BlogPost = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black px-6 py-12 md:py-20 lg:pl-0 lg:pr-24">
+        <div className="min-h-screen bg-black px-6 py-12 md:py-20 lg:pl-3 lg:pr-12">
             <div className="lg:max-w-none lg:mx-0">
-                <Link to="/blog" className="group inline-flex items-center gap-2 text-sm text-slate-400 hover:text-teal-300 transition mb-10">
-                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Articles
-                </Link>
 
                 {/* Header */}
                 <header className="mb-10">
