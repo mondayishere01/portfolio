@@ -34,9 +34,9 @@ const BlogPost = () => {
 
     if (!blog) {
         return (
-            <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6">
-                <h2 className="text-3xl font-bold text-slate-200 mb-4">Blog Not Found</h2>
-                <Link to="/blog" className="text-teal-400 hover:text-teal-300">← Back to Articles</Link>
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-center">
+                <h2 className="text-3xl font-bold text-slate-200 mb-2">Blog Not Found</h2>
+                <p className="text-slate-400 mb-6">This article might have been moved or deleted.</p>
             </div>
         );
     }
