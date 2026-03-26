@@ -49,6 +49,7 @@ const ExperienceSection = ({ experiences, loading }) => (
                 companyUrl={exp.companyUrl || "#"}
                 description={exp.description}
                 tags={exp.tags || []}
+                imageUrl={exp.imageUrl}
               />
             </motion.div>
           ))}

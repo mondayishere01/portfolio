@@ -1,11 +1,14 @@
 import React from 'react';
 import { Github } from 'lucide-react';
 
-const ProjectCard = ({ title, description, imageUrl, link, githubUrl, tags }) => {
+const ProjectCard = ({ title, description, imageUrl, link, githubUrl, tags, year }) => {
     return (
         <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
             <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-[12px] transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-[#111111] lg:group-hover:border lg:group-hover:border-white/15 lg:group-hover:shadow-2xl"></div>
             <div className="z-10 sm:order-2 sm:col-span-6">
+                <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">{year}</span>
+                </div>
                 <h3>
                     <a className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-[#ffeb00] focus-visible:text-[#ffeb00]  group/link text-base" href={link} target="_blank" rel="noreferrer" aria-label={title}>
                         <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>

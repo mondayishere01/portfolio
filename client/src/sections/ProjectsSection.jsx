@@ -47,6 +47,7 @@ const ProjectsSection = ({ projects, loading }) => (
               link={proj.link || "#"}
               githubUrl={proj.githubUrl || ""}
               tags={proj.tags || []}
+              year={proj.year}
             />
           </motion.div>
         ))
