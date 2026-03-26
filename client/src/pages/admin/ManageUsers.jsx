@@ -70,7 +70,7 @@ const ManageUsers = () => {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-slate-200">Manage Users</h2>
-                <button onClick={openNew} className="flex items-center gap-1.5 rounded-md bg-teal-500/20 px-3 py-2 text-sm font-medium text-teal-300 hover:bg-teal-500/30 transition">
+                <button onClick={openNew} className="flex items-center gap-1.5 rounded-md bg-[#ffeb00]/20 px-3 py-2 text-sm font-medium text-[#ffeb00] hover:bg-[#ffeb00]/30 transition">
                     <Plus size={16} /> Add User
                 </button>
             </div>
@@ -87,7 +87,7 @@ const ManageUsers = () => {
                                 {u.imageUrl ? (
                                     <img src={u.imageUrl} alt={u.name} className="h-12 w-12 rounded-full object-cover border border-slate-600" />
                                 ) : (
-                                    <div className="h-12 w-12 rounded-full bg-slate-700 flex items-center justify-center text-teal-400 font-bold text-lg">
+                                    <div className="h-12 w-12 rounded-full bg-slate-700 flex items-center justify-center text-[#ffeb00] font-bold text-lg">
                                         {u.name?.charAt(0) || '?'}
                                     </div>
                                 )}
@@ -95,7 +95,7 @@ const ManageUsers = () => {
                                     <div className="flex items-center gap-2">
                                         <h3 className="font-semibold text-slate-200">{u.name}</h3>
                                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                                            u.role === 'admin' ? 'bg-purple-500/20 text-purple-300' : 'bg-teal-500/20 text-teal-300'
+                                            u.role === 'admin' ? 'bg-purple-500/20 text-purple-300' : 'bg-[#ffeb00]/20 text-[#ffeb00]'
                                         }`}>
                                             {u.role}
                                         </span>
@@ -127,27 +127,27 @@ const ManageUsers = () => {
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Name</label>
                                 <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="Jane Doe"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Username</label>
                                 <input type="text" required value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="e.g. dev_jane"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Temporary Password</label>
                                 <input required value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="Secret123!"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Role</label>
-                                <select value={form.role} onChange={e => setForm({...form, role: e.target.value})} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none">
+                                <select value={form.role} onChange={e => setForm({...form, role: e.target.value})} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none">
                                     <option value="author">Author (Blogs Only)</option>
                                     <option value="admin">Admin (Full Access)</option>
                                 </select>
                             </div>
                             <button type="submit" disabled={saving}
-                                className="w-full rounded-md bg-teal-500 py-2 mt-2 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50">
+                                className="w-full rounded-md bg-[#ffeb00] py-2 mt-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
                                 {saving ? 'Creating...' : 'Create User'}
                             </button>
                         </form>

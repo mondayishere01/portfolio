@@ -90,29 +90,29 @@ const ManageProfile = () => {
             <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Account & Credentials */}
                 <div className="rounded-xl border border-slate-700 bg-slate-800/30 p-6">
-                    <h3 className="text-lg font-semibold text-teal-400 border-b border-slate-700 pb-3 mb-5">Account & Credentials</h3>
+                    <h3 className="text-lg font-semibold text-[#ffeb00] border-b border-slate-700 pb-3 mb-5">Account & Credentials</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
                             <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})}
-                                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-slate-300 mb-1">Username</label>
                             <input type="text" required value={form.email} onChange={e => setForm({...form, email: e.target.value})}
-                                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-sm font-medium text-slate-300 mb-1">New Password (leave blank to keep current)</label>
                             <input type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="••••••••"
-                                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                         </div>
                     </div>
                 </div>
 
                 {/* Public Profile */}
                 <div className="rounded-xl border border-slate-700 bg-slate-800/30 p-6">
-                    <h3 className="text-lg font-semibold text-teal-400 border-b border-slate-700 pb-3 mb-5">Public Profile (Blog Footer)</h3>
+                    <h3 className="text-lg font-semibold text-[#ffeb00] border-b border-slate-700 pb-3 mb-5">Public Profile (Blog Footer)</h3>
                     
                     <div className="mb-6">
                         <FileUpload label="Profile Avatar" value={form.imageUrl} onChange={(url) => setForm({ ...form, imageUrl: url })} />
@@ -122,14 +122,14 @@ const ManageProfile = () => {
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-slate-300 mb-1">Short Bio</label>
                         <textarea rows={4} value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} placeholder="Tell readers about yourself..."
-                            className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-y" />
+                            className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-y" />
                     </div>
 
                     {/* Social Links */}
                     <div>
                         <div className="flex items-center justify-between mb-3">
                             <label className="block text-sm font-medium text-slate-300">Social Links</label>
-                            <button type="button" onClick={addSocial} className="flex items-center gap-1 rounded bg-teal-500/20 px-2 py-1 text-xs font-semibold text-teal-300 hover:bg-teal-500/30 transition">
+                            <button type="button" onClick={addSocial} className="flex items-center gap-1 rounded bg-[#ffeb00]/20 px-2 py-1 text-xs font-semibold text-[#ffeb00] hover:bg-[#ffeb00]/30 transition">
                                 <Plus size={12} /> Add Link
                             </button>
                         </div>
@@ -137,9 +137,9 @@ const ManageProfile = () => {
                             {form.socialLinks.map((link, idx) => (
                                 <div key={idx} className="flex items-center gap-3">
                                     <input placeholder="Platform (e.g. Twitter)" value={link.platform} onChange={(e) => handleSocialChange(idx, 'platform', e.target.value)} required
-                                        className="w-1/3 rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                        className="w-1/3 rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                                     <input placeholder="URL" type="url" value={link.url} onChange={(e) => handleSocialChange(idx, 'url', e.target.value)} required
-                                        className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                        className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                                     <button type="button" onClick={() => removeSocial(idx)} className="p-2 text-slate-500 hover:text-red-400 transition rounded hover:bg-red-500/10 shrink-0">
                                         <Trash2 size={16} />
                                     </button>
@@ -156,7 +156,7 @@ const ManageProfile = () => {
                     </div>
                 )}
 
-                <button type="submit" disabled={saving} className="flex w-full md:w-auto items-center justify-center gap-2 rounded-md bg-teal-500 px-8 py-3 font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50">
+                <button type="submit" disabled={saving} className="flex w-full md:w-auto items-center justify-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
                     <Save size={18} /> {saving ? 'Saving...' : 'Save Profile'}
                 </button>
             </form>

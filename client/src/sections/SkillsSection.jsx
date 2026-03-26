@@ -16,7 +16,7 @@ const ProficiencyDots = ({ level }) => (
     {[1, 2, 3, 4, 5].map((i) => (
       <span
         key={i}
-        className={`inline-block w-2 h-2 rounded-full ${i <= level ? "bg-teal-400" : "bg-slate-600"}`}
+        className={`inline-block w-2 h-2 rounded-full ${i <= level ? "bg-[#ffeb00]" : "bg-slate-600"}`}
       />
     ))}
   </div>
@@ -66,7 +66,7 @@ const SkillsSection = ({ skills, loading }) => {
                   <motion.div
                     key={skill._id}
                     variants={sectionVariants}
-                    className="group flex flex-col items-center gap-2 rounded-lg border border-slate-700/50 bg-slate-800/30 p-3 text-center transition hover:border-teal-400/30 hover:bg-slate-800/60"
+                    className="group flex flex-col items-center gap-2 rounded-lg border border-slate-700/50 bg-slate-800/30 p-3 text-center transition hover:border-[#ffeb00]/30 hover:bg-slate-800/60"
                   >
                     {skill.imageUrl ? (
                       <img
@@ -76,7 +76,7 @@ const SkillsSection = ({ skills, loading }) => {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded bg-slate-700/50 flex items-center justify-center text-lg font-bold text-teal-400">
+                      <div className="w-10 h-10 rounded bg-slate-700/50 flex items-center justify-center text-lg font-bold text-[#ffeb00]">
                         {skill.name.charAt(0)}
                       </div>
                     )}

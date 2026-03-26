@@ -40,7 +40,7 @@ const Dashboard = () => {
             {/* Sidebar */}
             <aside className="w-full border-b border-slate-700 bg-slate-800/50 p-4 lg:w-64 lg:min-h-screen lg:border-b-0 lg:border-r">
                 <div className="mb-6">
-                    <Link to="/" className="group inline-flex items-center gap-1 text-xs text-slate-500 hover:text-teal-300 transition mb-3">
+                    <Link to="/" className="group inline-flex items-center gap-1 text-xs text-slate-500 hover:text-[#ffdb00] transition mb-3">
                         <ArrowLeft size={12} /> Back to site
                     </Link>
                     <h1 className="text-xl font-bold text-slate-200">Admin Panel</h1>
@@ -55,7 +55,7 @@ const Dashboard = () => {
                                     <Link to={item.path}
                                         className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition whitespace-nowrap ${
                                             isActive
-                                                ? 'bg-teal-500/10 text-teal-300 font-medium'
+                                                ? 'bg-[#ffeb00]/10 text-[#ffeb00] font-medium'
                                                 : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-200'
                                         }`}>
                                         <item.icon size={16} />

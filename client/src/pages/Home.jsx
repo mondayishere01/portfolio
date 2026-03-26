@@ -84,7 +84,7 @@ const Home = () => {
         <p>
           Designed in{" "}
           <a
-            className="font-medium text-slate-400 hover:text-teal-300"
+            className="font-medium text-slate-400 hover:text-[#ffeb00]"
             href="https://www.figma.com/"
             target="_blank"
             rel="noreferrer"
@@ -93,7 +93,7 @@ const Home = () => {
           </a>{" "}
           and coded in{" "}
           <a
-            className="font-medium text-slate-400 hover:text-teal-300"
+            className="font-medium text-slate-400 hover:text-[#ffeb00]"
             href="https://code.visualstudio.com/"
             target="_blank"
             rel="noreferrer"
@@ -102,7 +102,7 @@ const Home = () => {
           </a>
           . Built with{" "}
           <a
-            className="font-medium text-slate-400 hover:text-teal-300"
+            className="font-medium text-slate-400 hover:text-[#ffeb00]"
             href="https://react.dev/"
             target="_blank"
             rel="noreferrer"
@@ -111,7 +111,7 @@ const Home = () => {
           </a>{" "}
           and{" "}
           <a
-            className="font-medium text-slate-400 hover:text-teal-300"
+            className="font-medium text-slate-400 hover:text-[#ffeb00]"
             href="https://tailwindcss.com/"
             target="_blank"
             rel="noreferrer"

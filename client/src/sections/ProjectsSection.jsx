@@ -64,7 +64,7 @@ const ProjectsSection = ({ projects, loading }) => (
     <div className="mt-12">
       <Link
         to="/archive"
-        className="inline-flex items-center font-medium leading-tight text-slate-200 hover:text-teal-300 group"
+        className="inline-flex items-center font-medium leading-tight text-slate-200 hover:text-[#ffeb00] group"
       >
         View Full Project Archive
         <svg

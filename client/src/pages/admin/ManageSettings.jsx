@@ -48,7 +48,7 @@ const ManageSettings = () => {
                 {/* Email Notification */}
                 <div className="rounded-lg border border-slate-700 bg-slate-800/30 p-5">
                     <div className="flex items-center gap-2 mb-4">
-                        <Mail size={18} className="text-teal-400" />
+                        <Mail size={18} className="text-[#ffeb00]" />
                         <h3 className="text-sm font-semibold text-slate-200">Contact Notifications</h3>
                     </div>
                     <div>
@@ -61,7 +61,7 @@ const ManageSettings = () => {
                             value={notifyEmail}
                             onChange={e => setNotifyEmail(e.target.value)}
                             placeholder="your@email.com"
-                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                         />
                     </div>
                 </div>
@@ -73,17 +73,17 @@ const ManageSettings = () => {
                         <p className="font-medium text-slate-400 mb-1">SMTP Configuration</p>
                         <p>
                             Email notifications require SMTP env variables on your server:
-                            <code className="ml-1 text-teal-400/70">SMTP_HOST</code>,
-                            <code className="ml-1 text-teal-400/70">SMTP_PORT</code>,
-                            <code className="ml-1 text-teal-400/70">SMTP_USER</code>,
-                            <code className="ml-1 text-teal-400/70">SMTP_PASS</code>.
+                            <code className="ml-1 text-[#ffeb00]/70">SMTP_HOST</code>,
+                            <code className="ml-1 text-[#ffeb00]/70">SMTP_PORT</code>,
+                            <code className="ml-1 text-[#ffeb00]/70">SMTP_USER</code>,
+                            <code className="ml-1 text-[#ffeb00]/70">SMTP_PASS</code>.
                             Set these in your Render dashboard under Environment Variables.
                         </p>
                     </div>
                 </div>
 
                 {status.message && (
-                    <p className={`text-sm ${status.type === 'success' ? 'text-teal-400' : 'text-red-400'}`}>
+                    <p className={`text-sm ${status.type === 'success' ? 'text-[#ffeb00]' : 'text-red-400'}`}>
                         {status.message}
                     </p>
                 )}
@@ -91,7 +91,7 @@ const ManageSettings = () => {
                 <button
                     type="submit"
                     disabled={saving}
-                    className="inline-flex items-center gap-2 rounded-md bg-teal-500 px-6 py-2.5 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50"
+                    className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-6 py-2.5 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50"
                 >
                     <Save size={16} />
                     {saving ? 'Saving...' : 'Save Settings'}

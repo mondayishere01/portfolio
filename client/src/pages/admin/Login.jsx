@@ -38,15 +38,15 @@ const Login = () => {
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1">Username</label>
                         <input type="text" id="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-                            className="w-full rounded-md border border-slate-700 bg-slate-800 px-4 py-2.5 text-slate-200 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400 transition" />
+                            className="w-full rounded-md border border-slate-700 bg-slate-800 px-4 py-2.5 text-slate-200 focus:border-[#ffeb00] focus:outline-none focus:ring-1 focus:ring-[#ffeb00] transition" />
                     </div>
                     <div>
                         <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-1">Password</label>
                         <input type="password" id="password" required value={password} onChange={(e) => setPassword(e.target.value)}
-                            className="w-full rounded-md border border-slate-700 bg-slate-800 px-4 py-2.5 text-slate-200 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400 transition" />
+                            className="w-full rounded-md border border-slate-700 bg-slate-800 px-4 py-2.5 text-slate-200 focus:border-[#ffeb00] focus:outline-none focus:ring-1 focus:ring-[#ffeb00] transition" />
                     </div>
                     <button type="submit" disabled={loading}
-                        className="w-full rounded-md bg-teal-500 py-2.5 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50">
+                        className="w-full rounded-md bg-[#ffeb00] py-2.5 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
                         {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>

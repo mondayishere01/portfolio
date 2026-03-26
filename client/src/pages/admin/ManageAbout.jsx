@@ -74,7 +74,7 @@ const ManageAbout = () => {
                     <textarea
                         required rows={8} value={bio} onChange={e => setBio(e.target.value)}
                         placeholder="Write something about yourself..."
-                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-3 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-y leading-relaxed"
+                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-3 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-y leading-relaxed"
                     />
                 </div>
                 {/* Profile Image */}
@@ -107,7 +107,7 @@ const ManageAbout = () => {
                 <div>
                     <div className="flex items-center justify-between mb-3">
                         <label className="block text-sm font-medium text-slate-300">Social Links</label>
-                        <button type="button" onClick={addSocialLink} className="flex items-center gap-1 text-xs font-medium text-teal-400 hover:text-teal-300 transition">
+                        <button type="button" onClick={addSocialLink} className="flex items-center gap-1 text-xs font-medium text-[#ffeb00] hover:text-[#ffdb00] transition">
                             <Plus size={14} /> Add Link
                         </button>
                     </div>
@@ -120,7 +120,7 @@ const ManageAbout = () => {
                                     <select
                                         value={link.platform}
                                         onChange={e => updateSocialLink(index, 'platform', e.target.value)}
-                                        className="w-36 rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                                        className="w-36 rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                                     >
                                         {PLATFORMS.map(p => <option key={p} value={p}>{p}</option>)}
                                     </select>
@@ -128,7 +128,7 @@ const ManageAbout = () => {
                                         value={link.url}
                                         onChange={e => updateSocialLink(index, 'url', e.target.value)}
                                         placeholder={link.platform === 'Email' ? 'your@email.com' : 'https://...'}
-                                        className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                                        className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                                     />
                                     <button type="button" onClick={() => removeSocialLink(index)} className="text-slate-500 hover:text-red-400 transition p-1">
                                         <Trash2 size={14} />
@@ -140,13 +140,13 @@ const ManageAbout = () => {
                 </div>
 
                 {status.message && (
-                    <p className={`text-sm ${status.type === 'success' ? 'text-teal-400' : 'text-red-400'}`}>
+                    <p className={`text-sm ${status.type === 'success' ? 'text-[#ffeb00]' : 'text-red-400'}`}>
                         {status.message}
                     </p>
                 )}
 
                 <button type="submit" disabled={saving}
-                    className="inline-flex items-center gap-2 rounded-md bg-teal-500 px-6 py-2.5 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50">
+                    className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-6 py-2.5 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
                     <Save size={16} />
                     {saving ? 'Saving...' : 'Save Changes'}
                 </button>

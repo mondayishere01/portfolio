@@ -75,7 +75,7 @@ const ProfileSummary = () => {
             {skills.map((skill) => (
               <span
                 key={skill._id}
-                className="rounded-full bg-teal-400/10 px-2 py-0.5 text-[10px] font-medium text-teal-300/80"
+                className="rounded-full bg-[#ffeb00]/10 px-2 py-0.5 text-[10px] font-medium text-[#ffeb00]/80"
               >
                 {skill.name}
               </span>
@@ -97,7 +97,7 @@ const ProfileSummary = () => {
                 href={proj.link || "#"}
                 target="_blank"
                 rel="noreferrer"
-                className="block text-xs text-white/60 hover:text-teal-300 transition-colors truncate"
+                className="block text-xs text-white/60 hover:text-[#ffeb00] transition-colors truncate"
                 data-cursor-text="Visit"
               >
                 {proj.title}

@@ -117,7 +117,7 @@ const ManageBlogs = () => {
                     <h2 className="text-2xl font-bold text-slate-200">Manage Blogs</h2>
                     <p className="text-sm text-slate-400">Write and publish articles for the site.</p>
                 </div>
-                <button onClick={openCreate} className="inline-flex items-center gap-2 rounded-md bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition">
+                <button onClick={openCreate} className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition">
                     <Plus size={16} /> New Blog
                 </button>
             </div>
@@ -141,7 +141,7 @@ const ManageBlogs = () => {
                             <div className="flex-1 min-w-0 w-full">
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className="text-xs font-semibold text-slate-500">{new Date(blog.createdAt).toLocaleDateString()}</span>
-                                    <span className="rounded-full bg-teal-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-300">
+                                    <span className="rounded-full bg-[#ffeb00]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#ffeb00]">
                                         {blog.category}
                                     </span>
                                 </div>
@@ -180,19 +180,19 @@ const ManageBlogs = () => {
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Blog Title *</label>
                                 <input required value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="Mastering React in 2026"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-lg font-medium text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-lg font-medium text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-1">Category *</label>
                                     <input required value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. Tutorial, Career, Essay"
-                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-1">Tags (comma-separated)</label>
                                     <input value={form.tags} onChange={e => setForm({...form, tags: e.target.value})} placeholder="react, webdev, javascript"
-                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                                 </div>
                             </div>
 
@@ -208,16 +208,16 @@ const ManageBlogs = () => {
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1 flex items-baseline justify-between">
                                     <span>Content (Markdown Support) *</span>
-                                    <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" rel="noreferrer" className="text-xs text-teal-400 hover:underline">Formatting Help</a>
+                                    <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" rel="noreferrer" className="text-xs text-[#ffeb00] hover:underline">Formatting Help</a>
                                 </label>
                                 <textarea required rows={12} value={form.content} onChange={e => setForm({...form, content: e.target.value})}
                                     placeholder="Write your article here..."
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-y font-mono" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-y font-mono" />
                             </div>
 
                             <div className="flex gap-3 pt-2">
                                 <button type="submit" disabled={saving}
-                                    className="flex-1 rounded-md bg-teal-500 py-2.5 font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50">
+                                    className="flex-1 rounded-md bg-[#ffeb00] py-2.5 font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
                                     {saving ? 'Publishing...' : editing ? 'Update Blog' : 'Publish Blog'}
                                 </button>
                                 <button type="button" onClick={() => setShowModal(false)}

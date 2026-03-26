@@ -38,12 +38,12 @@ const CertificationsSection = ({ certifications, loading }) => (
                 href={cert.credentialUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 text-slate-300 hover:text-teal-300 transition"
+                className="group inline-flex items-center gap-2 text-slate-300 hover:text-[#ffeb00] transition"
               >
                 <span className="text-sm font-medium">{cert.title}</span>
                 <ExternalLink
                   size={14}
-                  className="text-slate-500 group-hover:text-teal-400 transition"
+                  className="text-slate-500 group-hover:text-[#ffeb00] transition"
                 />
               </a>
             ) : (

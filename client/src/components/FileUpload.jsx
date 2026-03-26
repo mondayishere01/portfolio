@@ -36,7 +36,7 @@ const FileUpload = ({ value, onChange, accept = "image/*", label = "Upload File"
                 value={value || ''} 
                 onChange={e => onChange(e.target.value)} 
                 placeholder="Auto-fills on upload, or paste URL"
-                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" 
+                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" 
             />
 
             {/* Upload Area */}
@@ -52,8 +52,8 @@ const FileUpload = ({ value, onChange, accept = "image/*", label = "Upload File"
                 <div className="flex flex-col items-center gap-2 text-slate-400 pointer-events-none">
                     {uploading ? (
                         <>
-                            <Loader2 size={24} className="animate-spin text-teal-500" />
-                            <span className="text-xs font-medium text-teal-400">Uploading to Cloudinary...</span>
+                            <Loader2 size={24} className="animate-spin text-[#ffeb00]" />
+                            <span className="text-xs font-medium text-[#ffeb00]">Uploading to Cloudinary...</span>
                         </>
                     ) : (
                         <>

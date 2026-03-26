@@ -49,7 +49,7 @@ const BlogList = () => {
                     <div className="mb-8 flex items-center gap-3">
                         <span className="text-sm text-slate-400">Filtered by:</span>
                         {category && (
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/10 px-3 py-1 text-sm font-medium text-teal-300">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ffeb00]/10 px-3 py-1 text-sm font-medium text-[#ffeb00]">
                                 Category: {category}
                             </span>
                         )}
@@ -83,13 +83,13 @@ const BlogList = () => {
                                     <div className="flex items-center gap-2 mb-3">
                                         <button 
                                             onClick={(e) => { e.preventDefault(); setSearchParams({ category: blog.category }); }}
-                                            className="rounded-full bg-teal-500/10 hover:bg-teal-500/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-300 transition"
+                                            className="rounded-full bg-[#ffeb00]/10 hover:bg-[#ffeb00]/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#ffeb00] transition"
                                         >
                                             {blog.category}
                                         </button>
                                         <span className="text-sm text-slate-500">{new Date(blog.createdAt).toLocaleDateString()}</span>
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-200 group-hover:text-teal-300 transition line-clamp-2">
+                                    <h3 className="text-xl font-bold text-slate-200 group-hover:text-[#ffeb00] transition line-clamp-2">
                                         {blog.title}
                                     </h3>
                                     <p className="mt-2 text-sm text-slate-400 line-clamp-3">
@@ -101,7 +101,7 @@ const BlogList = () => {
                                     {blog.author?.imageUrl ? (
                                         <img src={blog.author.imageUrl} alt={blog.author.name} className="h-8 w-8 rounded-full object-cover" />
                                     ) : (
-                                        <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-teal-400 font-bold text-xs">
+                                        <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-[#ffeb00] font-bold text-xs">
                                             {blog.author?.name?.charAt(0) || '?'}
                                         </div>
                                     )}

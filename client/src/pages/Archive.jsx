@@ -62,7 +62,7 @@ const Archive = () => {
                                 <td className="hidden py-4 pr-8 align-top lg:table-cell">
                                     <div className="flex flex-wrap gap-1">
                                         {proj.tags?.map((tag, i) => (
-                                            <span key={i} className="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium text-teal-300">
+                                            <span key={i} className="rounded-full bg-[#ffeb00]/10 px-3 py-1 text-xs font-medium text-[#ffeb00]">
                                                 {tag}
                                             </span>
                                         ))}
@@ -74,7 +74,7 @@ const Archive = () => {
                                             href={proj.link}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="text-sm text-slate-400 hover:text-teal-300 transition"
+                                            className="text-sm text-slate-400 hover:text-[#ffeb00] transition"
                                         >
                                             Link ↗
                                         </a>

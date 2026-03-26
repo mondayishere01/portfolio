@@ -55,7 +55,7 @@ const BlogFeed = () => {
           data-cursor-text="Read"
         >
           {/* Category */}
-          <span className="text-[10px] font-bold uppercase tracking-wider text-teal-400/80">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffeb00]/80">
             {blog.category}
           </span>
 

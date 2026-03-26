@@ -17,7 +17,7 @@
   }
   ::selection {
     background-color: rgb(94 234 212 / 0.3);
-    color: var(--color-teal-200);
+    color: #ffeb00;
   }
   /* Scrollbar styling (Webkit) */
   ::-webkit-scrollbar {

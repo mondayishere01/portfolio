@@ -309,7 +309,7 @@ const Navigation = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            className="h-4 w-4 text-slate-400 group-hover:text-teal-300 transition-transform group-hover:-translate-x-1"
+            className="h-4 w-4 text-slate-400 group-hover:text-[#ffeb00] transition-transform group-hover:-translate-x-1"
           >
             <path
               fillRule="evenodd"
@@ -317,7 +317,7 @@ const Navigation = () => {
               clipRule="evenodd"
             />
           </svg>
-          <span className="text-sm font-semibold text-slate-200 group-hover:text-teal-300 transition-colors">
+          <span className="text-sm font-semibold text-slate-200 group-hover:text-[#ffeb00] transition-colors">
             Back to Portfolio
           </span>
         </Link>
