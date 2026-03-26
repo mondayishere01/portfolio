@@ -54,7 +54,7 @@ const ContactForm = () => {
             </div>
             <button
                 type="submit" disabled={loading}
-                className="inline-flex items-center rounded-md bg-teal-500 px-6 py-2.5 text-sm font-medium text-slate-900 hover:bg-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-slate-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center rounded-md bg-teal-500 px-6 py-2.5 text-sm font-medium text-slate-900 hover:bg-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-black transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {loading ? 'Sending...' : 'Send Message'}
             </button>

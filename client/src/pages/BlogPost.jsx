@@ -26,7 +26,7 @@ const BlogPost = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-slate-900 py-24 flex justify-center">
+            <div className="min-h-screen bg-black py-24 flex justify-center">
                 <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
@@ -34,7 +34,7 @@ const BlogPost = () => {
 
     if (!blog) {
         return (
-            <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-6">
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6">
                 <h2 className="text-3xl font-bold text-slate-200 mb-4">Blog Not Found</h2>
                 <Link to="/blog" className="text-teal-400 hover:text-teal-300">← Back to Articles</Link>
             </div>
@@ -42,7 +42,7 @@ const BlogPost = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-900 px-6 py-12 md:py-20 lg:px-24">
+        <div className="min-h-screen bg-black px-6 py-12 md:py-20 lg:px-24">
             <div className="max-w-3xl mx-auto">
                 <Link to="/blog" className="group inline-flex items-center gap-2 text-sm text-slate-400 hover:text-teal-300 transition mb-10">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Articles
