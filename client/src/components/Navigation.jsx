@@ -11,12 +11,6 @@ const NAV_ITEMS = [
   { id: "blog", label: "Blog", path: "/blog", isAnchor: false },
 ];
 
-const SOCIAL_LINKS = [
-  { label: "GitHub", href: "https://github.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Twitter", href: "https://twitter.com" },
-];
-
 const PAGE_LABELS = {
   "/": "Home",
   "/blog": "Blog",
@@ -32,7 +26,6 @@ const Navigation = () => {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const boxRef = useRef(null);
-
   const currentPage = PAGE_LABELS[location.pathname] ?? "Page";
 
   // pill mode = scrolled on home, any other page, OR mobile viewport
@@ -159,30 +152,32 @@ const Navigation = () => {
               transition: "opacity 300ms ease",
             }}
           >
-            {NAV_ITEMS.map((item) =>
-              item.isAnchor ? (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAnchorClick(e, item);
-                  }}
-                  className="text-white/60 hover:text-white text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  key={item.id}
-                  to={item.path}
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-white/60 hover:text-white text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
+            <div className="flex items-center gap-7">
+              {NAV_ITEMS.map((item) =>
+                item.isAnchor ? (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAnchorClick(e, item);
+                    }}
+                    className="text-white/60 hover:text-white text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.id}
+                    to={item.path}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-white/60 hover:text-white text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
+            </div>
           </nav>
 
           {/* Pill: current page label + dot/dash indicator */}
@@ -264,30 +259,6 @@ const Navigation = () => {
               })}
             </ul>
           </nav>
-
-          {/* Divider — only above social links */}
-          <div className="border-t border-white/10 mx-4" />
-
-          {/* Social links */}
-          <div className="px-6 py-4">
-            <p className="text-white/30 text-[10px] uppercase tracking-widest font-semibold mb-3">
-              Links
-            </p>
-            <ul className="space-y-1">
-              {SOCIAL_LINKS.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-white/60 hover:text-white text-xs font-semibold uppercase tracking-wider transition-colors duration-200"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
       {/* ── Back to Portfolio Pill ─────────────────────────────────────────── */}

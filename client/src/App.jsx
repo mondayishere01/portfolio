@@ -26,9 +26,12 @@ import ManageUsers from "./pages/admin/ManageUsers";
 import ManageProfile from "./pages/admin/ManageProfile";
 import ManageBlogs from "./pages/admin/ManageBlogs";
 
+import CustomCursor from "./components/CustomCursor";
+
 function App() {
   return (
     <AuthProvider>
+      <CustomCursor />
       <Router>
         <Routes>
           {/* ── Public Routes ───────────────────────────── */}
