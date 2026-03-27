@@ -3,7 +3,7 @@ import { getAbout, updateAbout } from '../../api';
 import { Save, Plus, Trash2 } from 'lucide-react';
 import FileUpload from '../../components/FileUpload';
 
-const PLATFORMS = ['GitHub', 'LinkedIn', 'Twitter', 'Instagram', 'Email', 'Website'];
+const PLATFORMS = ['GitHub', 'LinkedIn', 'Twitter', 'Instagram', 'Email', 'Phone', 'Website'];
 
 const ManageAbout = () => {
     const [name, setName] = useState('');

@@ -16,10 +16,11 @@ const ProjectsSection = ({ projects, loading }) => (
   >
     <SectionHeader label="Projects" />
     <motion.div
+      key={`proj-${projects.length}`}
       variants={staggerContainer}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
     >
       {loading ? (
         <div className="space-y-8">
@@ -34,31 +35,35 @@ const ProjectsSection = ({ projects, loading }) => (
           ))}
         </div>
       ) : projects.length > 0 ? (
-        projects.slice(0, 4).map((proj) => (
-          <motion.div
-            key={proj._id}
-            variants={sectionVariants}
-            className="mb-12"
-          >
-            <ProjectCard
-              title={proj.title}
-              description={proj.description}
-              imageUrl={proj.imageUrl || ""}
-              link={proj.link || "#"}
-              githubUrl={proj.githubUrl || ""}
-              tags={proj.tags || []}
-              year={proj.year}
-            />
-          </motion.div>
-        ))
+        <div className="group/list">
+          {projects.slice(0, 4).map((proj) => (
+            <motion.div
+              key={proj._id}
+              variants={sectionVariants}
+              className="mb-12"
+            >
+              <ProjectCard
+                title={proj.title}
+                description={proj.description}
+                imageUrl={proj.imageUrl || ""}
+                link={proj.link || "#"}
+                githubUrl={proj.githubUrl || ""}
+                tags={proj.tags || []}
+                year={proj.year}
+              />
+            </motion.div>
+          ))}
+        </div>
       ) : (
-        <ProjectCard
-          title="Portfolio Website"
-          description="A modern, dark-mode portfolio built with the MERN stack, featuring an admin panel for content management."
-          link="#"
-          imageUrl=""
-          tags={["React", "Express", "MongoDB", "Tailwind"]}
-        />
+        <motion.div variants={sectionVariants}>
+          <ProjectCard
+            title="Portfolio Website"
+            description="A modern, dark-mode portfolio built with the MERN stack, featuring an admin panel for content management."
+            link="#"
+            imageUrl=""
+            tags={["React", "Express", "MongoDB", "Tailwind"]}
+          />
+        </motion.div>
       )}
     </motion.div>
 

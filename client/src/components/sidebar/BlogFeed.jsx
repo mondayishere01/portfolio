@@ -45,9 +45,11 @@ const BlogFeed = () => {
     );
   }
 
+  const displayedBlogs = blogs.slice(0, 5);
+
   return (
     <div className="space-y-1">
-      {blogs.map((blog) => (
+      {displayedBlogs.map((blog) => (
         <Link
           key={blog._id}
           to={`/blog/${blog._id}`}
@@ -74,6 +76,18 @@ const BlogFeed = () => {
           </span>
         </Link>
       ))}
+
+      {blogs.length > 5 && (
+        <div className="pt-2 px-1">
+          <Link
+            to="/blog"
+            className="flex items-center justify-center w-full py-2.5 rounded-lg border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[#ffeb00] hover:border-[#ffeb00]/30 hover:bg-[#ffeb00]/5 transition-all duration-300"
+            data-cursor-text="Archive"
+          >
+            Visit the blogs archive
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

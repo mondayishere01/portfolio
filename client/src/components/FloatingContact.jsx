@@ -93,7 +93,11 @@ const FloatingContact = () => {
                 <span className="p-2 rounded-full bg-white/5 group-hover:bg-[#ffeb00]/10 transition-colors shadow-inner">
                   {getIcon(link.platform)}
                 </span>
-                <span className="tracking-wide">{link.platform}</span>
+                <span className="tracking-wide">
+                  {link.platform.toLowerCase() === 'email' || link.platform.toLowerCase() === 'phone' 
+                    ? link.url 
+                    : link.platform}
+                </span>
               </a>
             ))}
           </div>
