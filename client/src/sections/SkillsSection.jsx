@@ -36,7 +36,7 @@ const SkillsSection = ({ skills, loading }) => {
   return (
     <motion.section
       id="skills"
-      className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+      className="mb-12 scroll-mt-16 md:mb-16 lg:mb-24 lg:scroll-mt-24"
       aria-label="Skills"
       initial="hidden"
       whileInView="visible"
@@ -44,7 +44,7 @@ const SkillsSection = ({ skills, loading }) => {
       variants={sectionVariants}
     >
       <SectionHeader label="Skills" />
-      
+
       {loading ? (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
           {[...Array(10)].map((_, i) => (
@@ -62,11 +62,10 @@ const SkillsSection = ({ skills, loading }) => {
               <button
                 key={group.category}
                 onClick={() => setActiveCategory(group.category)}
-                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-widest transition-all duration-200 ${
-                  activeCategory === group.category
-                    ? "bg-[#ffeb00] text-slate-900"
-                    : "text-slate-500 hover:text-slate-300 hover:bg-slate-800/50"
-                }`}
+                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-widest transition-all duration-200 ${activeCategory === group.category
+                  ? "bg-[#ffeb00] text-slate-900"
+                  : "text-slate-500 hover:text-slate-300 hover:bg-slate-800/50"
+                  }`}
               >
                 {group.category}
               </button>

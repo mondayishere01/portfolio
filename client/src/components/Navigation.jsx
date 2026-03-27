@@ -25,8 +25,9 @@ const Navigation = () => {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isBlogPost = location.pathname.startsWith("/blog/");
   const boxRef = useRef(null);
-  const currentPage = PAGE_LABELS[location.pathname] ?? "Page";
+  const currentPage = PAGE_LABELS[location.pathname] ?? (isBlogPost ? "Blog" : "Page");
 
   // pill mode = scrolled on home, any other page, OR mobile viewport
   const isPill = !isHome || scrolled || isMobile;
@@ -264,7 +265,7 @@ const Navigation = () => {
       {/* ── Back to Portfolio Pill ─────────────────────────────────────────── */}
       {!isHome && !isMobile && (
         <Link
-          to="/"
+          to={isBlogPost ? "/blog" : "/"}
           className="fixed z-50 px-5 py-3 flex items-center gap-2 group transition-all duration-300 hover:border-white/30"
           style={{
             top: "20px",
@@ -274,7 +275,7 @@ const Navigation = () => {
             borderRadius: "12px",
             height: "48px", // Matches nav pill approximate height
           }}
-          data-cursor-text="Home"
+          data-cursor-text={isBlogPost ? "Blog Hub" : "Home"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -289,7 +290,7 @@ const Navigation = () => {
             />
           </svg>
           <span className="text-sm font-semibold text-slate-200 group-hover:text-[#ffeb00] transition-colors">
-            Back to Portfolio
+            {isBlogPost ? "Back to Blog Hub" : "Back to Portfolio"}
           </span>
         </Link>
       )}

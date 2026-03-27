@@ -7,14 +7,14 @@ const Footer = () => {
     useEffect(() => {
         getSettings()
             .then(res => setSettings(res.data))
-            .catch(() => {});
+            .catch(() => { });
     }, []);
 
     const footerText = settings?.footerText || "Designed in Figma and coded in VS Code. Built with React and Tailwind CSS.";
     const copyrightText = settings?.copyrightText || "Devesh. All rights reserved.";
 
     return (
-        <footer className="max-w-md pb-24 pt-12 text-xs text-slate-500 sm:pb-12 text-center lg:text-left">
+        <footer className="max-w-md pb-4 pt-8 text-xs text-slate-500 sm:pb-0 text-center lg:text-left">
             <p className="leading-relaxed whitespace-pre-line">
                 {footerText}
             </p>

@@ -44,7 +44,7 @@ const BlogList = () => {
   }, [category, tag]);
 
     return (
-        <div className="min-h-screen bg-black px-6 py-12 md:px-12 md:py-20 lg:pl-3 lg:pr-12 text-left">
+        <div className="min-h-screen bg-black px-6 pt-28 pb-12 md:px-12 md:py-20 lg:pl-3 lg:pr-12 text-left">
             <div className="lg:max-w-none lg:mx-0">
                 <header className="mb-12">
                     <h1 className="text-4xl font-bold tracking-tight text-slate-200 sm:text-5xl">Writings & Thoughts</h1>

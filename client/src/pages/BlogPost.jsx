@@ -48,13 +48,8 @@ const BlogPost = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black px-4 py-12 md:py-20 lg:px-6">
+        <div className="min-h-screen bg-black px-5 pt-28 pb-12 md:py-20 lg:pl-0 lg:pr-6">
             <div className="max-w-[1440px] mx-auto">
-                {/* Back Link */}
-                <Link to="/blog" className="inline-flex items-center gap-2 text-slate-500 hover:text-[#ffeb00] transition-colors mb-8 text-sm font-bold uppercase tracking-widest group">
-                    <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /> Back to Blog Hub
-                </Link>
-
                 <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-start">
                     {/* Main Content Column */}
                     <div className="lg:col-span-8">
@@ -69,7 +64,7 @@ const BlogPost = () => {
                                     {new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                                 </span>
                             </div>
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] mb-8">
+                            <h1 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-white leading-[1.1] mb-8">
                                 {blog.title}
                             </h1>
 
@@ -99,7 +94,7 @@ const BlogPost = () => {
                             prose-p:text-slate-400 prose-p:leading-relaxed
                             prose-a:text-[#ffeb00] prose-a:no-underline hover:prose-a:underline
                             prose-strong:text-white prose-code:text-[#ffeb00]
-                            prose-img:rounded-3xl prose-pre:bg-[#111] prose-pre:border prose-pre:border-white/5 prose-pre:shadow-2xl mb-16">
+                            prose-img:rounded-3xl prose-pre:bg-[#111] prose-pre:border prose-pre:border-white/5 prose-pre:shadow-2xl">
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {blog.content}
                             </ReactMarkdown>
@@ -111,17 +106,17 @@ const BlogPost = () => {
                         {/* Author Box */}
                         {blog.author && (
                             <div className="group relative rounded-3xl border border-white/10 bg-[#111111]/80 backdrop-blur-xl p-6 shadow-2xl transition-all hover:border-[#ffeb00]/30">
-                                <div className="absolute -top-10 left-8">
+                                <div className="left-8">
                                     {blog.author.imageUrl ? (
-                                        <img src={blog.author.imageUrl} alt={blog.author.name} className="w-20 h-20 rounded-2xl object-cover border-4 border-[#111] shadow-2xl skew-y-3 group-hover:skew-y-0 transition-transform duration-500" />
+                                        <img src={blog.author.imageUrl} alt={blog.author.name} className="w-20 h-20 rounded-2xl object-cover border-4 border-[#111] shadow-2xl transition-transform duration-500" />
                                     ) : (
-                                        <div className="w-20 h-20 rounded-2xl bg-[#ffeb00] flex items-center justify-center text-slate-900 font-black text-3xl shadow-2xl skew-y-3 group-hover:skew-y-0 transition-transform duration-500">
+                                        <div className="w-20 h-20 rounded-2xl bg-[#ffeb00] flex items-center justify-center text-slate-900 font-black text-3xl shadow-2xl transition-transform duration-500">
                                             {blog.author.name?.charAt(0) || '?'}
                                         </div>
                                     )}
                                 </div>
 
-                                <div className="mt-8">
+                                <div className="mt-6">
                                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffeb00] mb-2 block">Curated By</span>
                                     <h3 className="text-2xl font-black text-white tracking-tight mb-4">{blog.author.name}</h3>
                                     <p className="text-slate-400 leading-relaxed text-sm font-medium">
