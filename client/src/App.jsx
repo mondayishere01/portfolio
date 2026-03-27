@@ -27,6 +27,7 @@ import ManageUsers from "./pages/admin/ManageUsers";
 import ManageProfile from "./pages/admin/ManageProfile";
 import ManageBlogs from "./pages/admin/ManageBlogs";
 import ManageResources from "./pages/admin/ManageResources";
+import AdminOverview from "./pages/admin/AdminOverview";
 
 import CustomCursor from "./components/CustomCursor";
 
@@ -57,15 +58,7 @@ function App() {
           >
             <Route
               path="dashboard"
-              element={
-                <div className="text-slate-200">
-                  <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
-                  <p className="text-slate-400">
-                    Welcome to the admin panel. Use the sidebar to manage your
-                    portfolio content.
-                  </p>
-                </div>
-              }
+              element={<AdminOverview />}
             />
             <Route path="experiences" element={<ManageExperiences />} />
             <Route path="projects" element={<ManageProjects />} />
