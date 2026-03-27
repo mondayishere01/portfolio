@@ -91,41 +91,26 @@ const ProfileSummary = () => {
             Projects
           </h4>
           <div className="space-y-1.5">
-            {projects.map((proj) => (
-              <a
-                key={proj._id}
-                href={proj.link || "#"}
-                target="_blank"
-                rel="noreferrer"
-                className="block text-xs text-white/60 hover:text-[#ffeb00] transition-colors truncate"
-                data-cursor-text="Visit"
-              >
-                {proj.title}
-                <span className="text-white/20 ml-1">↗</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Social Links */}
-      {about?.socialLinks?.length > 0 && (
-        <div>
-          <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/25 mb-2">
-            Links
-          </h4>
-          <div className="flex flex-wrap gap-3">
-            {about.socialLinks.map((link, i) => (
-              <a
-                key={i}
-                href={link.platform?.toLowerCase() === "email" ? `mailto:${link.url}` : link.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-[11px] font-medium text-white/40 hover:text-white uppercase tracking-wider transition-colors"
-              >
-                {link.platform}
-              </a>
-            ))}
+            {projects.map((proj) => {
+              const hasLink = proj.link && proj.link !== "#" && proj.link.trim() !== "";
+              return hasLink ? (
+                <a
+                  key={proj._id}
+                  href={proj.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-xs text-white/60 hover:text-[#ffeb00] transition-colors truncate"
+                  data-cursor-text="Visit"
+                >
+                  {proj.title}
+                  <span className="text-white/20 ml-1">↗</span>
+                </a>
+              ) : (
+                <div key={proj._id} className="text-xs text-white/60 truncate cursor-default">
+                  {proj.title}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

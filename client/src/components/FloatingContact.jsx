@@ -13,8 +13,11 @@ import {
 
 const FloatingContact = () => {
   const [about, setAbout] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const containerRef = useRef(null);
+
+  const isOpen = isHovered || isClicked;
 
   useEffect(() => {
     getAbout()
@@ -22,14 +25,15 @@ const FloatingContact = () => {
       .catch((err) => console.log("Failed to load about for contact", err));
   }, []);
 
-  // Close on outside click for mobile
+  // Close on outside click for mobile and to clear "clicked" state
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target)
       ) {
-        setIsOpen(false);
+        setIsClicked(false);
+        setIsHovered(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -57,14 +61,13 @@ const FloatingContact = () => {
     <div
       ref={containerRef}
       className="fixed bottom-6 right-6 z-50 flex flex-col items-end"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Expanded Menu */}
+      {/* Expanded Menu - Absolutely positioned to not affect parent layout when closed */}
       <div
-        className={`mb-4 flex flex-col gap-2 overflow-hidden transition-all duration-300 origin-bottom-right ${
+        className={`absolute bottom-full right-0 mb-4 flex flex-col gap-2 overflow-hidden transition-all duration-300 origin-bottom-right ${
           isOpen
-            ? "opacity-100 scale-100 translate-y-0"
+            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
             : "opacity-0 scale-95 translate-y-4 pointer-events-none"
         }`}
       >
@@ -99,12 +102,13 @@ const FloatingContact = () => {
 
       {/* Floating Avatar Trigger */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative w-14 h-14 rounded-full border-2 border-slate-700 overflow-visible shadow-2xl hover:border-[#ffeb00] hover:scale-110 transition-all duration-300 focus:outline-none group"
+        onClick={() => setIsClicked(!isClicked)}
+        onMouseEnter={() => setIsHovered(true)}
+        className="relative w-14 h-14 rounded-full border-2 border-slate-700 overflow-visible shadow-2xl hover:border-[#ffeb00] hover:scale-110 transition-all duration-300 focus:outline-none group bg-slate-800"
         aria-label="Contact and Social Links"
         data-cursor-text="Connect"
       >
-        <div className="w-full h-full rounded-full overflow-hidden bg-slate-800 flex items-center justify-center text-slate-400">
+        <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center text-slate-400">
           {about.imageUrl ? (
             <img
               src={about.imageUrl}

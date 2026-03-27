@@ -60,11 +60,15 @@ const ExperienceCard = ({
           </div>
         </h3>
         <p className="mt-2 text-sm leading-normal">
-          {description.split("\n").map((line, i) => (
-            <span key={i} className="block">
-              {line}
-            </span>
-          ))}
+          {description ? (
+            description.split("\n").map((line, i) => (
+              <span key={i} className="block">
+                {line}
+              </span>
+            ))
+          ) : (
+            <span>No description provided.</span>
+          )}
         </p>
         <ul className="mt-2 flex flex-wrap" aria-label="Technologies used">
           {tags &&

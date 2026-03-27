@@ -10,7 +10,7 @@ import BlogSection from "../sections/BlogSection";
 import {
   getAbout,
   getExperiences,
-  getFeaturedProjects,
+  getProjects,
   getSkills,
   getCertifications,
 } from "../api";
@@ -33,7 +33,7 @@ const Home = () => {
           await Promise.all([
             getAbout().catch(() => ({ data: null })),
             getExperiences().catch(() => ({ data: [] })),
-            getFeaturedProjects().catch(() => ({ data: [] })),
+            getProjects().catch(() => ({ data: [] })),
             getSkills().catch(() => ({ data: [] })),
             getCertifications().catch(() => ({ data: [] })),
           ]);

@@ -17,11 +17,15 @@ const ProjectCard = ({ title, description, imageUrl, link, githubUrl, tags, year
                     </a>
                 </h3>
                 <p className="mt-2 text-sm leading-normal text-slate-400">
-                    {description.split("\n").map((line, i) => (
-                        <span key={i} className="block">
-                            {line}
-                        </span>
-                    ))}
+                    {description ? (
+                        description.split("\n").map((line, i) => (
+                            <span key={i} className="block">
+                                {line}
+                            </span>
+                        ))
+                    ) : (
+                        <span>No description provided.</span>
+                    )}
                 </p>
                 {githubUrl && (
                     <a
