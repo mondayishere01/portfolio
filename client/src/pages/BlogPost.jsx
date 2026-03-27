@@ -48,8 +48,8 @@ const BlogPost = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black px-6 py-12 md:py-20 lg:px-8 xl:px-12">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-black px-4 py-12 md:py-20 lg:px-6">
+            <div className="max-w-[1440px] mx-auto">
                 {/* Back Link */}
                 <Link to="/blog" className="inline-flex items-center gap-2 text-slate-500 hover:text-[#ffeb00] transition-colors mb-8 text-sm font-bold uppercase tracking-widest group">
                     <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /> Back to Blog Hub
