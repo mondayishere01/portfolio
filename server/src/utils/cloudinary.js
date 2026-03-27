@@ -13,15 +13,19 @@ cloudinary.config({
 // Setup Multer storage engine to upload directly to a 'portfolio' folder
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
-    params: async (req, file) => {
-        const folderName = req.query.folder || 'portfolio';
-        const isPdf = file.mimetype === 'application/pdf' || file.originalname.toLowerCase().endsWith('.pdf');
-        
-        return {
-            folder: `portfolio/${folderName}`,
-            public_id: `${Date.now()}-${file.originalname.split('.')[0].replace(/\s+/g, '_').toLowerCase()}`,
-            resource_type: isPdf ? 'raw' : 'auto',
-        };
+    params: {
+        folder: async (req, file) => {
+            const folder = req.query.folder || 'portfolio';
+            return `Portfolio Assets/${folder}`;
+        },
+        public_id: (req, file) => {
+            const originalName = file.originalname.split('.')[0].replace(/\s+/g, '_').toLowerCase();
+            return `${Date.now()}-${originalName}`;
+        },
+        allowed_formats: ['jpg', 'png', 'jpeg', 'webp', 'svg', 'pdf'],
+        resource_type: 'auto',
+        type: 'upload',
+        access_mode: 'public',
     },
 });
 
