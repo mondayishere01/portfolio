@@ -50,13 +50,13 @@ const Messages = () => {
                 <div className="space-y-3">
                     {messages.map((msg) => (
                         <div key={msg._id}
-                            className={`rounded-lg border border-slate-700 bg-slate-800/30 transition cursor-pointer ${expanded === msg._id ? 'ring-1 ring-teal-400/30' : ''}`}
+                            className={`rounded-lg border border-slate-700 bg-slate-800/30 transition cursor-pointer ${expanded === msg._id ? 'ring-1 ring-[#ffeb00]/30' : ''}`}
                         >
                             <div className="flex items-start justify-between gap-4 p-4" onClick={() => toggleExpand(msg._id)}>
                                 <div className="flex items-start gap-3 flex-1 min-w-0">
                                     <div className="shrink-0 mt-0.5">
                                         {expanded === msg._id ?
-                                            <MailOpen size={18} className="text-teal-400" /> :
+                                            <MailOpen size={18} className="text-[#ffeb00]" /> :
                                             <Mail size={18} className="text-slate-500" />
                                         }
                                     </div>
@@ -64,7 +64,7 @@ const Messages = () => {
                                         <div className="flex items-center gap-2 mb-0.5">
                                             <h3 className="font-medium text-slate-200 truncate">{msg.name}</h3>
                                             <span className="text-xs text-slate-500">·</span>
-                                            <a href={`mailto:${msg.email}`} className="text-xs text-teal-400 hover:text-teal-300 truncate" onClick={e => e.stopPropagation()}>
+                                            <a href={`mailto:${msg.email}`} className="text-xs text-[#ffeb00] hover:text-[#ffdb00] truncate" onClick={e => e.stopPropagation()}>
                                                 {msg.email}
                                             </a>
                                         </div>

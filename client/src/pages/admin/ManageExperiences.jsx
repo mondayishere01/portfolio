@@ -19,6 +19,7 @@ const emptyForm = {
   companyUrl: "",
   imageUrl: "",
   description: "",
+  tags: "",
   order: 0,
 };
 
@@ -112,6 +113,7 @@ const ManageExperiences = () => {
       companyUrl: item.companyUrl || "",
       imageUrl: item.imageUrl || "",
       description: item.description,
+      tags: (item.tags || []).join(", "),
       order: item.order || 0,
     });
     setError("");
@@ -125,6 +127,10 @@ const ManageExperiences = () => {
     const payload = {
       ...form,
       date: buildDateString(form),
+      tags: form.tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
       order: Number(form.order),
     };
     try {
@@ -160,7 +166,7 @@ const ManageExperiences = () => {
         </h2>
         <button
           onClick={openCreate}
-          className="inline-flex items-center gap-2 rounded-md bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition"
+          className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition"
         >
           <Plus size={16} /> Add New
         </button>
@@ -195,9 +201,19 @@ const ManageExperiences = () => {
                 <h3 className="font-medium text-slate-200">
                   {item.title} · {item.company}
                 </h3>
-                <p className="text-sm text-slate-400 mt-1 line-clamp-2 whitespace-pre-line">
+                <p className="text-sm text-slate-400 mt-1 line-clamp-2">
                   {item.description}
                 </p>
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {item.tags?.map((tag, i) => (
+                    <span
+                      key={i}
+                      className="rounded-full bg-[#ffeb00]/10 px-2.5 py-0.5 text-xs font-medium text-[#ffeb00]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
               <div className="flex gap-2 shrink-0">
                 <button
@@ -253,7 +269,7 @@ const ManageExperiences = () => {
                       onChange={(e) =>
                         setForm({ ...form, startMonth: e.target.value })
                       }
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                     >
                       <option value="">Month</option>
                       {MONTHS.map((m) => (
@@ -268,7 +284,7 @@ const ManageExperiences = () => {
                       onChange={(e) =>
                         setForm({ ...form, startYear: e.target.value })
                       }
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                     >
                       <option value="">Year *</option>
                       {YEARS.map((y) => (
@@ -289,7 +305,7 @@ const ManageExperiences = () => {
                         setForm({ ...form, endMonth: e.target.value })
                       }
                       disabled={form.isPresent}
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none disabled:opacity-40"
+                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none disabled:opacity-40"
                     >
                       <option value="">Month</option>
                       {MONTHS.map((m) => (
@@ -304,7 +320,7 @@ const ManageExperiences = () => {
                         setForm({ ...form, endYear: e.target.value })
                       }
                       disabled={form.isPresent}
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none disabled:opacity-40"
+                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none disabled:opacity-40"
                     >
                       <option value="">Year</option>
                       {YEARS.map((y) => (
@@ -327,7 +343,7 @@ const ManageExperiences = () => {
                           endYear: "",
                         })
                       }
-                      className="accent-teal-400 w-4 h-4"
+                      className="accent-[#ffeb00] w-4 h-4"
                     />
                     <span className="text-sm text-slate-400">
                       Currently working here
@@ -335,7 +351,7 @@ const ManageExperiences = () => {
                   </label>
                   {/* Preview */}
                   {(form.startYear || form.isPresent) && (
-                    <p className="text-xs text-teal-400/70 font-mono">
+                    <p className="text-xs text-[#ffeb00]/70 font-mono">
                       {buildDateString(form) || "—"}
                     </p>
                   )}
@@ -353,7 +369,7 @@ const ManageExperiences = () => {
                     onChange={(e) =>
                       setForm({ ...form, order: e.target.value })
                     }
-                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                   />
                 </div>
               </div>
@@ -366,7 +382,7 @@ const ManageExperiences = () => {
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   placeholder="Senior Frontend Engineer"
-                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -381,7 +397,7 @@ const ManageExperiences = () => {
                       setForm({ ...form, company: e.target.value })
                     }
                     placeholder="Acme Inc."
-                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -394,7 +410,7 @@ const ManageExperiences = () => {
                       setForm({ ...form, companyUrl: e.target.value })
                     }
                     placeholder="https://..."
-                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                   />
                 </div>
               </div>
@@ -403,7 +419,6 @@ const ManageExperiences = () => {
                   label="Company Logo"
                   value={form.imageUrl}
                   onChange={(url) => setForm({ ...form, imageUrl: url })}
-                  folder="Experiences"
                 />
                 {form.imageUrl && (
                   <img
@@ -424,14 +439,25 @@ const ManageExperiences = () => {
                   onChange={(e) =>
                     setForm({ ...form, description: e.target.value })
                   }
-                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-none"
+                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Tags (comma-separated)
+                </label>
+                <input
+                  value={form.tags}
+                  onChange={(e) => setForm({ ...form, tags: e.target.value })}
+                  placeholder="React, TypeScript, Node.js"
+                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
                 />
               </div>
               <div className="flex gap-3 pt-2">
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex-1 rounded-md bg-teal-500 py-2 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50"
+                  className="flex-1 rounded-md bg-[#ffeb00] py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50"
                 >
                   {saving ? "Saving..." : editing ? "Update" : "Create"}
                 </button>

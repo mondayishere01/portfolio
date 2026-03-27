@@ -63,7 +63,7 @@ const ManageSkills = () => {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-slate-200">Manage Skills</h2>
-                <button onClick={openNew} className="flex items-center gap-1.5 rounded-md bg-teal-500/20 px-3 py-2 text-sm font-medium text-teal-300 hover:bg-teal-500/30 transition">
+                <button onClick={openNew} className="flex items-center gap-1.5 rounded-md bg-[#ffeb00]/20 px-3 py-2 text-sm font-medium text-[#ffeb00] hover:bg-[#ffeb00]/30 transition">
                     <Plus size={16} /> Add Skill
                 </button>
             </div>
@@ -83,13 +83,13 @@ const ManageSkills = () => {
                                         {s.imageUrl ? (
                                             <img src={s.imageUrl} alt={s.name} className="w-8 h-8 object-contain rounded" />
                                         ) : (
-                                            <div className="w-8 h-8 rounded bg-slate-700 flex items-center justify-center text-sm font-bold text-teal-400">{s.name.charAt(0)}</div>
+                                            <div className="w-8 h-8 rounded bg-slate-700 flex items-center justify-center text-sm font-bold text-[#ffeb00]">{s.name.charAt(0)}</div>
                                         )}
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium text-slate-200 truncate">{s.name}</p>
                                             <div className="flex gap-1 mt-0.5">
                                                 {[1, 2, 3, 4, 5].map(i => (
-                                                    <span key={i} className={`w-2 h-2 rounded-full ${i <= s.proficiency ? 'bg-teal-400' : 'bg-slate-600'}`} />
+                                                    <span key={i} className={`w-2 h-2 rounded-full ${i <= s.proficiency ? 'bg-[#ffeb00]' : 'bg-slate-600'}`} />
                                                 ))}
                                             </div>
                                         </div>
@@ -114,12 +114,12 @@ const ManageSkills = () => {
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-xs font-medium text-slate-400 mb-1">Name</label>
-                                <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" placeholder="e.g. React" />
+                                <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" placeholder="e.g. React" />
                             </div>
                             <div>
                                 <label className="block text-xs font-medium text-slate-400 mb-1">Category</label>
-                                <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none">
-                                    {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                                <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none">
+                                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
                             <div>
@@ -130,7 +130,7 @@ const ManageSkills = () => {
                                             key={i}
                                             type="button"
                                             onClick={() => setForm({ ...form, proficiency: i })}
-                                            className={`w-9 h-9 rounded-md text-sm font-bold transition ${i <= form.proficiency ? 'bg-teal-500/30 text-teal-300 border border-teal-500/50' : 'bg-slate-700 text-slate-500 border border-slate-600'}`}
+                                            className={`w-9 h-9 rounded-md text-sm font-bold transition ${i <= form.proficiency ? 'bg-[#ffeb00]/30 text-[#ffeb00] border border-[#ffeb00]/50' : 'bg-slate-700 text-slate-500 border border-slate-600'}`}
                                         >{i}</button>
                                     ))}
                                 </div>
@@ -145,7 +145,7 @@ const ManageSkills = () => {
                                 />
                                 {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 w-10 h-10 object-contain rounded border border-slate-600 bg-slate-800 p-1" />}
                             </div>
-                            <button onClick={handleSave} className="w-full rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500 transition">
+                            <button onClick={handleSave} className="w-full rounded-md bg-[#ffcb00] px-4 py-2 text-sm font-medium text-white hover:bg-[#ffeb00] transition">
                                 {editing ? 'Update Skill' : 'Create Skill'}
                             </button>
                         </div>

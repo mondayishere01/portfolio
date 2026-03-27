@@ -33,7 +33,7 @@ const ContactForm = () => {
                 <input
                     type="text" id="name" name="name" required
                     value={formData.name} onChange={handleChange}
-                    className="w-full rounded-md border border-slate-700 bg-slate-800/50 px-4 py-2 text-slate-200 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400 transition"
+                    className="w-full rounded-md border border-slate-700 bg-slate-800/50 px-4 py-2 text-slate-200 focus:border-[#ffeb00] focus:outline-none focus:ring-1 focus:ring-[#ffeb00] transition"
                 />
             </div>
             <div>
@@ -41,7 +41,7 @@ const ContactForm = () => {
                 <input
                     type="email" id="email" name="email" required
                     value={formData.email} onChange={handleChange}
-                    className="w-full rounded-md border border-slate-700 bg-slate-800/50 px-4 py-2 text-slate-200 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400 transition"
+                    className="w-full rounded-md border border-slate-700 bg-slate-800/50 px-4 py-2 text-slate-200 focus:border-[#ffeb00] focus:outline-none focus:ring-1 focus:ring-[#ffeb00] transition"
                 />
             </div>
             <div>
@@ -49,17 +49,17 @@ const ContactForm = () => {
                 <textarea
                     id="message" name="message" rows="4" required
                     value={formData.message} onChange={handleChange}
-                    className="w-full rounded-md border border-slate-700 bg-slate-800/50 px-4 py-2 text-slate-200 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400 transition resize-none"
+                    className="w-full rounded-md border border-slate-700 bg-slate-800/50 px-4 py-2 text-slate-200 focus:border-[#ffeb00] focus:outline-none focus:ring-1 focus:ring-[#ffeb00] transition resize-none"
                 />
             </div>
             <button
                 type="submit" disabled={loading}
-                className="inline-flex items-center rounded-md bg-teal-500 px-6 py-2.5 text-sm font-medium text-slate-900 hover:bg-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-slate-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center rounded-md bg-[#ffeb00] px-6 py-2.5 text-sm font-medium text-slate-900 hover:bg-[#ffdb00] focus:outline-none focus:ring-2 focus:ring-[#ffeb00] focus:ring-offset-2 focus:ring-offset-black transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {loading ? 'Sending...' : 'Send Message'}
             </button>
             {status.message && (
-                <p className={`text-sm ${status.type === 'success' ? 'text-teal-400' : 'text-red-400'}`}>
+                <p className={`text-sm ${status.type === 'success' ? 'text-[#ffeb00]' : 'text-red-400'}`}>
                     {status.message}
                 </p>
             )}

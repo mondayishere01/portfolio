@@ -54,7 +54,7 @@ const ManageProjects = () => {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-slate-200">Manage Projects</h2>
-                <button onClick={openCreate} className="inline-flex items-center gap-2 rounded-md bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition">
+                <button onClick={openCreate} className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition">
                     <Plus size={16} /> Add New
                 </button>
             </div>
@@ -83,7 +83,7 @@ const ManageProjects = () => {
                                 <p className="text-sm text-slate-400 mt-1 line-clamp-2">{item.description}</p>
                                 <div className="flex flex-wrap gap-1 mt-2">
                                     {item.tags?.map((tag, i) => (
-                                        <span key={i} className="rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-300">{tag}</span>
+                                        <span key={i} className="rounded-full bg-[#ffeb00]/10 px-2.5 py-0.5 text-xs font-medium text-[#ffeb00]">{tag}</span>
                                     ))}
                                 </div>
                             </div>
@@ -113,12 +113,12 @@ const ManageProjects = () => {
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Title *</label>
                                 <input required value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="My Awesome Project"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Description *</label>
                                 <textarea required rows={3} value={form.description} onChange={e => setForm({...form, description: e.target.value})}
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-none" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
@@ -133,24 +133,24 @@ const ManageProjects = () => {
                                 <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-1">Project Link</label>
                                     <input value={form.link} onChange={e => setForm({...form, link: e.target.value})} placeholder="https://..."
-                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                                 </div>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">GitHub URL</label>
                                 <input value={form.githubUrl} onChange={e => setForm({...form, githubUrl: e.target.value})} placeholder="https://github.com/..."
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-1">Year</label>
                                     <input type="number" value={form.year} onChange={e => setForm({...form, year: e.target.value})}
-                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                                 </div>
                                 <div className="flex items-end pb-1">
                                     <label className="flex items-center gap-2 cursor-pointer">
                                         <input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})}
-                                            className="h-4 w-4 rounded border-slate-600 bg-slate-700 text-teal-500 focus:ring-teal-400" />
+                                            className="h-4 w-4 rounded border-slate-600 bg-slate-700 text-[#ffeb00] focus:ring-[#ffeb00]" />
                                         <span className="text-sm text-slate-300">Featured project</span>
                                     </label>
                                 </div>
@@ -158,11 +158,11 @@ const ManageProjects = () => {
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1">Tags (comma-separated)</label>
                                 <input value={form.tags} onChange={e => setForm({...form, tags: e.target.value})} placeholder="React, Node.js, MongoDB"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-teal-400 focus:outline-none" />
+                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
                             </div>
                             <div className="flex gap-3 pt-2">
                                 <button type="submit" disabled={saving}
-                                    className="flex-1 rounded-md bg-teal-500 py-2 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition disabled:opacity-50">
+                                    className="flex-1 rounded-md bg-[#ffeb00] py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
                                     {saving ? 'Saving...' : editing ? 'Update' : 'Create'}
                                 </button>
                                 <button type="button" onClick={() => setShowModal(false)}

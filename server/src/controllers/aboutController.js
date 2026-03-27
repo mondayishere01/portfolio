@@ -25,12 +25,29 @@ const getAbout = async (req, res) => {
  * @access  Admin
  */
 const updateAbout = async (req, res) => {
-  try {
-    const { bio, imageUrl, resumeUrl, socialLinks, title, tagline, name } =
-      req.body;
+    try {
+        const { name, title, bio, imageUrl, resumeUrl, socialLinks } = req.body;
 
-    if (!bio) {
-      return res.status(400).json({ error: "Bio text is required" });
+        if (!bio) {
+            return res.status(400).json({ error: 'Bio text is required' });
+        }
+
+        const about = await About.findOneAndUpdate(
+            {},
+            { 
+                name, 
+                title, 
+                bio, 
+                imageUrl: imageUrl || '', 
+                resumeUrl: resumeUrl || '', 
+                socialLinks: socialLinks || [] 
+            },
+            { new: true, upsert: true, runValidators: true }
+        );
+
+        res.json(about);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update about information' });
     }
 
     const about = await About.findOneAndUpdate(

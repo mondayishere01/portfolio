@@ -40,6 +40,7 @@ export const submitContact = (data) => api.post('/contact', data);
 export const getSkills = () => api.get('/skills');
 export const getSkillCategories = () => api.get('/skills/categories');
 export const getCertifications = () => api.get('/certifications');
+export const getBlogs = () => api.get('/blogs');
 
 // ─── Auth ────────────────────────────────────────────────
 export const login = (credentials) => api.post('/auth/login', credentials);
@@ -73,5 +74,10 @@ export const uploadFile = (formData, folder = 'portfolio') =>
     api.post(`/upload?folder=${encodeURIComponent(folder)}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
+
+export const getResources = () => api.get('/resources');
+export const deleteResource = (publicId) => api.delete('/resources/delete', {
+    params: { public_id: publicId }
+});
 
 export default api;

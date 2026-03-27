@@ -45,7 +45,7 @@ const ManageCertifications = () => {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-slate-200">Manage Certifications</h2>
-                <button onClick={openNew} className="flex items-center gap-1.5 rounded-md bg-teal-500/20 px-3 py-2 text-sm font-medium text-teal-300 hover:bg-teal-500/30 transition">
+                <button onClick={openNew} className="flex items-center gap-1.5 rounded-md bg-[#ffeb00]/20 px-3 py-2 text-sm font-medium text-[#ffeb00] hover:bg-[#ffeb00]/30 transition">
                     <Plus size={16} /> Add Certification
                 </button>
             </div>
@@ -61,7 +61,7 @@ const ManageCertifications = () => {
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-slate-200 truncate">{c.title}</p>
                                 {c.credentialUrl && (
-                                    <a href={c.credentialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-teal-400 hover:text-teal-300 mt-0.5">
+                                    <a href={c.credentialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-[#ffeb00] hover:text-[#ffdb00] mt-0.5">
                                         View Credential <ExternalLink size={10} />
                                     </a>
                                 )}
@@ -84,13 +84,13 @@ const ManageCertifications = () => {
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-xs font-medium text-slate-400 mb-1">Title</label>
-                                <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" placeholder="e.g. AWS Cloud Practitioner" />
+                                <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" placeholder="e.g. AWS Cloud Practitioner" />
                             </div>
                             <div>
                                 <label className="block text-xs font-medium text-slate-400 mb-1">Credential URL (optional)</label>
-                                <input value={form.credentialUrl} onChange={e => setForm({ ...form, credentialUrl: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-teal-500 focus:outline-none" placeholder="https://www.coursera.org/verify/..." />
+                                <input value={form.credentialUrl} onChange={e => setForm({ ...form, credentialUrl: e.target.value })} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" placeholder="https://www.coursera.org/verify/..." />
                             </div>
-                            <button onClick={handleSave} className="w-full rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500 transition">
+                            <button onClick={handleSave} className="w-full rounded-md bg-[#ffcb00] px-4 py-2 text-sm font-medium text-white hover:bg-[#ffeb00] transition">
                                 {editing ? 'Update Certification' : 'Create Certification'}
                             </button>
                         </div>

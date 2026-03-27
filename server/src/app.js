@@ -8,6 +8,7 @@ const contactRoutes = require('./routes/contactRoutes');
 const authRoutes = require('./routes/authRoutes');
 const skillRoutes = require('./routes/skillRoutes');
 const certificationRoutes = require('./routes/certificationRoutes');
+const resourceRoutes = require('./routes/resourceRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -31,7 +32,8 @@ app.use(cors({
     },
     credentials: true,
 }));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // ─── API Routes ─────────────────────────────────────────
 app.use('/api/about', aboutRoutes);
@@ -41,6 +43,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/certifications', certificationRoutes);
+app.use('/api/resources', resourceRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/users', userRoutes);
