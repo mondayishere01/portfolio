@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getSettings, updateSettings } from '../../api';
-import { Save, Mail, Info } from 'lucide-react';
+import { Save, Mail, Info, Award } from 'lucide-react';
 
 const ManageSettings = () => {
     const [notifyEmail, setNotifyEmail] = useState('');
     const [blogTitle, setBlogTitle] = useState('');
     const [blogSubtitle, setBlogSubtitle] = useState('');
+    const [footerText, setFooterText] = useState('');
+    const [copyrightText, setCopyrightText] = useState('');
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [status, setStatus] = useState({ type: '', message: '' });
@@ -17,6 +19,8 @@ const ManageSettings = () => {
                 setNotifyEmail(data?.notifyEmail || '');
                 setBlogTitle(data?.blogTitle || '');
                 setBlogSubtitle(data?.blogSubtitle || '');
+                setFooterText(data?.footerText || '');
+                setCopyrightText(data?.copyrightText || '');
             } catch { /* ignore */ }
             finally { setLoading(false); }
         };
@@ -28,7 +32,7 @@ const ManageSettings = () => {
         setSaving(true);
         setStatus({ type: '', message: '' });
         try {
-            await updateSettings({ notifyEmail, blogTitle, blogSubtitle });
+            await updateSettings({ notifyEmail, blogTitle, blogSubtitle, footerText, copyrightText });
             setStatus({ type: 'success', message: 'Settings saved successfully!' });
         } catch (err) {
             setStatus({ type: 'error', message: err.response?.data?.error || 'Failed to save settings' });
@@ -45,91 +49,125 @@ const ManageSettings = () => {
     }
 
     return (
-        <div>
-            <h2 className="text-2xl font-bold text-slate-200 mb-6">Settings</h2>
+        <div className="max-w-4xl">
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold text-white">Project Settings</h2>
+                <p className="text-xs text-slate-500 mt-1">Configure global site behavior and notification preferences</p>
+            </div>
 
-            <form onSubmit={handleSubmit} className="max-w-xl space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-8 bg-[#111111] p-6 rounded-2xl border border-white/10 shadow-2xl">
                 {/* Email Notification */}
-                <div className="rounded-lg border border-slate-700 bg-slate-800/30 p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                        <Mail size={18} className="text-[#ffeb00]" />
-                        <h3 className="text-sm font-semibold text-slate-200">Contact Notifications</h3>
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-[#ffeb00]/10 text-[#ffeb00]">
+                            <Mail size={18} />
+                        </div>
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-white">Contact Notifications</h3>
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Notification Email</label>
-                        <p className="text-xs text-slate-500 mb-2">
-                            When a visitor submits the contact form, you'll receive an email at this address.
-                        </p>
+                    <div className="pl-11 pr-4">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Notification Email</label>
                         <input
                             type="email"
                             value={notifyEmail}
                             onChange={e => setNotifyEmail(e.target.value)}
                             placeholder="your@email.com"
-                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors"
                         />
+                        <p className="text-[10px] text-slate-500 mt-2 font-medium">When a visitor submits the contact form, you'll receive an email at this address.</p>
                     </div>
                 </div>
 
                 {/* Blog Settings */}
-                <div className="rounded-lg border border-slate-700 bg-slate-800/30 p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                        <Info size={18} className="text-teal-400" />
-                        <h3 className="text-sm font-semibold text-slate-200">Blog Settings</h3>
+                <div className="space-y-4 pt-8 border-t border-white/5">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-[#ffeb00]/10 text-[#ffeb00]">
+                            <Info size={18} />
+                        </div>
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-white">Blog Hub Configuration</h3>
                     </div>
-                    <div className="space-y-4">
+                    <div className="pl-11 space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Blog Page Title</label>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Hub Title</label>
                             <input
                                 type="text"
                                 value={blogTitle}
                                 onChange={e => setBlogTitle(e.target.value)}
                                 placeholder="Writings & Thoughts"
-                                className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none"
+                                className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors font-bold"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Blog Page Subtitle</label>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Hub Subtitle</label>
                             <textarea
                                 value={blogSubtitle}
                                 onChange={e => setBlogSubtitle(e.target.value)}
                                 placeholder="Insights on software engineering..."
-                                rows={2}
-                                className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-teal-400 focus:outline-none resize-none"
+                                rows={3}
+                                className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors resize-none leading-relaxed"
                             />
                         </div>
                     </div>
                 </div>
 
-                {/* SMTP Info */}
-                <div className="flex items-start gap-2 rounded-lg border border-slate-700/50 bg-slate-800/20 p-4">
-                    <Info size={16} className="text-slate-500 mt-0.5 shrink-0" />
-                    <div className="text-xs text-slate-500 leading-relaxed">
-                        <p className="font-medium text-slate-400 mb-1">SMTP Configuration</p>
-                        <p>
-                            Email notifications require SMTP env variables on your server:
-                            <code className="ml-1 text-[#ffeb00]/70">SMTP_HOST</code>,
-                            <code className="ml-1 text-[#ffeb00]/70">SMTP_PORT</code>,
-                            <code className="ml-1 text-[#ffeb00]/70">SMTP_USER</code>,
-                            <code className="ml-1 text-[#ffeb00]/70">SMTP_PASS</code>.
-                            Set these in your Render dashboard under Environment Variables.
+                {/* Footer Configuration */}
+                <div className="space-y-4 pt-8 border-t border-white/5">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-[#ffeb00]/10 text-[#ffeb00]">
+                            <Award size={18} />
+                        </div>
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-white">Interface Footer</h3>
+                    </div>
+                    <div className="pl-11 space-y-6">
+                        <div>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Footer Credits & Message</label>
+                            <textarea
+                                value={footerText}
+                                onChange={e => setFooterText(e.target.value)}
+                                placeholder="Designed in Figma and coded in VS Code..."
+                                rows={2}
+                                className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors resize-none leading-relaxed"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Copyright Identity</label>
+                            <input
+                                type="text"
+                                value={copyrightText}
+                                onChange={e => setCopyrightText(e.target.value)}
+                                placeholder="Devesh. All rights reserved."
+                                className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors font-bold"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Info Alert */}
+                <div className="flex items-start gap-4 p-5 rounded-xl bg-black border border-[#ffeb00]/10">
+                    <Info size={20} className="text-[#ffeb00] mt-0.5 shrink-0" />
+                    <div className="space-y-2">
+                        <p className="text-xs font-bold uppercase tracking-widest text-white">System Infrastructure</p>
+                        <p className="text-[10px] text-slate-400 leading-relaxed font-medium">
+                            Email notifications require SMTP variables on your server:
+                            <code className="mx-1 px-1.5 py-0.5 rounded bg-white/5 text-[#ffeb00] font-mono">SMTP_HOST</code>,
+                            <code className="mx-1 px-1.5 py-0.5 rounded bg-white/5 text-[#ffeb00] font-mono">SMTP_PORT</code>,
+                            <code className="mx-1 px-1.5 py-0.5 rounded bg-white/5 text-[#ffeb00] font-mono">SMTP_USER</code>,
+                            <code className="mx-1 px-1.5 py-0.5 rounded bg-white/5 text-[#ffeb00] font-mono">SMTP_PASS</code>.
                         </p>
                     </div>
                 </div>
 
-                {status.message && (
-                    <p className={`text-sm ${status.type === 'success' ? 'text-[#ffeb00]' : 'text-red-400'}`}>
-                        {status.message}
-                    </p>
-                )}
-
-                <button
-                    type="submit"
-                    disabled={saving}
-                    className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-6 py-2.5 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50"
-                >
-                    <Save size={16} />
-                    {saving ? 'Saving...' : 'Save Settings'}
-                </button>
+                <div className="pt-6 border-t border-white/5 flex items-center justify-between gap-4">
+                    {status.message && (
+                        <div className={`text-xs font-bold uppercase tracking-wider ${status.type === 'success' ? 'text-[#ffeb00]' : 'text-red-400'}`}>
+                            {status.message}
+                        </div>
+                    )}
+                    <button type="submit" disabled={saving}
+                        className="ml-auto inline-flex items-center gap-2 rounded-xl bg-[#ffeb00] px-8 py-4 text-sm font-bold text-slate-900 hover:bg-[#ffdb00] transition shadow-lg shadow-[#ffeb00]/10 disabled:opacity-50 uppercase tracking-widest">
+                        <Save size={18} />
+                        {saving ? 'Saving...' : 'Save Settings'}
+                    </button>
+                </div>
             </form>
         </div>
     );

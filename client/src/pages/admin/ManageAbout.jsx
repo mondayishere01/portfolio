@@ -67,88 +67,102 @@ const ManageAbout = () => {
     }
 
     return (
-        <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-slate-200 mb-6">Manage About Section</h2>
+        <div className="max-w-4xl">
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold text-white">Manage About Section</h2>
+                <p className="text-xs text-slate-500 mt-1">Tell your story and manage your professional presence</p>
+            </div>
 
-            <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-8 bg-[#111111] p-6 rounded-2xl border border-white/10 shadow-2xl">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Display Name</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Display Name</label>
                         <input
                             type="text" value={name} onChange={e => setName(e.target.value)}
                             placeholder="e.g. Devesh Pandey"
-                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Professional Title</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Professional Title</label>
                         <input
                             type="text" value={title} onChange={e => setTitle(e.target.value)}
                             placeholder="e.g. Full Stack Developer"
-                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Tagline</label>
-                        <input
-                            type="text" value={tagline} onChange={e => setTagline(e.target.value)}
-                            placeholder="I build accessible, performant web apps."
-                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors"
                         />
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Bio Text *</label>
-                    <p className="text-xs text-slate-500 mb-2">Use line breaks to separate paragraphs.</p>
-                    <textarea
-                        required rows={8} value={bio} onChange={e => setBio(e.target.value)}
-                        placeholder="Write something about yourself..."
-                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-3 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-y leading-relaxed"
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Tagline</label>
+                    <input
+                        type="text" value={tagline} onChange={e => setTagline(e.target.value)}
+                        placeholder="I build accessible, performant web apps."
+                        className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors"
                     />
                 </div>
 
+                <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Bio Text *</label>
+                    <textarea
+                        required rows={8} value={bio} onChange={e => setBio(e.target.value)}
+                        placeholder="Write something about yourself..."
+                        className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none resize-y leading-relaxed"
+                    />
+                    <p className="text-[10px] text-slate-500 mt-2 font-medium">Character count: {bio.length}</p>
+                </div>
+
                 {/* Resume URL */}
-                <div className="pt-2">
-                    <p className="text-xs text-slate-500 mb-2">Upload your resume PDF. Visitors can download it directly from your site.</p>
+                <div className="pt-4 border-t border-white/5">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">Resume Document</label>
                     <FileUpload
-                        label="Resume PDF"
+                        label="Upload Resume (PDF)"
                         value={resumeUrl}
                         onChange={setResumeUrl}
                         accept="application/pdf"
                         folder="Resume"
                     />
+                    {resumeUrl && (
+                        <div className="mt-4 flex items-center gap-3 p-3 rounded-lg bg-black border border-white/5">
+                            <div className="p-2 rounded bg-red-500/10 text-red-500">
+                                <span className="text-xs font-bold">PDF</span>
+                            </div>
+                            <p className="text-xs text-slate-400 truncate flex-1 font-mono">{resumeUrl.split('/').pop()}</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Social Links */}
-                <div>
-                    <div className="flex items-center justify-between mb-3">
-                        <label className="block text-sm font-medium text-slate-300">Social Links</label>
-                        <button type="button" onClick={addSocialLink} className="flex items-center gap-1 text-xs font-medium text-[#ffeb00] hover:text-[#ffdb00] transition">
+                <div className="pt-4 border-t border-white/5">
+                    <div className="flex items-center justify-between mb-4">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500">Social Presence</label>
+                        <button type="button" onClick={addSocialLink} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#ffeb00] hover:text-[#ffdb00] transition">
                             <Plus size={14} /> Add Link
                         </button>
                     </div>
                     {socialLinks.length === 0 ? (
-                        <p className="text-xs text-slate-500">No social links added yet. Click "Add Link" to add one.</p>
+                        <div className="p-8 rounded-xl border border-dashed border-white/10 text-center">
+                            <p className="text-xs text-slate-500">No social links added yet.</p>
+                        </div>
                     ) : (
                         <div className="space-y-3">
                             {socialLinks.map((link, index) => (
-                                <div key={index} className="flex items-center gap-2">
+                                <div key={index} className="flex items-center gap-3 group">
                                     <select
                                         value={link.platform}
                                         onChange={e => updateSocialLink(index, 'platform', e.target.value)}
-                                        className="w-36 rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
+                                        className="w-40 rounded-lg border border-white/10 bg-black px-3 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors"
                                     >
                                         {PLATFORMS.map(p => <option key={p} value={p}>{p}</option>)}
                                     </select>
                                     <input
                                         value={link.url}
                                         onChange={e => updateSocialLink(index, 'url', e.target.value)}
-                                        placeholder={link.platform === 'Email' ? 'your@email.com' : 'https://...'}
-                                        className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
+                                        placeholder={link.platform === 'Email' ? 'your@email.com' : link.platform === 'Phone' ? '+1 234 567 890' : 'https://...'}
+                                        className="flex-1 rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors font-mono"
                                     />
-                                    <button type="button" onClick={() => removeSocialLink(index)} className="text-slate-500 hover:text-red-400 transition p-1">
-                                        <Trash2 size={14} />
+                                    <button type="button" onClick={() => removeSocialLink(index)} className="p-3 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all opacity-40 group-hover:opacity-100">
+                                        <Trash2 size={16} />
                                     </button>
                                 </div>
                             ))}
@@ -156,17 +170,18 @@ const ManageAbout = () => {
                     )}
                 </div>
 
-                {status.message && (
-                    <p className={`text-sm ${status.type === 'success' ? 'text-[#ffeb00]' : 'text-red-400'}`}>
-                        {status.message}
-                    </p>
-                )}
-
-                <button type="submit" disabled={saving}
-                    className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-6 py-2.5 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
-                    <Save size={16} />
-                    {saving ? 'Saving...' : 'Save Changes'}
-                </button>
+                <div className="pt-6 border-t border-white/5 flex items-center justify-between gap-4">
+                    {status.message && (
+                        <div className={`text-xs font-bold uppercase tracking-wider ${status.type === 'success' ? 'text-[#ffeb00]' : 'text-red-400'}`}>
+                            {status.message}
+                        </div>
+                    )}
+                    <button type="submit" disabled={saving}
+                        className="ml-auto inline-flex items-center gap-2 rounded-xl bg-[#ffeb00] px-8 py-4 text-sm font-bold text-slate-900 hover:bg-[#ffdb00] transition shadow-lg shadow-[#ffeb00]/10 disabled:opacity-50 uppercase tracking-widest">
+                        <Save size={18} />
+                        {saving ? 'Saving...' : 'Save Changes'}
+                    </button>
+                </div>
             </form>
         </div>
     );

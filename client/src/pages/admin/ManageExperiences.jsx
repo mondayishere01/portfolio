@@ -5,7 +5,7 @@ import {
   updateExperience,
   deleteExperience,
 } from "../../api";
-import { Pencil, Trash2, Plus, X } from "lucide-react";
+import { Pencil, Trash2, Plus, X, Briefcase } from "lucide-react";
 import FileUpload from "../../components/FileUpload";
 
 const emptyForm = {
@@ -24,23 +24,11 @@ const emptyForm = {
 };
 
 const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 const currentYear = new Date().getFullYear();
 const YEARS = Array.from({ length: 40 }, (_, i) => String(currentYear - i));
 
-// Parse stored "2022 — Present" or "Jan 2022 — Mar 2024" back into form fields
 const parseDateString = (dateStr) => {
   if (!dateStr) return {};
   const parts = dateStr.split(/\s*[—–-]\s*/);
@@ -86,16 +74,11 @@ const ManageExperiences = () => {
     try {
       const res = await getExperiences();
       setItems(Array.isArray(res.data) ? res.data : []);
-    } catch {
-      /* ignore */
-    } finally {
-      setLoading(false);
-    }
+    } catch { /* ignore */ }
+    finally { setLoading(false); }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useEffect(() => { fetchData(); }, []);
 
   const openCreate = () => {
     setEditing(null);
@@ -103,18 +86,16 @@ const ManageExperiences = () => {
     setError("");
     setShowModal(true);
   };
+
+  const closeModal = () => setShowModal(false);
+
   const openEdit = (item) => {
     setEditing(item._id);
     const parsed = parseDateString(item.date);
     setForm({
+      ...item,
       ...parsed,
-      title: item.title,
-      company: item.company,
-      companyUrl: item.companyUrl || "",
-      imageUrl: item.imageUrl || "",
-      description: item.description,
-      tags: (item.tags || []).join(", "),
-      order: item.order || 0,
+      tags: Array.isArray(item.tags) ? item.tags.join(", ") : item.tags || "",
     });
     setError("");
     setShowModal(true);
@@ -127,88 +108,82 @@ const ManageExperiences = () => {
     const payload = {
       ...form,
       date: buildDateString(form),
-      tags: form.tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
+      tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
       order: Number(form.order),
     };
     try {
-      if (editing) {
-        await updateExperience(editing, payload);
-      } else {
-        await createExperience(payload);
-      }
+      if (editing) { await updateExperience(editing, payload); }
+      else { await createExperience(payload); }
       setShowModal(false);
       fetchData();
     } catch (err) {
       setError(err.response?.data?.error || "Failed to save");
-    } finally {
-      setSaving(false);
-    }
+    } finally { setSaving(false); }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this experience?")) return;
-    try {
-      await deleteExperience(id);
-      fetchData();
-    } catch {
-      /* ignore */
-    }
+    try { await deleteExperience(id); fetchData(); } catch { /* ignore */ }
   };
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-slate-200">
-          Manage Experiences
-        </h2>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-2xl font-bold text-white">Manage Experiences</h2>
+          <p className="text-xs text-slate-500 mt-1">Document your professional journey and career highlights</p>
+        </div>
         <button
           onClick={openCreate}
-          className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#ffeb00] px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-[#ffdb00] transition shadow-lg shadow-[#ffeb00]/10"
         >
-          <Plus size={16} /> Add New
+          <Plus size={18} /> Add Experience
         </button>
       </div>
 
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="h-16 rounded-md bg-slate-800/50 animate-pulse"
-            />
+            <div key={i} className="h-24 rounded-xl bg-[#111111] border border-white/5 animate-pulse" />
           ))}
         </div>
       ) : items.length === 0 ? (
-        <p className="text-slate-500">
-          No experiences yet. Click "Add New" to create one.
-        </p>
+        <p className="text-slate-500">No experiences yet. Click "Add Experience" to create one.</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {items.map((item) => (
             <div
               key={item._id}
-              className="flex items-start justify-between gap-4 rounded-lg border border-slate-700 bg-slate-800/30 p-4"
+              className="flex items-start justify-between gap-6 rounded-xl border border-white/10 bg-[#111111] p-5 hover:border-[#ffeb00]/30 transition-all group"
             >
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-semibold text-slate-500 uppercase">
-                    {item.date}
-                  </span>
+                <div className="flex items-center gap-4 mb-3">
+                  {item.imageUrl ? (
+                    <div className="w-12 h-12 rounded-lg bg-white p-1.5 flex items-center justify-center shrink-0 shadow-lg">
+                      <img src={item.imageUrl} alt={item.company} className="w-full h-full object-contain" />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-lg bg-[#ffeb00]/10 flex items-center justify-center shrink-0 border border-[#ffeb00]/20">
+                      <Briefcase className="text-[#ffeb00]" size={20} />
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="text-lg font-bold text-white group-hover:text-[#ffeb00] transition-colors leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm font-medium text-slate-400">
+                      {item.company} · {item.date}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-medium text-slate-200">
-                  {item.title} · {item.company}
-                </h3>
-                <p className="text-sm text-slate-400 mt-1 line-clamp-2">
+                <p className="text-sm text-slate-400 leading-relaxed max-w-6xl">
                   {item.description}
                 </p>
-                <div className="flex flex-wrap gap-1 mt-2">
+                <div className="flex flex-wrap gap-2 mt-4">
                   {item.tags?.map((tag, i) => (
                     <span
                       key={i}
-                      className="rounded-full bg-[#ffeb00]/10 px-2.5 py-0.5 text-xs font-medium text-[#ffeb00]"
+                      className="rounded-full bg-[#ffeb00]/10 border border-[#ffeb00]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#ffeb00]"
                     >
                       {tag}
                     </span>
@@ -218,17 +193,17 @@ const ManageExperiences = () => {
               <div className="flex gap-2 shrink-0">
                 <button
                   onClick={() => openEdit(item)}
-                  className="rounded-md p-2 text-slate-400 hover:bg-slate-700 hover:text-slate-200 transition"
+                  className="rounded-md p-2 text-slate-500 hover:bg-white/5 hover:text-white transition"
                   title="Edit"
                 >
-                  <Pencil size={16} />
+                  <Pencil size={18} />
                 </button>
                 <button
                   onClick={() => handleDelete(item._id)}
-                  className="rounded-md p-2 text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition"
+                  className="rounded-md p-2 text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition"
                   title="Delete"
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={18} />
                 </button>
               </div>
             </div>
@@ -238,238 +213,140 @@ const ManageExperiences = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-slate-200">
-                {editing ? "Edit" : "Add"} Experience
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+          <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#111111] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="flex items-center justify-between p-6 border-b border-white/5">
+              <h3 className="text-xl font-black text-white tracking-tight">
+                {editing ? "Refine Experience" : "New Career Node"}
               </h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-slate-400 hover:text-slate-200"
+                className="rounded-full p-2 text-slate-500 hover:bg-white/5 hover:text-white transition-all"
               >
                 <X size={20} />
               </button>
             </div>
-            {error && <p className="text-sm text-red-400 mb-3">{error}</p>}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Date Range Picker */}
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Date Range *
-                </label>
-                <div className="space-y-2">
-                  {/* Start */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500 w-10 shrink-0">
-                      From
-                    </span>
-                    <select
-                      value={form.startMonth}
-                      onChange={(e) =>
-                        setForm({ ...form, startMonth: e.target.value })
-                      }
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                    >
-                      <option value="">Month</option>
-                      {MONTHS.map((m) => (
-                        <option key={m} value={m}>
-                          {m}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      required
-                      value={form.startYear}
-                      onChange={(e) =>
-                        setForm({ ...form, startYear: e.target.value })
-                      }
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                    >
-                      <option value="">Year *</option>
-                      {YEARS.map((y) => (
-                        <option key={y} value={y}>
-                          {y}
-                        </option>
-                      ))}
-                    </select>
+
+            <div className="p-6 overflow-y-auto custom-scrollbar space-y-8 flex-1">
+              {error && <p className="text-xs font-bold text-red-500 bg-red-500/10 p-4 rounded-xl border border-red-500/20">{error}</p>}
+
+              <div className="space-y-8">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4 ml-1">Temporal Alignment (Date Range) *</label>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 w-12 shrink-0">Initiation</span>
+                      <select
+                        value={form.startMonth}
+                        onChange={(e) => setForm({ ...form, startMonth: e.target.value })}
+                        className="flex-1 rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all"
+                      >
+                        <option value="">Month</option>
+                        {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
+                      </select>
+                      <select
+                        required
+                        value={form.startYear}
+                        onChange={(e) => setForm({ ...form, startYear: e.target.value })}
+                        className="flex-1 rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all"
+                      >
+                        <option value="">Year *</option>
+                        {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
+                      </select>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 w-12 shrink-0">Termination</span>
+                      <select
+                        value={form.endMonth}
+                        onChange={(e) => setForm({ ...form, endMonth: e.target.value })}
+                        disabled={form.isPresent}
+                        className="flex-1 rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none disabled:opacity-20 transition-all"
+                      >
+                        <option value="">Month</option>
+                        {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
+                      </select>
+                      <select
+                        value={form.endYear}
+                        onChange={(e) => setForm({ ...form, endYear: e.target.value })}
+                        disabled={form.isPresent}
+                        className="flex-1 rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none disabled:opacity-20 transition-all"
+                      >
+                        <option value="">Year</option>
+                        {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
+                      </select>
+                    </div>
+
+                    <label className="flex items-center gap-3 cursor-pointer w-fit pl-[64px] group">
+                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${form.isPresent ? 'bg-[#ffeb00] border-[#ffeb00]' : 'border-white/10 bg-black group-hover:border-white/20'}`}>
+                        {form.isPresent && <span className="text-slate-900 text-xs font-black">✓</span>}
+                        <input
+                          type="checkbox"
+                          checked={form.isPresent}
+                          onChange={(e) => setForm({ ...form, isPresent: e.target.checked, endMonth: "", endYear: "" })}
+                          className="sr-only"
+                        />
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-200 transition-colors">Currently Occupying Role</span>
+                    </label>
                   </div>
-                  {/* End */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500 w-10 shrink-0">
-                      To
-                    </span>
-                    <select
-                      value={form.endMonth}
-                      onChange={(e) =>
-                        setForm({ ...form, endMonth: e.target.value })
-                      }
-                      disabled={form.isPresent}
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none disabled:opacity-40"
-                    >
-                      <option value="">Month</option>
-                      {MONTHS.map((m) => (
-                        <option key={m} value={m}>
-                          {m}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      value={form.endYear}
-                      onChange={(e) =>
-                        setForm({ ...form, endYear: e.target.value })
-                      }
-                      disabled={form.isPresent}
-                      className="flex-1 rounded-md border border-slate-600 bg-slate-700/50 px-2 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none disabled:opacity-40"
-                    >
-                      <option value="">Year</option>
-                      {YEARS.map((y) => (
-                        <option key={y} value={y}>
-                          {y}
-                        </option>
-                      ))}
-                    </select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Functional Designation *</label>
+                    <input required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full rounded-xl border border-white/10 bg-black px-4 py-3.5 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all shadow-inner" placeholder="e.g. Lead Architect" />
                   </div>
-                  {/* Present toggle */}
-                  <label className="flex items-center gap-2 cursor-pointer w-fit">
-                    <input
-                      type="checkbox"
-                      checked={form.isPresent}
-                      onChange={(e) =>
-                        setForm({
-                          ...form,
-                          isPresent: e.target.checked,
-                          endMonth: "",
-                          endYear: "",
-                        })
-                      }
-                      className="accent-[#ffeb00] w-4 h-4"
-                    />
-                    <span className="text-sm text-slate-400">
-                      Currently working here
-                    </span>
-                  </label>
-                  {/* Preview */}
-                  {(form.startYear || form.isPresent) && (
-                    <p className="text-xs text-[#ffeb00]/70 font-mono">
-                      {buildDateString(form) || "—"}
-                    </p>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Hierarchy Index (Order)</label>
+                    <input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: e.target.value })} className="w-full rounded-xl border border-white/10 bg-black px-4 py-3.5 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all shadow-inner" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Corporate Entity *</label>
+                    <input required value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} className="w-full rounded-xl border border-white/10 bg-black px-4 py-3.5 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all shadow-inner" placeholder="e.g. Neuralink" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Domain URL</label>
+                    <input value={form.companyUrl} onChange={(e) => setForm({ ...form, companyUrl: e.target.value })} className="w-full rounded-xl border border-white/10 bg-black px-4 py-3.5 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all shadow-inner font-mono" placeholder="https://..." />
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <FileUpload label="Entity Identifier (Logo)" value={form.imageUrl} onChange={(url) => setForm({ ...form, imageUrl: url })} accept="image/*" folder="Experiences" />
+                  {form.imageUrl && (
+                    <div className="p-4 rounded-xl bg-black border border-white/5 flex flex-col items-center gap-3">
+                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-600">Dynamic Preview</p>
+                      <div className="w-24 h-24 rounded-lg bg-white p-3 flex items-center justify-center shadow-2xl relative overflow-hidden group/prev">
+                        <img src={form.imageUrl} alt="Preview" className="w-full h-full object-contain relative z-10" />
+                        <div className="absolute inset-0 bg-[#ffeb00]/5 opacity-0 group-hover/prev:opacity-100 transition-opacity" />
+                      </div>
+                    </div>
                   )}
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Order
-                  </label>
-                  <input
-                    type="number"
-                    value={form.order}
-                    onChange={(e) =>
-                      setForm({ ...form, order: e.target.value })
-                    }
-                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                  />
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Contribution Narrative *</label>
+                  <textarea required rows={4} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full rounded-xl border border-white/10 bg-black px-4 py-3.5 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all resize-none leading-relaxed shadow-inner" placeholder="Summarize core contributions..." />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Skill Matrix Tags (Comma Separate)</label>
+                  <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} className="w-full rounded-xl border border-white/10 bg-black px-4 py-3.5 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all shadow-inner" placeholder="Python, React, ML..." />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Job Title *
-                </label>
-                <input
-                  required
-                  value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  placeholder="Senior Frontend Engineer"
-                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Company *
-                  </label>
-                  <input
-                    required
-                    value={form.company}
-                    onChange={(e) =>
-                      setForm({ ...form, company: e.target.value })
-                    }
-                    placeholder="Acme Inc."
-                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Company URL
-                  </label>
-                  <input
-                    value={form.companyUrl}
-                    onChange={(e) =>
-                      setForm({ ...form, companyUrl: e.target.value })
-                    }
-                    placeholder="https://..."
-                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                  />
-                </div>
-              </div>
-              <div>
-                <FileUpload
-                  label="Company Logo"
-                  value={form.imageUrl}
-                  onChange={(url) => setForm({ ...form, imageUrl: url })}
-                />
-                {form.imageUrl && (
-                  <img
-                    src={form.imageUrl}
-                    alt="Preview"
-                    className="mt-2 w-10 h-10 object-contain rounded border border-slate-600 bg-slate-800 p-1"
-                  />
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Description *
-                </label>
-                <textarea
-                  required
-                  rows={3}
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm({ ...form, description: e.target.value })
-                  }
-                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Tags (comma-separated)
-                </label>
-                <input
-                  value={form.tags}
-                  onChange={(e) => setForm({ ...form, tags: e.target.value })}
-                  placeholder="React, TypeScript, Node.js"
-                  className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
-                />
-              </div>
-              <div className="flex gap-3 pt-2">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="flex-1 rounded-md bg-[#ffeb00] py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50"
-                >
-                  {saving ? "Saving..." : editing ? "Update" : "Create"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="rounded-md border border-slate-600 px-4 py-2 text-sm text-slate-400 hover:text-slate-200 transition"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+            </div>
+
+            <div className="p-6 bg-black/50 border-t border-white/10 flex gap-4">
+              <button onClick={handleSubmit} disabled={saving} className="flex-1 rounded-xl bg-[#ffeb00] py-4 text-xs font-black text-slate-900 hover:bg-[#ffdb00] transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10 disabled:opacity-50 uppercase tracking-[0.2em]">
+                {saving ? "Synchronizing..." : editing ? "Apply Optimizations" : "Push Career Node"}
+              </button>
+              <button type="button" onClick={() => setShowModal(false)} className="px-8 rounded-xl border border-white/10 text-[10px] font-bold text-slate-400 hover:text-white hover:bg-white/5 transition uppercase tracking-widest">
+                Abort
+              </button>
+            </div>
           </div>
         </div>
       )}

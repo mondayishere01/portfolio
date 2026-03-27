@@ -28,37 +28,39 @@ const FileUpload = ({ value, onChange, accept = "image/*", label = "Upload File"
 
     return (
         <div className="space-y-2">
-            <label className="block text-xs font-medium text-slate-400">{label}</label>
-            
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">{label}</label>
+
             {/* Value display / manual input */}
-            <input 
-                type="text" 
-                value={value || ''} 
-                onChange={e => onChange(e.target.value)} 
+            <input
+                type="text"
+                value={value || ''}
+                onChange={e => onChange(e.target.value)}
                 placeholder="Auto-fills on upload, or paste URL"
-                className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" 
+                className="w-full rounded-xl border border-white/10 bg-black px-4 py-3.5 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-all shadow-inner font-mono mb-4"
             />
 
             {/* Upload Area */}
-            <div className="relative flex items-center justify-center p-4 border-2 border-dashed border-slate-700/50 rounded-lg bg-slate-800/20 hover:bg-slate-800/50 transition cursor-pointer">
-                <input 
-                    type="file" 
-                    accept={accept} 
-                    onChange={handleFileChange} 
+            <div className="relative flex items-center justify-center p-6 border-2 border-dashed border-white/10 rounded-2xl bg-black hover:bg-white/5 transition-all cursor-pointer group/upload">
+                <input
+                    type="file"
+                    accept={accept}
+                    onChange={handleFileChange}
                     disabled={uploading}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed" 
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed z-20"
                 />
-                
-                <div className="flex flex-col items-center gap-2 text-slate-400 pointer-events-none">
+
+                <div className="flex flex-col items-center gap-3 text-slate-500 pointer-events-none transition-transform group-hover/upload:scale-105">
                     {uploading ? (
                         <>
-                            <Loader2 size={24} className="animate-spin text-[#ffeb00]" />
-                            <span className="text-xs font-medium text-[#ffeb00]">Uploading to Cloudinary...</span>
+                            <Loader2 size={32} className="animate-spin text-[#ffeb00]" />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-[#ffeb00]">Syncing Asset...</span>
                         </>
                     ) : (
                         <>
-                            <UploadCloud size={24} className="text-slate-500" />
-                            <span className="text-xs font-medium">Click or drag file to upload</span>
+                            <div className="p-4 rounded-full bg-white/5 group-hover/upload:bg-[#ffeb00]/10 transition-colors">
+                                <UploadCloud size={32} className="group-hover/upload:text-[#ffeb00] transition-colors" />
+                            </div>
+                            <span className="text-[10px] font-black uppercase tracking-widest group-hover/upload:text-slate-300 transition-colors">Initialize Asset Upload</span>
                         </>
                     )}
                 </div>

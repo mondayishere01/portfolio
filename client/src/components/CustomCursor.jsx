@@ -45,6 +45,8 @@ const CustomCursor = () => {
     // ── Hover detection ────────────────────────────────────
     // Determine cursor label text from the hovered element
     const getCursorText = (el) => {
+      if (!el || !el.closest) return "";
+      
       // Explicit data attribute takes priority
       const explicit = el.closest("[data-cursor-text]");
       if (explicit) return explicit.getAttribute("data-cursor-text");

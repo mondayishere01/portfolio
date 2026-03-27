@@ -30,6 +30,8 @@ const ManageProjects = () => {
         setError('');
         setShowModal(true);
     };
+    const closeModal = () => setShowModal(false);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,47 +54,56 @@ const ManageProjects = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-slate-200">Manage Projects</h2>
-                <button onClick={openCreate} className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition">
-                    <Plus size={16} /> Add New
+            <div className="flex items-center justify-between mb-8">
+                <div>
+                    <h2 className="text-2xl font-bold text-white">Manage Projects</h2>
+                    <p className="text-xs text-slate-500 mt-1">Showcase your best work and technical projects</p>
+                </div>
+                <button onClick={openCreate} className="flex items-center gap-2 rounded-lg bg-[#ffeb00] px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-[#ffdb00] transition shadow-lg shadow-[#ffeb00]/10">
+                    <Plus size={18} /> Add Project
                 </button>
             </div>
 
             {loading ? (
-                <div className="space-y-4">{[1,2,3].map(i => <div key={i} className="h-16 rounded-md bg-slate-800/50 animate-pulse" />)}</div>
+                <div className="space-y-4">{[1, 2, 3].map(i => <div key={i} className="h-16 rounded-md bg-slate-800/50 animate-pulse" />)}</div>
             ) : items.length === 0 ? (
                 <p className="text-slate-500">No projects yet. Click "Add New" to create one.</p>
             ) : (
-                <div className="space-y-3">
+                <div className="space-y-4">
                     {items.map((item) => (
-                        <div key={item._id} className="flex items-start gap-4 rounded-lg border border-slate-700 bg-slate-800/30 p-4">
+                        <div key={item._id} className="flex items-start gap-6 rounded-xl border border-white/10 bg-[#111111] p-5 hover:border-[#ffeb00]/30 transition-all group">
                             {item.imageUrl ? (
-                                <img src={item.imageUrl} alt={item.title} className="w-24 h-16 rounded-md object-cover border border-slate-700 shrink-0 bg-slate-800" />
+                                <div className="w-40 h-24 rounded-lg overflow-hidden border border-white/5 shrink-0 bg-black">
+                                    <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" />
+                                </div>
                             ) : (
-                                <div className="w-24 h-16 rounded-md border border-slate-700 bg-slate-800 flex items-center justify-center shrink-0">
-                                    <span className="text-xs text-slate-500">No Img</span>
+                                <div className="w-40 h-24 rounded-lg border border-white/5 bg-black flex items-center justify-center shrink-0">
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-700">No Preview</span>
                                 </div>
                             )}
                             <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-xs font-semibold text-slate-500">{item.year}</span>
-                                    {item.featured && <Star size={12} className="text-yellow-400 fill-yellow-400" />}
+                                <div className="flex items-center gap-3 mb-2">
+                                    <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase">{item.year}</span>
+                                    {item.featured && (
+                                        <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#ffeb00] bg-[#ffeb00]/10 px-2 py-0.5 rounded-full">
+                                            <Star size={10} className="fill-[#ffeb00]" /> Featured
+                                        </span>
+                                    )}
                                 </div>
-                                <h3 className="font-medium text-slate-200">{item.title}</h3>
-                                <p className="text-sm text-slate-400 mt-1 line-clamp-2">{item.description}</p>
-                                <div className="flex flex-wrap gap-1 mt-2">
+                                <h3 className="text-lg font-bold text-white group-hover:text-[#ffeb00] transition-colors">{item.title}</h3>
+                                <p className="text-sm text-slate-400 mt-2 line-clamp-2 leading-relaxed">{item.description}</p>
+                                <div className="flex flex-wrap gap-2 mt-4">
                                     {item.tags?.map((tag, i) => (
-                                        <span key={i} className="rounded-full bg-[#ffeb00]/10 px-2.5 py-0.5 text-xs font-medium text-[#ffeb00]">{tag}</span>
+                                        <span key={i} className="rounded-full bg-[#ffeb00]/10 border border-[#ffeb00]/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#ffeb00]">{tag}</span>
                                     ))}
                                 </div>
                             </div>
                             <div className="flex gap-2 shrink-0">
-                                <button onClick={() => openEdit(item)} className="rounded-md p-2 text-slate-400 hover:bg-slate-700 hover:text-slate-200 transition" title="Edit">
-                                    <Pencil size={16} />
+                                <button onClick={() => openEdit(item)} className="rounded-md p-2 text-slate-500 hover:bg-white/5 hover:text-white transition" title="Edit">
+                                    <Pencil size={18} />
                                 </button>
-                                <button onClick={() => handleDelete(item._id)} className="rounded-md p-2 text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition" title="Delete">
-                                    <Trash2 size={16} />
+                                <button onClick={() => handleDelete(item._id)} className="rounded-md p-2 text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition" title="Delete">
+                                    <Trash2 size={18} />
                                 </button>
                             </div>
                         </div>
@@ -102,71 +113,78 @@ const ManageProjects = () => {
 
             {/* Modal */}
             {showModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm">
-                    <div className="w-full max-w-lg rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-bold text-slate-200">{editing ? 'Edit' : 'Add'} Project</h3>
-                            <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-200"><X size={20} /></button>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+                    <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#111111] p-6 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-xl font-bold text-white">{editing ? 'Edit' : 'New'} Project</h3>
+                            <button onClick={() => setShowModal(false)} className="rounded-full p-1 text-slate-500 hover:bg-white/5 hover:text-white transition"><X size={20} /></button>
                         </div>
-                        {error && <p className="text-sm text-red-400 mb-3">{error}</p>}
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
+                        <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">Title *</label>
-                                <input required value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="My Awesome Project"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Project Title *</label>
+                                <input required value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="My Awesome Project"
+                                    className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors" />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">Description *</label>
-                                <textarea required rows={3} value={form.description} onChange={e => setForm({...form, description: e.target.value})}
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-none" />
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Description *</label>
+                                <textarea required rows={4} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
+                                    placeholder="Tell the story of your project..."
+                                    className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors resize-none leading-relaxed" />
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
+                            <div className="grid grid-cols-2 gap-5">
+                                <div className="space-y-2">
                                     <FileUpload
                                         label="Thumbnail Image"
                                         value={form.imageUrl}
                                         onChange={(url) => setForm({ ...form, imageUrl: url })}
                                         folder="Projects"
                                     />
-                                    {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-2 h-16 rounded object-cover border border-slate-600" />}
+                                    {form.imageUrl && (
+                                        <div className="w-full h-24 rounded-lg overflow-hidden border border-white/5 bg-black">
+                                            <img src={form.imageUrl} alt="Preview" className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-1">Project Link</label>
-                                    <input value={form.link} onChange={e => setForm({...form, link: e.target.value})} placeholder="https://..."
-                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Project URL</label>
+                                        <input value={form.link} onChange={e => setForm({ ...form, link: e.target.value })} placeholder="https://..."
+                                            className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">GitHub URL</label>
+                                        <input value={form.githubUrl} onChange={e => setForm({ ...form, githubUrl: e.target.value })} placeholder="https://github.com/..."
+                                            className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors" />
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">GitHub URL</label>
-                                <input value={form.githubUrl} onChange={e => setForm({...form, githubUrl: e.target.value})} placeholder="https://github.com/..."
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-5">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-1">Year</label>
-                                    <input type="number" value={form.year} onChange={e => setForm({...form, year: e.target.value})}
-                                        className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
+                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Project Year</label>
+                                    <input type="number" value={form.year} onChange={e => setForm({ ...form, year: e.target.value })}
+                                        className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors" />
                                 </div>
-                                <div className="flex items-end pb-1">
-                                    <label className="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})}
-                                            className="h-4 w-4 rounded border-slate-600 bg-slate-700 text-[#ffeb00] focus:ring-[#ffeb00]" />
-                                        <span className="text-sm text-slate-300">Featured project</span>
+                                <div className="flex items-center pt-6">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="checkbox" checked={form.featured} onChange={e => setForm({ ...form, featured: e.target.checked })}
+                                            className="h-5 w-5 rounded border-white/10 bg-black text-[#ffeb00] focus:ring-[#ffeb00] transition-colors" />
+                                        <span className="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-200 transition-colors">Featured project</span>
                                     </label>
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">Tags (comma-separated)</label>
-                                <input value={form.tags} onChange={e => setForm({...form, tags: e.target.value})} placeholder="React, Node.js, MongoDB"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Technologies Used (comma-separated)</label>
+                                <input value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} placeholder="React, Node.js, MongoDB"
+                                    className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors" />
                             </div>
-                            <div className="flex gap-3 pt-2">
+                            <div className="flex gap-4 pt-4 border-t border-white/5">
                                 <button type="submit" disabled={saving}
-                                    className="flex-1 rounded-md bg-[#ffeb00] py-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
-                                    {saving ? 'Saving...' : editing ? 'Update' : 'Create'}
+                                    className="flex-1 rounded-xl bg-[#ffeb00] py-4 text-sm font-bold text-slate-900 hover:bg-[#ffdb00] transition shadow-lg shadow-[#ffeb00]/10 disabled:opacity-50">
+                                    {saving ? 'Saving...' : editing ? 'Update Project' : 'Create Project'}
                                 </button>
                                 <button type="button" onClick={() => setShowModal(false)}
-                                    className="rounded-md border border-slate-600 px-4 py-2 text-sm text-slate-400 hover:text-slate-200 transition">
+                                    className="px-8 rounded-xl border border-white/10 text-sm font-bold text-slate-400 hover:text-white hover:bg-white/5 transition">
                                     Cancel
                                 </button>
                             </div>

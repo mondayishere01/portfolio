@@ -6,6 +6,7 @@ import ExperienceSection from "../sections/ExperienceSection";
 import SkillsSection from "../sections/SkillsSection";
 import ProjectsSection from "../sections/ProjectsSection";
 import CertificationsSection from "../sections/CertificationsSection";
+import Footer from "../components/Footer";
 import {
   getAbout,
   getExperiences,
@@ -53,9 +54,21 @@ const Home = () => {
   return (
     <Layout>
       <AboutSection about={about} loading={loading} />
-      <ExperienceSection experiences={experiences} loading={loading} />
-      <SkillsSection skills={skills} loading={loading} />
-      <ProjectsSection projects={projects} loading={loading} />
+      <ExperienceSection
+        experiences={experiences}
+        loading={loading}
+      />
+
+      <SkillsSection
+        skills={skills}
+        loading={loading}
+      />
+
+      <ProjectsSection
+        projects={projects}
+        loading={loading}
+      />
+
       <CertificationsSection
         certifications={certifications}
         loading={loading}
@@ -79,51 +92,7 @@ const Home = () => {
         <ContactForm />
       </motion.section>
 
-      {/* ─── Footer ──────────────────────────────── */}
-      <footer className="max-w-md pb-24 pt-12 text-xs text-slate-500 sm:pb-12 text-center lg:text-left">
-        <p className="leading-relaxed">
-          Designed in{" "}
-          <a
-            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
-            href="https://www.figma.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Figma
-          </a>{" "}
-          and coded in{" "}
-          <a
-            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
-            href="https://code.visualstudio.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            VS Code
-          </a>
-          . Built with{" "}
-          <a
-            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
-            href="https://react.dev/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            React
-          </a>{" "}
-          and{" "}
-          <a
-            className="font-semibold text-slate-400 hover:text-[#ffeb00] transition-colors"
-            href="https://tailwindcss.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Tailwind CSS
-          </a>
-          .
-        </p>
-        <p className="mt-2 text-slate-600">
-          &copy; {new Date().getFullYear()} Devesh. All rights reserved.
-        </p>
-      </footer>
+      <Footer />
     </Layout>
   );
 };

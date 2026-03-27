@@ -18,6 +18,11 @@ const AboutSection = ({ about, loading }) => {
       variants={sectionVariants}
     >
       <SectionHeader label="About" />
+      {about?.tagline && !loading && (
+        <h3 className="mb-4 text-2xl font-black uppercase tracking-tighter text-white sm:text-3xl lg:text-4xl">
+            {about.tagline}
+        </h3>
+      )}
     <div className="flex flex-col md:flex-row gap-8 items-start">
       {/* Image removed as requested */}
 

@@ -1,17 +1,13 @@
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Award } from "lucide-react";
 import SectionHeader from "../components/SectionHeader";
 import { sectionVariants, staggerContainer } from "../utils/animations";
 
 const CertificationsSection = ({ certifications, loading }) => (
-  <motion.section
+  <section
     id="certifications"
-    className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+    className="mb-16 scroll-mt-16 md:mb-24 lg:mb-32 lg:scroll-mt-24"
     aria-label="Certifications"
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, amount: 0.2 }}
-    variants={sectionVariants}
   >
     <SectionHeader label="Certifications" />
     {loading ? (
@@ -24,42 +20,42 @@ const CertificationsSection = ({ certifications, loading }) => (
         ))}
       </div>
     ) : certifications.length > 0 ? (
-      <motion.ul
-        className="space-y-3"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
+      <div className="flex flex-col gap-6">
         {certifications.map((cert) => (
-          <motion.li key={cert._id} variants={sectionVariants}>
-            {cert.credentialUrl ? (
-              <a
-                href={cert.credentialUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="group inline-flex items-center gap-2 text-slate-300 hover:text-[#ffeb00] transition"
-              >
-                <span className="text-sm font-medium">{cert.title}</span>
-                <ExternalLink
-                  size={14}
-                  className="text-slate-500 group-hover:text-[#ffeb00] transition"
-                />
-              </a>
+          <div key={cert._id} className="group relative flex items-center gap-4 transition-all">
+            {cert.imageUrl ? (
+                <div className="w-10 h-10 rounded bg-white p-1 flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-105">
+                    <img src={cert.imageUrl} alt={cert.title} className="w-full h-full object-contain" />
+                </div>
             ) : (
-              <span className="text-sm font-medium text-slate-300">
-                {cert.title}
-              </span>
+                <div className="w-10 h-10 rounded bg-[#ffeb00]/5 flex items-center justify-center shrink-0 text-[#ffeb00]/40 group-hover:text-[#ffeb00] transition-colors">
+                    <Award size={18} />
+                </div>
             )}
-          </motion.li>
+            <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-medium text-slate-300 group-hover:text-[#ffeb00] transition-colors leading-snug">
+                    {cert.title}
+                </h3>
+                {cert.credentialUrl && (
+                    <a
+                        href={cert.credentialUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 mt-1 text-[9px] font-bold uppercase tracking-wider text-slate-500 hover:text-[#ffeb00] transition-colors"
+                    >
+                        Verify <ExternalLink size={9} />
+                    </a>
+                )}
+            </div>
+          </div>
         ))}
-      </motion.ul>
+      </div>
     ) : (
       <p className="text-slate-500 text-sm">
         Certifications will appear here once added via the admin panel.
       </p>
     )}
-  </motion.section>
+  </section>
 );
 
 export default CertificationsSection;

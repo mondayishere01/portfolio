@@ -37,15 +37,18 @@ const Dashboard = () => {
     const navItems = user?.role === 'admin' ? adminItems : authorItems;
 
     return (
-        <div className="min-h-screen bg-slate-900 lg:flex">
+        <div className="min-h-screen bg-black lg:flex selection:bg-[#ffeb00]/30">
             {/* Sidebar */}
-            <aside className="w-full border-b border-slate-700 bg-slate-800/50 p-4 lg:w-64 lg:min-h-screen lg:border-b-0 lg:border-r">
+            <aside className="w-full border-b border-white/10 bg-[#111111]/80 backdrop-blur-xl p-5 lg:w-72 lg:min-h-screen lg:border-b-0 lg:border-r lg:sticky lg:top-0">
                 <div className="mb-6">
-                    <Link to="/" className="group inline-flex items-center gap-1 text-xs text-slate-500 hover:text-[#ffdb00] transition mb-3">
-                        <ArrowLeft size={12} /> Back to site
+                    <Link to="/" className="group inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-[#ffeb00] transition-all mb-5">
+                        <ArrowLeft size={12} className="transition-transform group-hover:-translate-x-1" /> Back to site
                     </Link>
-                    <h1 className="text-xl font-bold text-slate-200">Admin Panel</h1>
-                    <p className="text-xs text-slate-500">Portfolio CMS</p>
+                    <h1 className="text-xl font-black tracking-tight text-white flex items-center gap-2">
+                        <div className="w-2 h-6 bg-[#ffeb00] rounded-full" />
+                        Admin Panel
+                    </h1>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mt-1 pl-4">Portfolio CMS</p>
                 </div>
                 <nav>
                     <ul className="flex gap-1 overflow-x-auto lg:flex-col">
@@ -54,12 +57,12 @@ const Dashboard = () => {
                             return (
                                 <li key={item.path}>
                                     <Link to={item.path}
-                                        className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition whitespace-nowrap ${
-                                            isActive
-                                                ? 'bg-[#ffeb00]/10 text-[#ffeb00] font-medium'
-                                                : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-200'
-                                        }`}>
-                                        <item.icon size={16} />
+                                        className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-300 group relative border-l-4 ${
+                            isActive
+                              ? 'bg-[#ffeb00] text-slate-900 border-[#ffeb00] shadow-lg shadow-[#ffeb00]/20'
+                              : 'text-slate-400 border-transparent hover:text-white hover:bg-white/5 hover:border-[#ffeb00]/30 hover:pl-5'
+                          }`}>
+                                        <item.icon size={16} className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover/link:scale-110'}`} />
                                         {item.label}
                                     </Link>
                                 </li>

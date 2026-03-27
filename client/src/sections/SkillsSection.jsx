@@ -88,7 +88,7 @@ const SkillsSection = ({ skills, loading }) => {
                   className="group flex flex-col items-center gap-2 rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 text-center transition-all duration-300 hover:border-[#ffeb00]/30 hover:bg-[#111111] hover:shadow-xl"
                 >
                   {skill.imageUrl ? (
-                    <div className="w-12 h-12 rounded-lg bg-white/5 p-2 group-hover:bg-white/10 transition-colors flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-lg bg-white p-2 group-hover:scale-110 transition-transform flex items-center justify-center shadow-lg">
                       <img
                         src={skill.imageUrl}
                         alt={skill.name}

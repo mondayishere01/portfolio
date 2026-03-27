@@ -26,7 +26,7 @@ const ManageUsers = () => {
     const [showModal, setShowModal] = useState(false);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
-    
+
     const [form, setForm] = useState({ name: '', email: '', password: '', role: 'author' });
 
     const fetchUsers = async () => {
@@ -68,10 +68,13 @@ const ManageUsers = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-slate-200">Manage Users</h2>
-                <button onClick={openNew} className="flex items-center gap-1.5 rounded-md bg-[#ffeb00]/20 px-3 py-2 text-sm font-medium text-[#ffeb00] hover:bg-[#ffeb00]/30 transition">
-                    <Plus size={16} /> Add User
+            <div className="flex items-center justify-between mb-8">
+                <div>
+                    <h2 className="text-2xl font-bold text-white">Manage Users</h2>
+                    <p className="text-xs text-slate-500 mt-1">Control administrative access and editor permissions</p>
+                </div>
+                <button onClick={openNew} className="flex items-center gap-2 rounded-lg bg-[#ffeb00] px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-[#ffdb00] transition shadow-lg shadow-[#ffeb00]/10">
+                    <Plus size={18} /> Add New User
                 </button>
             </div>
 
@@ -82,31 +85,32 @@ const ManageUsers = () => {
             ) : (
                 <div className="space-y-3">
                     {users.map((u) => (
-                        <div key={u._id} className="flex items-center justify-between gap-4 rounded-lg border border-slate-700 bg-slate-800/30 p-4">
-                            <div className="flex items-center gap-4">
+                        <div key={u._id} className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-[#111111] p-5 hover:border-[#ffeb00]/30 transition-all group">
+                            <div className="flex items-center gap-5">
                                 {u.imageUrl ? (
-                                    <img src={u.imageUrl} alt={u.name} className="h-12 w-12 rounded-full object-cover border border-slate-600" />
+                                    <div className="h-14 w-14 rounded-full overflow-hidden border-2 border-white/5 bg-black p-0.5 shadow-xl">
+                                        <img src={u.imageUrl} alt={u.name} className="h-full w-full rounded-full object-cover" />
+                                    </div>
                                 ) : (
-                                    <div className="h-12 w-12 rounded-full bg-slate-700 flex items-center justify-center text-[#ffeb00] font-bold text-lg">
+                                    <div className="h-14 w-14 rounded-full bg-black border border-white/5 flex items-center justify-center text-[#ffeb00] font-black text-xl shadow-xl">
                                         {u.name?.charAt(0) || '?'}
                                     </div>
                                 )}
                                 <div>
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="font-semibold text-slate-200">{u.name}</h3>
-                                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                                            u.role === 'admin' ? 'bg-purple-500/20 text-purple-300' : 'bg-[#ffeb00]/20 text-[#ffeb00]'
-                                        }`}>
+                                    <div className="flex items-center gap-3">
+                                        <h3 className="text-lg font-bold text-white group-hover:text-[#ffeb00] transition-colors">{u.name}</h3>
+                                        <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${u.role === 'admin' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' : 'bg-[#ffeb00]/10 text-[#ffeb00] border-[#ffeb00]/20'
+                                            }`}>
                                             {u.role}
                                         </span>
                                     </div>
-                                    <p className="text-sm text-slate-400 mt-0.5">{u.email}</p>
+                                    <p className="text-xs text-slate-500 mt-1 font-medium">{u.email}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
                                 {u.role !== 'admin' && (
-                                    <button onClick={() => handleDelete(u._id)} className="text-slate-500 hover:text-red-400 transition ml-2">
-                                        <Trash2 size={16} />
+                                    <button onClick={() => handleDelete(u._id)} className="p-2.5 text-slate-500 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all opacity-40 group-hover:opacity-100" title="Delete User">
+                                        <Trash2 size={18} />
                                     </button>
                                 )}
                             </div>
@@ -116,40 +120,46 @@ const ManageUsers = () => {
             )}
 
             {showModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm">
-                    <div className="w-full max-w-sm rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-2xl">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-bold text-slate-200">Add New User</h3>
-                            <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-200"><X size={20} /></button>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+                    <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#111111] p-6 shadow-2xl">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-xl font-bold text-white">Initialize New User</h3>
+                            <button onClick={() => setShowModal(false)} className="rounded-full p-1 text-slate-500 hover:bg-white/5 hover:text-white transition"><X size={24} /></button>
                         </div>
-                        {error && <p className="text-xs text-red-400 mb-4">{error}</p>}
-                        <form onSubmit={handleSave} className="space-y-4">
+                        {error && <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-6 bg-red-400/10 p-3 border border-red-400/20 rounded-lg text-center">{error}</p>}
+                        <form onSubmit={handleSave} className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">Name</label>
-                                <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="Jane Doe"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Full Name</label>
+                                <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Jane Doe"
+                                    className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors" />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">Username</label>
-                                <input type="text" required value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="e.g. dev_jane"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Username / Email</label>
+                                <input type="text" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="e.g. dev_jane"
+                                    className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors" />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">Temporary Password</label>
-                                <input required value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="Secret123!"
-                                    className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none" />
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Temporary Password</label>
+                                <input required type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} placeholder="••••••••"
+                                    className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors font-mono" />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-1">Role</label>
-                                <select value={form.role} onChange={e => setForm({...form, role: e.target.value})} className="w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none">
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Access Privileges</label>
+                                <select value={form.role} onChange={e => setForm({ ...form, role: e.target.value })} className="w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-sm text-white focus:border-[#ffeb00] focus:outline-none transition-colors">
                                     <option value="author">Author (Blogs Only)</option>
                                     <option value="admin">Admin (Full Access)</option>
                                 </select>
                             </div>
-                            <button type="submit" disabled={saving}
-                                className="w-full rounded-md bg-[#ffeb00] py-2 mt-2 text-sm font-semibold text-slate-900 hover:bg-[#ffdb00] transition disabled:opacity-50">
-                                {saving ? 'Creating...' : 'Create User'}
-                            </button>
+                            <div className="flex gap-4 pt-4 border-t border-white/5">
+                                <button type="submit" disabled={saving}
+                                    className="flex-1 rounded-xl bg-[#ffeb00] py-4 text-sm font-bold text-slate-900 hover:bg-[#ffdb00] transition shadow-lg shadow-[#ffeb00]/10 disabled:opacity-50 uppercase tracking-widest">
+                                    {saving ? 'Creating...' : 'Finalize User'}
+                                </button>
+                                <button type="button" onClick={() => setShowModal(false)}
+                                    className="px-6 rounded-xl border border-white/10 text-sm font-bold text-slate-400 hover:text-white hover:bg-white/5 transition uppercase tracking-widest">
+                                    Cancel
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
