@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { sectionVariants } from "../utils/animations";
 import SectionHeader from "../components/SectionHeader";
-import { User } from "lucide-react";
+import { User, Download } from "lucide-react";
 import { useState } from "react";
 
 const AboutSection = ({ about, loading }) => {
@@ -50,35 +50,6 @@ const AboutSection = ({ about, loading }) => {
                 {paragraph}
               </p>
             ))}
-
-            {/* Resume Button */}
-            {about?.resumeUrl && (
-              <div className="mt-6">
-                <a
-                  href={about.resumeUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-[#ffeb00]/30 px-5 py-2 text-sm font-bold uppercase tracking-widest text-[#ffeb00] hover:bg-[#ffeb00]/10 hover:border-[#ffeb00] transition-all"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Download CV
-                </a>
-              </div>
-            )}
           </>
         ) : (
           <p className="mb-4">
@@ -89,6 +60,21 @@ const AboutSection = ({ about, loading }) => {
         )}
       </div>
     </div>
+    {/* Download CV below bio, aligned to section header */}
+    {about?.resumeUrl && !loading && (
+      <div className="mt-8 flex justify-start">
+        <a
+          className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
+          href={about.resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Download CV"
+        >
+          Download CV
+          <Download size={16} />
+        </a>
+      </div>
+    )}
     </motion.section>
   );
 };

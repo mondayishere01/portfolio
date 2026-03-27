@@ -34,7 +34,7 @@ const ProjectCard = ({ title, description, imageUrl, link, githubUrl, tags, year
                 <ul className="mt-2 flex flex-wrap" aria-label="Technologies used">
                     {tags && tags.map((tag, index) => (
                         <li key={index} className="mr-1.5 mt-2">
-                            <div className="flex items-center rounded-full bg-[#ffeb00]/10 px-3 py-1 text-xs font-medium leading-5 text-[#ffeb00]">{tag}</div>
+                            <div className="flex items-center rounded-md border border-[#ffeb00]/20 bg-[#ffeb00]/10 px-3 py-1 text-xs font-medium leading-5 text-[#ffeb00]">{tag}</div>
                         </li>
                     ))}
                 </ul>

@@ -62,7 +62,7 @@ const SkillsSection = ({ skills, loading }) => {
               <button
                 key={group.category}
                 onClick={() => setActiveCategory(group.category)}
-                className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-200 ${
+                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-widest transition-all duration-200 ${
                   activeCategory === group.category
                     ? "bg-[#ffeb00] text-slate-900"
                     : "text-slate-500 hover:text-slate-300 hover:bg-slate-800/50"
