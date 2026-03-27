@@ -56,7 +56,7 @@ const BlogSection = () => {
               <motion.div
                 key={blog._id}
                 variants={sectionVariants}
-                className="group flex flex-col sm:flex-row gap-4 sm:gap-6 rounded-xl border border-transparent hover:border-white/10 hover:bg-[#111111] hover:shadow-2xl transition-all duration-300 p-4 relative lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
+                className="group flex flex-col sm:flex-row gap-4 sm:gap-6 rounded-xl border border-transparent hover:border-white/10 hover:bg-[#111111] hover:shadow-2xl transition-all duration-300 p-4 relative"
               >
                 <Link to={`/blog/${blog._id}`} className="absolute inset-x-0 inset-y-0 z-10" aria-label={blog.title} />
                 <div className="w-full sm:w-40 h-32 shrink-0 overflow-hidden rounded-lg bg-slate-800 relative z-0 pointer-events-none border border-slate-700/50 group-hover:border-slate-600 transition-colors">

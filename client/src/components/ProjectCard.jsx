@@ -4,7 +4,7 @@ import { Github, Folder, ArrowUpRight } from 'lucide-react';
 const ProjectCard = ({ title, description, imageUrl, link, githubUrl, tags, year }) => {
     const [imageError, setImageError] = useState(false);
     return (
-        <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+        <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4">
             <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-[12px] border border-transparent transition-all duration-300 lg:block lg:group-hover:bg-[#111111] lg:group-hover:border-white/15 lg:group-hover:shadow-2xl lg:group-hover:inset-x-0"></div>
             <div className="z-10 sm:order-2 sm:col-span-6 transition-all duration-300 lg:group-hover:pr-4 lg:group-hover:pl-4">
                 <div className="flex items-center gap-2 mb-1">

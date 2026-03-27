@@ -12,7 +12,7 @@ const ExperienceCard = ({
 }) => {
   const [imageError, setImageError] = useState(false);
   return (
-    <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+    <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4">
       <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-[12px] border border-transparent transition-all duration-300 lg:block lg:group-hover:bg-[#111111] lg:group-hover:border-white/15 lg:group-hover:shadow-2xl lg:group-hover:-inset-x-0"></div>
       <header
         className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2 transition-all duration-300 lg:group-hover:pl-4"
