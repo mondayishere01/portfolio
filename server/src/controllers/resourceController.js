@@ -4,6 +4,8 @@ const Experience = require('../models/Experience');
 const About = require('../models/About');
 const Blog = require('../models/Blog');
 const User = require('../models/User');
+const Skill = require('../models/Skill');
+const Certification = require('../models/Certification');
 
 /**
  * @route   GET /api/resources
@@ -23,21 +25,43 @@ const getResources = async (req, res) => {
         const assets = cloudRes.resources;
 
         // 2. Fetch all "In Use" URLs from DB
-        const [projects, experiences, about, blogs, users] = await Promise.all([
+        const [projects, experiences, about, blogs, users, skills, certifications] = await Promise.all([
             Project.find({}, 'imageUrl'),
             Experience.find({}, 'imageUrl'),
             About.findOne({}, 'resumeUrl'),
             Blog.find({}, 'imageUrl'),
             User.find({}, 'imageUrl'),
+            Skill.find({}, 'imageUrl'),
+            Certification.find({}, 'imageUrl'),
         ]);
 
-        // Flatten all URLs into a Set for O(1) lookup
-        const usedUrls = new Set();
-        projects.forEach(p => p.imageUrl && usedUrls.add(p.imageUrl));
-        experiences.forEach(e => e.imageUrl && usedUrls.add(e.imageUrl));
-        if (about?.resumeUrl) usedUrls.add(about.resumeUrl);
-        blogs.forEach(b => b.imageUrl && usedUrls.add(b.imageUrl));
-        users.forEach(u => u.imageUrl && usedUrls.add(u.imageUrl));
+        // Helper to extract Public ID from Cloudinary URL
+        // Example: .../upload/v12345/portfolio/image.png -> portfolio/image
+        const extractPublicId = (url) => {
+            if (!url || typeof url !== 'string') return null;
+            const parts = url.split('/upload/');
+            if (parts.length < 2) return null;
+            
+            // Remove version (v12345/) if present and file extension
+            // portfolio/v1774.../image.png -> image
+            const pathInfo = parts[1].replace(/^v\d+\//, '');
+            return pathInfo.split('.')[0];
+        };
+
+        // Flatten all Public IDs into a Set for O(1) lookup
+        const usedPublicIds = new Set();
+        const addUrlToUsed = (url) => {
+            const pid = extractPublicId(url);
+            if (pid) usedPublicIds.add(pid);
+        };
+
+        projects.forEach(p => addUrlToUsed(p.imageUrl));
+        experiences.forEach(e => addUrlToUsed(e.imageUrl));
+        if (about?.resumeUrl) addUrlToUsed(about.resumeUrl);
+        blogs.forEach(b => addUrlToUsed(b.imageUrl));
+        users.forEach(u => addUrlToUsed(u.imageUrl));
+        skills.forEach(s => addUrlToUsed(s.imageUrl));
+        certifications.forEach(c => addUrlToUsed(c.imageUrl));
 
         // 3. Map status to assets
         const results = assets.map(asset => ({
@@ -48,7 +72,7 @@ const getResources = async (req, res) => {
             width: asset.width,
             height: asset.height,
             created_at: asset.created_at,
-            inUse: usedUrls.has(asset.secure_url),
+            inUse: usedPublicIds.has(asset.public_id),
         }));
 
         res.json(results);
