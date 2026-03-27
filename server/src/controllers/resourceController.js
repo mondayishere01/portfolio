@@ -22,7 +22,7 @@ const getResources = async (req, res) => {
             .execute();
 
         const assets = searchRes.resources;
-        
+
         console.log(`Cloudinary Search Found: ${assets.length} total resources in portfolio folders.`);
         if (assets.length > 0) {
             console.log('Latest resource:', assets[0].public_id, assets[0].resource_type);
@@ -45,18 +45,18 @@ const getResources = async (req, res) => {
             // Handle both /image/upload/ and /raw/upload/
             const parts = url.split(/\/upload\//);
             if (parts.length < 2) return null;
-            
+
             // Remove version and file extension, and decode URI components (e.g. %20 -> space)
             let pathInfo = parts[1].replace(/^v\d+\//, '');
-            
+
             // If it's a raw file, it might not have an extension that we want to strip if the public_id includes it
             // but usually we strip the extension for images. For raw, public_id INCLUDES the extension.
             const isRaw = url.includes('/raw/upload/');
-            
+
             if (!isRaw) {
                 pathInfo = pathInfo.split('.')[0];
             }
-            
+
             return decodeURIComponent(pathInfo);
         };
 
@@ -90,7 +90,7 @@ const getResources = async (req, res) => {
         res.json(results);
     } catch (err) {
         console.error('Resource Error:', err);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Failed to fetch Cloudinary resources',
             details: err.message || 'Unknown Cloudinary error'
         });
@@ -105,13 +105,13 @@ const getResources = async (req, res) => {
 const deleteResource = async (req, res) => {
     try {
         const public_id = req.query.public_id || req.params.id;
-        
+
         if (!public_id) {
             return res.status(400).json({ error: 'Public ID is required' });
         }
 
         const result = await cloudinary.uploader.destroy(public_id);
-        
+
         if (result.result === 'not found') {
             return res.status(404).json({ error: 'Resource not found on Cloudinary' });
         }
