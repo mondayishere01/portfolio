@@ -14,24 +14,19 @@ const Certification = require('../models/Certification');
  */
 const getResources = async (req, res) => {
     try {
-        // 1. Fetch resources from Cloudinary (both image and raw)
-        // Note: Admin API .resources() needs to be called per resource_type if not using Search API
-        const [imageRes, rawRes] = await Promise.all([
-            cloudinary.api.resources({
-                type: 'upload',
-                resource_type: 'image',
-                prefix: 'portfolio/',
-                max_results: 500,
-            }),
-            cloudinary.api.resources({
-                type: 'upload',
-                resource_type: 'raw',
-                prefix: 'portfolio/',
-                max_results: 500,
-            })
-        ]);
+        // 1. Fetch resources from Cloudinary using Search API (finds all resource types at once)
+        const searchRes = await cloudinary.search
+            .expression('folder:"Portfolio Assets/*" OR folder:portfolio/*')
+            .sort_by('created_at', 'desc')
+            .max_results(500)
+            .execute();
 
-        const assets = [...imageRes.resources, ...rawRes.resources];
+        const assets = searchRes.resources;
+        
+        console.log(`Cloudinary Search Found: ${assets.length} total resources in portfolio folders.`);
+        if (assets.length > 0) {
+            console.log('Latest resource:', assets[0].public_id, assets[0].resource_type);
+        }
 
         // 2. Fetch all "In Use" URLs from DB
         const [projects, experiences, about, blogs, users, skills, certifications] = await Promise.all([
