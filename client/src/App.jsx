@@ -26,6 +26,7 @@ import Messages from "./pages/admin/Messages";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageProfile from "./pages/admin/ManageProfile";
 import ManageBlogs from "./pages/admin/ManageBlogs";
+import ManageResources from "./pages/admin/ManageResources";
 
 import CustomCursor from "./components/CustomCursor";
 
@@ -76,6 +77,7 @@ function App() {
             <Route path="users" element={<ManageUsers />} />
             <Route path="profile" element={<ManageProfile />} />
             <Route path="blogs" element={<ManageBlogs />} />
+            <Route path="resources" element={<ManageResources />} />
           </Route>
         </Routes>
       </Router>

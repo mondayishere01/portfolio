@@ -23,6 +23,7 @@ const Dashboard = () => {
         { label: 'Certifications', path: '/admin/certifications', icon: Award },
         { label: 'About', path: '/admin/about', icon: User },
         { label: 'Messages', path: '/admin/messages', icon: MessageSquare },
+        { label: 'Resources', path: '/admin/resources', icon: Sparkles },
         { label: 'Users', path: '/admin/users', icon: UserPlus },
         { label: 'Settings', path: '/admin/settings', icon: Settings },
     ];

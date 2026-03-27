@@ -73,4 +73,9 @@ export const uploadFile = (formData) => api.post('/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
 });
 
+export const getResources = () => api.get('/resources');
+export const deleteResource = (publicId) => api.delete('/resources/delete', {
+    params: { public_id: publicId }
+});
+
 export default api;
