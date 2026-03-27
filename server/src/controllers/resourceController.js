@@ -14,15 +14,24 @@ const Certification = require('../models/Certification');
  */
 const getResources = async (req, res) => {
     try {
-        // 1. Fetch resources from Cloudinary
-        // Note: Using the Admin API .resources() method
-        const cloudRes = await cloudinary.api.resources({
-            type: 'upload',
-            prefix: 'portfolio/', // only files in this folder
-            max_results: 500,
-        });
+        // 1. Fetch resources from Cloudinary (both image and raw)
+        // Note: Admin API .resources() needs to be called per resource_type if not using Search API
+        const [imageRes, rawRes] = await Promise.all([
+            cloudinary.api.resources({
+                type: 'upload',
+                resource_type: 'image',
+                prefix: 'portfolio/',
+                max_results: 500,
+            }),
+            cloudinary.api.resources({
+                type: 'upload',
+                resource_type: 'raw',
+                prefix: 'portfolio/',
+                max_results: 500,
+            })
+        ]);
 
-        const assets = cloudRes.resources;
+        const assets = [...imageRes.resources, ...rawRes.resources];
 
         // 2. Fetch all "In Use" URLs from DB
         const [projects, experiences, about, blogs, users, skills, certifications] = await Promise.all([
@@ -36,16 +45,24 @@ const getResources = async (req, res) => {
         ]);
 
         // Helper to extract Public ID from Cloudinary URL
-        // Example: .../upload/v12345/portfolio/image.png -> portfolio/image
         const extractPublicId = (url) => {
             if (!url || typeof url !== 'string') return null;
-            const parts = url.split('/upload/');
+            // Handle both /image/upload/ and /raw/upload/
+            const parts = url.split(/\/upload\//);
             if (parts.length < 2) return null;
             
-            // Remove version (v12345/) if present and file extension
-            // portfolio/v1774.../image.png -> image
-            const pathInfo = parts[1].replace(/^v\d+\//, '');
-            return pathInfo.split('.')[0];
+            // Remove version and file extension, and decode URI components (e.g. %20 -> space)
+            let pathInfo = parts[1].replace(/^v\d+\//, '');
+            
+            // If it's a raw file, it might not have an extension that we want to strip if the public_id includes it
+            // but usually we strip the extension for images. For raw, public_id INCLUDES the extension.
+            const isRaw = url.includes('/raw/upload/');
+            
+            if (!isRaw) {
+                pathInfo = pathInfo.split('.')[0];
+            }
+            
+            return decodeURIComponent(pathInfo);
         };
 
         // Flatten all Public IDs into a Set for O(1) lookup
