@@ -6,6 +6,7 @@ import ExperienceSection from "../sections/ExperienceSection";
 import SkillsSection from "../sections/SkillsSection";
 import ProjectsSection from "../sections/ProjectsSection";
 import CertificationsSection from "../sections/CertificationsSection";
+import BlogSection from "../sections/BlogSection";
 import {
   getAbout,
   getExperiences,
@@ -60,6 +61,7 @@ const Home = () => {
         certifications={certifications}
         loading={loading}
       />
+      <BlogSection />
 
       {/* ─── Contact ─────────────────────────────── */}
       <motion.section

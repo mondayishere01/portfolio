@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Public Pages
 import Home from "./pages/Home";
 import Archive from "./pages/Archive";
+import ExperienceArchive from "./pages/ExperienceArchive";
 import BlogList from "./pages/BlogList";
 import BlogPost from "./pages/BlogPost";
 
@@ -38,6 +39,7 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/archive" element={<Archive />} />
+            <Route path="/experience-archive" element={<ExperienceArchive />} />
             <Route path="/blog" element={<BlogList />} />
             <Route path="/blog/:id" element={<BlogPost />} />
           </Route>
