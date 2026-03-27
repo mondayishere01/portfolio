@@ -16,18 +16,16 @@ const storage = new CloudinaryStorage({
     params: {
         folder: async (req, file) => {
             const folder = req.query.folder || 'portfolio';
-            // Prepend 'Portfolio Assets' if not already there, or just use the structure provided
             return `Portfolio Assets/${folder}`;
         },
         public_id: (req, file) => {
-            // Use the original filename (without extension) prefixed with a timestamp
             const originalName = file.originalname.split('.')[0].replace(/\s+/g, '_').toLowerCase();
             return `${Date.now()}-${originalName}`;
         },
-        // Support common image formats and pdf for resumes
         allowed_formats: ['jpg', 'png', 'jpeg', 'webp', 'svg', 'pdf'],
-        // 'auto' resource type is needed for pdfs (raw files)
-        resource_type: 'auto'
+        resource_type: 'auto',
+        type: 'upload',
+        access_mode: 'public',
     },
 });
 

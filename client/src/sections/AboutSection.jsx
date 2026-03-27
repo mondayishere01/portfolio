@@ -53,21 +53,29 @@ const AboutSection = ({ about, loading }) => {
     {/* Download CV below bio, aligned to section header */}
     {about?.resumeUrl && !loading && (
       <div className="mt-8 flex justify-start">
-        <a
-          className="group inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
-          href={about.resumeUrl?.includes('cloudinary.com') 
-            ? about.resumeUrl.replace('/upload/', '/upload/fl_attachment/') 
-            : about.resumeUrl
-          }
-          download="Devesh_Pandey_Resume_2026.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          type="application/pdf"
+        <button
+          className="group inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10 cursor-pointer"
+          onClick={async () => {
+            try {
+              const response = await fetch(about.resumeUrl);
+              const blob = await response.blob();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'Devesh_Pandey_Resume.pdf';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              window.URL.revokeObjectURL(url);
+            } catch {
+              window.open(about.resumeUrl, '_blank');
+            }
+          }}
           aria-label="Download CV"
         >
           Download CV
           <Download size={16} className="transition-transform group-hover:translate-y-0.5" />
-        </a>
+        </button>
       </div>
     )}
     </motion.section>
