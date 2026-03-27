@@ -14,9 +14,11 @@ router.post('/', requireAuth, upload.single('file'), (req, res) => {
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
-        // Return the secure Cloudinary URL
+        // Return the full secure Cloudinary URL (prioritize secure_url or url over path)
+        const finalUrl = req.file.secure_url || req.file.url || req.file.path;
+
         res.json({
-            url: req.file.path,
+            url: finalUrl,
             filename: req.file.filename,
         });
     } catch (err) {

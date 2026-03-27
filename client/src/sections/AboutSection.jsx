@@ -19,22 +19,7 @@ const AboutSection = ({ about, loading }) => {
     >
       <SectionHeader label="About" />
     <div className="flex flex-col md:flex-row gap-8 items-start">
-      {/* Profile Image with Fallback */}
-      {about?.imageUrl && !imageError ? (
-        <div className="shrink-0 group/img relative">
-          <div className="absolute -inset-2 rounded-xl bg-[#ffeb00]/10 opacity-0 group-hover/img:opacity-100 transition-opacity blur-xl"></div>
-          <img
-            src={about.imageUrl}
-            alt="Profile"
-            onError={() => setImageError(true)}
-            className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-2 border-slate-700/50 grayscale hover:grayscale-0 transition-all duration-500 relative z-10"
-          />
-        </div>
-      ) : (
-        <div className="shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-xl bg-slate-800/50 border-2 border-slate-700/50 flex items-center justify-center text-slate-500 relative z-10">
-          <User size={48} />
-        </div>
-      )}
+      {/* Image removed as requested */}
 
       <div className="flex-1 text-slate-400 leading-relaxed">
         {loading ? (
@@ -64,14 +49,19 @@ const AboutSection = ({ about, loading }) => {
     {about?.resumeUrl && !loading && (
       <div className="mt-8 flex justify-start">
         <a
-          className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
-          href={about.resumeUrl}
+          className="group inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
+          href={about.resumeUrl?.includes('cloudinary.com') 
+            ? about.resumeUrl.replace(/\/upload\/(v\d+\/)?/, (match) => match + 'fl_attachment/') 
+            : about.resumeUrl
+          }
+          download="Devesh_Pandey_Resume_2026.pdf"
           target="_blank"
           rel="noopener noreferrer"
+          type="application/pdf"
           aria-label="Download CV"
         >
           Download CV
-          <Download size={16} />
+          <Download size={16} className="transition-transform group-hover:translate-y-0.5" />
         </a>
       </div>
     )}

@@ -7,6 +7,16 @@ const socialLinkSchema = new mongoose.Schema({
 
 const aboutSchema = new mongoose.Schema(
     {
+        name: {
+            type: String,
+            trim: true,
+            default: 'Devesh Pandey'
+        },
+        title: {
+            type: String,
+            trim: true,
+            default: 'Full Stack Developer'
+        },
         bio: {
             type: String,
             required: [true, 'Bio text is required'],

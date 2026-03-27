@@ -108,16 +108,8 @@ const FloatingContact = () => {
         aria-label="Contact and Social Links"
         data-cursor-text="Connect"
       >
-        <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center text-slate-400">
-          {about.imageUrl ? (
-            <img
-              src={about.imageUrl}
-              alt="Profile"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-          ) : (
-            <User size={24} />
-          )}
+        <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center text-[#ffeb00] bg-[#ffeb00]/10 border border-[#ffeb00]/20">
+          <User size={28} strokeWidth={2.5} />
         </div>
 
         {/* Online Indicator */}

@@ -6,8 +6,10 @@ import FileUpload from '../../components/FileUpload';
 const PLATFORMS = ['GitHub', 'LinkedIn', 'Twitter', 'Instagram', 'Email', 'Website'];
 
 const ManageAbout = () => {
+    const [name, setName] = useState('');
+    const [title, setTitle] = useState('');
     const [bio, setBio] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    // imageUrl removed as requested
     const [resumeUrl, setResumeUrl] = useState('');
     const [socialLinks, setSocialLinks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,8 +20,10 @@ const ManageAbout = () => {
         const fetchAbout = async () => {
             try {
                 const res = await getAbout();
+                setName(res.data?.name || '');
+                setTitle(res.data?.title || '');
                 setBio(res.data?.bio || '');
-                setImageUrl(res.data?.imageUrl || '');
+                // setImageUrl(res.data?.imageUrl || ''); // removed
                 setResumeUrl(res.data?.resumeUrl || '');
                 setSocialLinks(res.data?.socialLinks || []);
             } catch { /* ignore */ }
@@ -33,7 +37,7 @@ const ManageAbout = () => {
         setSaving(true);
         setStatus({ type: '', message: '' });
         try {
-            await updateAbout({ bio, imageUrl, resumeUrl, socialLinks });
+            await updateAbout({ name, title, bio, resumeUrl, socialLinks });
             setStatus({ type: 'success', message: 'About section updated successfully!' });
         } catch (err) {
             setStatus({ type: 'error', message: err.response?.data?.error || 'Failed to update' });
@@ -68,6 +72,25 @@ const ManageAbout = () => {
             <h2 className="text-2xl font-bold text-slate-200 mb-6">Manage About Section</h2>
 
             <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">Display Name</label>
+                        <input
+                            type="text" value={name} onChange={e => setName(e.target.value)}
+                            placeholder="e.g. Devesh Pandey"
+                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">Professional Title</label>
+                        <input
+                            type="text" value={title} onChange={e => setTitle(e.target.value)}
+                            placeholder="e.g. Full Stack Developer"
+                            className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-2.5 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none"
+                        />
+                    </div>
+                </div>
+
                 <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">Bio Text *</label>
                     <p className="text-xs text-slate-500 mb-2">Use line breaks to separate paragraphs.</p>
@@ -77,20 +100,7 @@ const ManageAbout = () => {
                         className="w-full rounded-md border border-slate-600 bg-slate-700/50 px-4 py-3 text-sm text-slate-200 focus:border-[#ffeb00] focus:outline-none resize-y leading-relaxed"
                     />
                 </div>
-                {/* Profile Image */}
-                <div>
-                    <FileUpload
-                        label="Profile Image"
-                        value={imageUrl}
-                        onChange={setImageUrl}
-                    />
-                    {imageUrl && (
-                        <div className="mt-3">
-                            <p className="text-xs text-slate-500 mb-1">Preview:</p>
-                            <img src={imageUrl} alt="Preview" className="h-24 w-24 rounded-lg object-cover border border-slate-600" onError={(e) => { e.target.style.display = 'none'; }} />
-                        </div>
-                    )}
-                </div>
+                {/* Profile Image removed as requested */}
 
                 {/* Resume URL */}
                 <div className="pt-2">

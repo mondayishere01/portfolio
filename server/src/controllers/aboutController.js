@@ -26,7 +26,7 @@ const getAbout = async (req, res) => {
  */
 const updateAbout = async (req, res) => {
     try {
-        const { bio, imageUrl } = req.body;
+        const { name, title, bio, imageUrl, resumeUrl, socialLinks } = req.body;
 
         if (!bio) {
             return res.status(400).json({ error: 'Bio text is required' });
@@ -34,7 +34,14 @@ const updateAbout = async (req, res) => {
 
         const about = await About.findOneAndUpdate(
             {},
-            { bio, imageUrl: imageUrl || '' },
+            { 
+                name, 
+                title, 
+                bio, 
+                imageUrl: imageUrl || '', 
+                resumeUrl: resumeUrl || '', 
+                socialLinks: socialLinks || [] 
+            },
             { new: true, upsert: true, runValidators: true }
         );
 
