@@ -13,6 +13,7 @@ const settingsRoutes = require('./routes/settingsRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
 const blogRoutes = require('./routes/blogRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // ─── Health Check ───────────────────────────────────────
 app.get('/', (req, res) => {
