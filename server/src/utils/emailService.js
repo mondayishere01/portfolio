@@ -54,7 +54,7 @@ const sendContactNotification = async ({ name, email, message, notifyEmail }) =>
 /**
  * Broadcast a new blog post to all active subscribers.
  */
-const sendBlogBroadcast = async (blog, subscribers) => {
+const sendBlogBroadcast = async (blog, subscribers, baseUrl) => {
     const host = process.env.SMTP_HOST;
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
@@ -70,7 +70,9 @@ const sendBlogBroadcast = async (blog, subscribers) => {
             auth: { user, pass },
         });
 
-        const blogUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}/blog/${blog._id}`;
+        // Use provided baseUrl or fallback to env/localhost
+        const finalBaseUrl = (baseUrl || process.env.CLIENT_URL || 'http://localhost:5173').replace(/\/$/, '');
+        const blogUrl = `${finalBaseUrl}/blog/${blog._id}`;
 
         for (const sub of subscribers) {
             const htmlBody = `

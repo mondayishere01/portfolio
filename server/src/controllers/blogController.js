@@ -1,4 +1,6 @@
 const Blog = require('../models/Blog');
+const User = require('../models/User');
+const About = require('../models/About');
 const Newsletter = require('../models/Newsletter');
 const { sendBlogBroadcast } = require('../utils/emailService');
 
@@ -81,8 +83,15 @@ const createBlog = async (req, res) => {
         // Async broadcast to subscribers
         const subscribers = await Newsletter.find({ active: true }).select('email');
         if (subscribers.length > 0) {
+            // Fetch the global portfolio website URL from the About collection
+            const about = await About.findOne().select('socialLinks');
+            const websiteLink = about?.socialLinks?.find(link => 
+                link.platform.toLowerCase() === 'website'
+            );
+            const baseUrl = websiteLink?.url || null;
+
             // Use setImmediate to send emails without blocking the API response
-            setImmediate(() => sendBlogBroadcast(blog, subscribers));
+            setImmediate(() => sendBlogBroadcast(blog, subscribers, baseUrl));
         }
 
         res.status(201).json(blog);
