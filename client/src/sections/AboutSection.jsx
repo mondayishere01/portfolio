@@ -56,7 +56,7 @@ const AboutSection = ({ about, loading }) => {
         <a
           className="group inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
           href={about.resumeUrl?.includes('cloudinary.com') 
-            ? about.resumeUrl.replace(/\/upload\/(v\d+\/)?/, (match) => match + 'fl_attachment/') 
+            ? about.resumeUrl.replace('/upload/', '/upload/fl_attachment/') 
             : about.resumeUrl
           }
           download="Devesh_Pandey_Resume_2026.pdf"
