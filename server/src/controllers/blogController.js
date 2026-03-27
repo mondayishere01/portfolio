@@ -1,4 +1,6 @@
 const Blog = require('../models/Blog');
+const Newsletter = require('../models/Newsletter');
+const { sendBlogBroadcast } = require('../utils/emailService');
 
 /**
  * @route   GET /api/blogs
@@ -9,7 +11,7 @@ const getAllBlogs = async (req, res) => {
     try {
         const { category, tag } = req.query;
         let query = {};
-        
+
         if (category) {
             query.category = category;
         }
@@ -20,7 +22,7 @@ const getAllBlogs = async (req, res) => {
         const blogs = await Blog.find(query)
             .populate('author', 'name imageUrl bio')
             .sort({ createdAt: -1 });
-            
+
         res.json(blogs);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch blogs' });
@@ -36,10 +38,23 @@ const getBlogById = async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id)
             .populate('author', 'name imageUrl bio socialLinks');
-            
+
         if (!blog) return res.status(404).json({ error: 'Blog not found' });
-        
-        res.json(blog);
+
+        // Find neighbors for recommendation box
+        const prev = await Blog.findOne({ createdAt: { $lt: blog.createdAt } })
+            .sort({ createdAt: -1 })
+            .select('title _id');
+
+        const next = await Blog.findOne({ createdAt: { $gt: blog.createdAt } })
+            .sort({ createdAt: 1 })
+            .select('title _id');
+
+        res.json({
+            ...blog.toObject(),
+            prev,
+            next
+        });
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch blog' });
     }
@@ -63,6 +78,13 @@ const createBlog = async (req, res) => {
             author: req.user.id, // Authenticated user is the author
         });
 
+        // Async broadcast to subscribers
+        const subscribers = await Newsletter.find({ active: true }).select('email');
+        if (subscribers.length > 0) {
+            // Use setImmediate to send emails without blocking the API response
+            setImmediate(() => sendBlogBroadcast(blog, subscribers));
+        }
+
         res.status(201).json(blog);
     } catch (err) {
         res.status(500).json({ error: 'Failed to create blog' });
@@ -77,7 +99,7 @@ const createBlog = async (req, res) => {
 const updateBlog = async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id);
-        
+
         if (!blog) return res.status(404).json({ error: 'Blog not found' });
 
         // Authorization check: User must be the author OR an admin
@@ -87,7 +109,7 @@ const updateBlog = async (req, res) => {
 
         const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true })
             .populate('author', 'name imageUrl bio');
-            
+
         res.json(updatedBlog);
     } catch (err) {
         res.status(500).json({ error: 'Failed to update blog' });
@@ -102,7 +124,7 @@ const updateBlog = async (req, res) => {
 const deleteBlog = async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id);
-        
+
         if (!blog) return res.status(404).json({ error: 'Blog not found' });
 
         // Authorization check: User must be the author OR an admin
