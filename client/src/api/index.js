@@ -18,14 +18,17 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// Auto-logout on token expiry (401)
+// Auto-logout on token expiry (401) — only redirect if user is on an admin page
 api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/admin/login';
+            // Only redirect to login if the user is on an admin route
+            if (window.location.pathname.startsWith('/admin')) {
+                window.location.href = '/admin/login';
+            }
         }
         return Promise.reject(error);
     }
