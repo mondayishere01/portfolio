@@ -35,11 +35,14 @@ const SocialIcons = () => {
                 return (
                     <li key={i}>
                         <a
-                            className="block text-slate-400 hover:text-slate-200 transition"
+                            className="block transition"
                             href={href}
                             target="_blank"
                             rel="noreferrer"
                             aria-label={link.platform}
+                            style={{ color: 'var(--content-muted)' }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--content-body)'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-muted)'}
                         >
                             <Icon size={20} />
                         </a>

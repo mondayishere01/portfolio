@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
 const NAV_ITEMS = [
   { id: "about", label: "About", path: "/", isAnchor: true },
@@ -87,22 +88,15 @@ const Navigation = () => {
     <>
       {/* Blur backdrop — only when pill is open */}
       <div
-        className={`fixed inset-0 z-40 backdrop-blur-sm bg-black/40 transition-opacity duration-500 ${
+        className={`fixed inset-0 z-40 backdrop-blur-sm transition-opacity duration-500 ${
           isOpen && isPill
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
+        style={{ backgroundColor: 'var(--overlay)' }}
         aria-hidden="true"
       />
 
-      {/*
-       * Single container that morphs between:
-       *   full-bar  → top:0, left:0, right:0, no border, no bg, no radius
-       *   pill      → top:20px, left:20px, dynamic width
-       *
-       * Mobile pill: calc(100% - 40px) — full width with margins
-       * Desktop pill: 320px
-       */}
       <div
         ref={boxRef}
         className="fixed z-50 overflow-hidden"
@@ -116,9 +110,9 @@ const Navigation = () => {
               : "320px"
             : "calc(100% - 40px)",
           borderRadius: "12px",
-          background: isPill ? "#111111" : "transparent",
+          background: isPill ? "var(--surface-card)" : "transparent",
           border: isPill
-            ? "1px solid rgba(255,255,255,0.15)"
+            ? "1px solid var(--border-alpha-15)"
             : "1px solid transparent",
           transition:
             "right 500ms cubic-bezier(0.4,0,0.2,1), width 500ms cubic-bezier(0.4,0,0.2,1), background 500ms cubic-bezier(0.4,0,0.2,1), border-color 500ms cubic-bezier(0.4,0,0.2,1)",
@@ -127,10 +121,11 @@ const Navigation = () => {
         {/* ── Header row ─────────────────────────────────────────── */}
         <button
           onClick={() => isPill && setIsOpen((v) => !v)}
-          className={`w-full flex items-center px-5 py-3 ${isPill ? "cursor-pointer" : "cursor-default"}`}
+          className={`w-full flex items-center px-5 h-[48px] ${isPill ? "cursor-pointer" : "cursor-default"}`}
           aria-expanded={isOpen}
           aria-label={isOpen ? "Collapse menu" : "Expand menu"}
           tabIndex={isPill ? 0 : -1}
+          style={{ height: "48px" }}
         >
           {/* Logo */}
           <Link
@@ -139,7 +134,8 @@ const Navigation = () => {
               e.stopPropagation();
               setIsOpen(false);
             }}
-            className="text-[#ffeb00] font-black text-lg tracking-tight leading-none shrink-0 mr-4"
+            className="font-black text-lg tracking-tight leading-none shrink-0 mr-4"
+            style={{ color: 'var(--accent-brand)' }}
           >
             Devesh
           </Link>
@@ -163,7 +159,10 @@ const Navigation = () => {
                       e.stopPropagation();
                       handleAnchorClick(e, item);
                     }}
-                    className="text-white/60 hover:text-white text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
+                    className="text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
+                    style={{ color: 'var(--content-muted)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--content-primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-muted)'}
                   >
                     {item.label}
                   </a>
@@ -172,7 +171,10 @@ const Navigation = () => {
                     key={item.id}
                     to={item.path}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-white/60 hover:text-white text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
+                    className="text-xs uppercase tracking-widest font-medium transition-colors duration-200 whitespace-nowrap"
+                    style={{ color: 'var(--content-muted)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--content-primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-muted)'}
                   >
                     {item.label}
                   </Link>
@@ -181,7 +183,18 @@ const Navigation = () => {
             </div>
           </nav>
 
-          {/* Pill: current page label + dot/dash indicator */}
+          {/* Full-bar: Theme toggle at far right */}
+          <div
+            style={{
+              opacity: isPill ? 0 : 1,
+              pointerEvents: isPill ? "none" : "auto",
+              transition: "opacity 300ms ease",
+            }}
+          >
+            <ThemeToggle />
+          </div>
+
+          {/* Pill: current page label + [theme toggle] + dot/dash indicator */}
           <div
             className="flex items-center justify-between flex-1"
             style={{
@@ -193,24 +206,30 @@ const Navigation = () => {
               right: "16px",
             }}
           >
-            <span className="text-white/50 text-xs uppercase tracking-widest font-medium">
+            <span className="text-xs uppercase tracking-widest font-medium" style={{ color: 'var(--content-muted)' }}>
               {currentPage}
             </span>
 
-            {/* Dot → dash: fixed 6px wide, just height changes 6px circle → 2px bar */}
-            <span
-              style={{
-                display: "inline-block",
-                width: "6px",
-                height: isOpen ? "2px" : "6px",
-                borderRadius: isOpen ? "2px" : "50%",
-                backgroundColor: isOpen
-                  ? "rgba(255,235,0,0.9)"
-                  : "rgba(255,255,255,0.4)",
-                transition:
-                  "height 250ms ease, border-radius 250ms ease, background-color 250ms ease",
-              }}
-            />
+            <div className="flex items-center gap-2">
+              {/* Theme toggle — right next to the dot */}
+              <ThemeToggle />
+
+              {/* Dot → dash: fixed 6px wide, just height changes 6px circle → 2px bar */}
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "6px",
+                  height: isOpen ? "2px" : "6px",
+                  borderRadius: isOpen ? "2px" : "50%",
+                  backgroundColor: isOpen
+                    ? "var(--accent-brand)"
+                    : "var(--content-muted)",
+                  transition:
+                    "height 250ms ease, border-radius 250ms ease, background-color 250ms ease",
+                  opacity: isOpen ? 0.9 : 0.4,
+                }}
+              />
+            </div>
           </div>
         </button>
 
@@ -236,22 +255,27 @@ const Navigation = () => {
                       <a
                         href={`#${item.id}`}
                         onClick={(e) => handleAnchorClick(e, item)}
-                        className="flex items-center justify-between w-full px-2 py-2 rounded-lg text-white/80 hover:text-white hover:bg-white/5 transition-all duration-200 text-base"
+                        className="flex items-center justify-between w-full px-2 py-2 rounded-lg transition-all duration-200 text-base"
+                        style={{ color: 'var(--content-body)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--content-primary)'; e.currentTarget.style.backgroundColor = 'var(--hover-bg)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--content-body)'; e.currentTarget.style.backgroundColor = 'transparent'; }}
                       >
                         {item.label}
                       </a>
                     ) : (
                       <Link
                         to={item.path}
-                        className={`flex items-center justify-between w-full px-2 py-2 rounded-lg transition-all duration-200 text-base ${
-                          isActive
-                            ? "text-white bg-white/10"
-                            : "text-white/80 hover:text-white hover:bg-white/5"
-                        }`}
+                        className="flex items-center justify-between w-full px-2 py-2 rounded-lg transition-all duration-200 text-base"
+                        style={{
+                          color: isActive ? 'var(--content-primary)' : 'var(--content-body)',
+                          backgroundColor: isActive ? 'var(--active-bg)' : 'transparent',
+                        }}
+                        onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = 'var(--content-primary)'; e.currentTarget.style.backgroundColor = 'var(--hover-bg)'; } }}
+                        onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = 'var(--content-body)'; e.currentTarget.style.backgroundColor = 'transparent'; } }}
                       >
                         {item.label}
                         {isActive && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#ffeb00]" />
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--accent-brand)' }} />
                         )}
                       </Link>
                     )}
@@ -266,14 +290,14 @@ const Navigation = () => {
       {!isHome && !isMobile && (
         <Link
           to={isBlogPost ? "/blog" : "/"}
-          className="fixed z-50 px-5 py-3 flex items-center gap-2 group transition-all duration-300 hover:border-white/30"
+          className="fixed z-50 px-5 py-3 flex items-center gap-2 group transition-all duration-300"
           style={{
             top: "20px",
-            left: "350px", // 20 gap + 320 nav pill + 10 gap
-            background: "#111111",
-            border: "1px solid rgba(255,255,255,0.15)",
+            left: "350px",
+            background: "var(--surface-card)",
+            border: "1px solid var(--border-alpha-15)",
             borderRadius: "12px",
-            height: "48px", // Matches nav pill approximate height
+            height: "48px",
           }}
           data-cursor-text={isBlogPost ? "Blog Hub" : "Home"}
         >
@@ -281,7 +305,8 @@ const Navigation = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            className="h-4 w-4 text-slate-400 group-hover:text-[#ffeb00] transition-transform group-hover:-translate-x-1"
+            className="h-4 w-4 transition-transform group-hover:-translate-x-1"
+            style={{ color: 'var(--content-muted)' }}
           >
             <path
               fillRule="evenodd"
@@ -289,7 +314,7 @@ const Navigation = () => {
               clipRule="evenodd"
             />
           </svg>
-          <span className="text-sm font-semibold text-slate-200 group-hover:text-[#ffeb00] transition-colors">
+          <span className="text-sm font-semibold transition-colors" style={{ color: 'var(--content-body)' }}>
             {isBlogPost ? "Back to Blog Hub" : "Back to Portfolio"}
           </span>
         </Link>

@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Public Pages
@@ -33,6 +34,7 @@ import CustomCursor from "./components/CustomCursor";
 
 function App() {
   return (
+    <ThemeProvider>
     <AuthProvider>
       <CustomCursor />
       <Router>
@@ -75,6 +77,7 @@ function App() {
         </Routes>
       </Router>
     </AuthProvider>
+    </ThemeProvider>
   );
 }
 

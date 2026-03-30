@@ -28,9 +28,9 @@ const BlogFeed = () => {
       <div className="space-y-4 p-1">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="animate-pulse space-y-2">
-            <div className="h-3 w-16 rounded bg-white/5" />
-            <div className="h-4 w-full rounded bg-white/5" />
-            <div className="h-3 w-20 rounded bg-white/5" />
+            <div className="h-3 w-16 rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
+            <div className="h-4 w-full rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
+            <div className="h-3 w-20 rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
           </div>
         ))}
       </div>
@@ -39,7 +39,7 @@ const BlogFeed = () => {
 
   if (blogs.length === 0) {
     return (
-      <p className="text-white/30 text-xs text-center py-8">
+      <p className="text-xs text-center py-8" style={{ color: 'var(--content-ghost)' }}>
         No posts yet.
       </p>
     );
@@ -53,21 +53,33 @@ const BlogFeed = () => {
         <Link
           key={blog._id}
           to={`/blog/${blog._id}`}
-          className="block rounded-lg px-3 py-3 transition-all duration-200 hover:bg-white/5 group"
+          className="block rounded-lg px-3 py-3 transition-all duration-200 group"
           data-cursor-text="Read"
+          style={{ backgroundColor: 'transparent' }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--hover-bg)'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
         >
           {/* Category */}
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffeb00]/80">
+          <span
+            className="text-[10px] font-bold uppercase tracking-wider"
+            style={{ color: 'var(--accent-brand)', opacity: 0.8 }}
+          >
             {blog.category}
           </span>
 
           {/* Title */}
-          <h4 className="text-sm font-medium text-white/80 group-hover:text-white leading-snug mt-1 line-clamp-2">
+          <h4
+            className="text-sm font-medium leading-snug mt-1 line-clamp-2"
+            style={{ color: 'var(--content-body)', opacity: 0.8 }}
+          >
             {blog.title}
           </h4>
 
           {/* Date */}
-          <span className="text-[11px] text-white/30 mt-1.5 block">
+          <span
+            className="text-[11px] mt-1.5 block"
+            style={{ color: 'var(--content-ghost)' }}
+          >
             {new Date(blog.createdAt).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
@@ -81,8 +93,22 @@ const BlogFeed = () => {
         <div className="pt-2 px-1">
           <Link
             to="/blog"
-            className="flex items-center justify-center w-full py-2.5 rounded-lg border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[#ffeb00] hover:border-[#ffeb00]/30 hover:bg-[#ffeb00]/5 transition-all duration-300"
+            className="flex items-center justify-center w-full py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all duration-300"
             data-cursor-text="Archive"
+            style={{
+              color: 'var(--content-tertiary)',
+              border: '1px solid var(--border-alpha-10)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--accent-brand)';
+              e.currentTarget.style.borderColor = 'var(--interactive-base-30)';
+              e.currentTarget.style.backgroundColor = 'var(--interactive-base-05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--content-tertiary)';
+              e.currentTarget.style.borderColor = 'var(--border-alpha-10)';
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
           >
             Visit the blogs archive
           </Link>

@@ -85,7 +85,7 @@ const Home = () => {
         variants={sectionVariants}
       >
         <SectionHeader label="Contact" />
-        <p className="mb-6 text-slate-400 leading-relaxed">
+        <p className="mb-6 leading-relaxed" style={{ color: 'var(--content-muted)' }}>
           Have a question or want to work together? Drop me a message and I'll
           get back to you.
         </p>

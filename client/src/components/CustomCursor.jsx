@@ -122,7 +122,7 @@ const CustomCursor = () => {
           width: isHovering ? "0px" : "8px",
           height: isHovering ? "0px" : "8px",
           borderRadius: "50%",
-          backgroundColor: "#fff",
+          backgroundColor: "var(--cursor-dot)",
           pointerEvents: "none",
           zIndex: 9999,
           marginLeft: "-4px",
@@ -144,10 +144,10 @@ const CustomCursor = () => {
           height: isHovering ? "90px" : "40px",
           borderRadius: "50%",
           border: isHovering
-            ? "1.5px solid rgba(255, 255, 255, 0.6)"
-            : "1.5px solid rgba(255, 255, 255, 0.5)",
+            ? "1.5px solid var(--cursor-ring-hover)"
+            : "1.5px solid var(--cursor-ring)",
           backgroundColor: isHovering
-            ? "rgba(255, 255, 255, 0.08)"
+            ? "var(--cursor-hover-bg)"
             : "transparent",
           pointerEvents: "none",
           zIndex: 9998,
@@ -165,7 +165,7 @@ const CustomCursor = () => {
         <span
           ref={textRef}
           style={{
-            color: "#fff",
+            color: "var(--cursor-dot)",
             fontSize: "11px",
             fontWeight: 600,
             letterSpacing: "0.1em",

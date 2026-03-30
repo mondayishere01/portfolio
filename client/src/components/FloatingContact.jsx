@@ -63,7 +63,7 @@ const FloatingContact = () => {
       className="fixed bottom-6 right-6 z-50 flex flex-col items-end"
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Expanded Menu - Absolutely positioned to not affect parent layout when closed */}
+      {/* Expanded Menu */}
       <div
         className={`absolute bottom-full right-0 mb-4 flex flex-col gap-2 overflow-hidden transition-all duration-300 origin-bottom-right ${
           isOpen
@@ -71,8 +71,18 @@ const FloatingContact = () => {
             : "opacity-0 scale-95 translate-y-4 pointer-events-none"
         }`}
       >
-        <div className="bg-[#111111]/90 backdrop-blur-md border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col gap-3 min-w-[220px]">
-          <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#ffeb00] border-b border-white/10 pb-3 mb-1">
+        <div
+          className="backdrop-blur-md rounded-2xl p-5 flex flex-col gap-3 min-w-[220px]"
+          style={{
+            backgroundColor: 'var(--surface-card)',
+            border: '1px solid var(--border-alpha-10)',
+            boxShadow: '0 8px 32px var(--shadow-subtle)',
+          }}
+        >
+          <h4
+            className="text-[10px] font-bold uppercase tracking-widest pb-3 mb-1"
+            style={{ color: 'var(--accent-brand)', borderBottom: '1px solid var(--border-alpha-10)' }}
+          >
             Contact & Links
           </h4>
 
@@ -87,10 +97,16 @@ const FloatingContact = () => {
                 }
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-3 text-xs font-semibold text-slate-300 hover:text-[#ffeb00] transition-colors group py-2"
+                className="flex items-center gap-3 text-xs font-semibold transition-colors group py-2"
                 data-cursor-text={link.platform}
+                style={{ color: 'var(--content-body)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-brand)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-body)'}
               >
-                <span className="p-2 rounded-full bg-white/5 group-hover:bg-[#ffeb00]/10 transition-colors shadow-inner">
+                <span
+                  className="p-2 rounded-full transition-colors shadow-inner"
+                  style={{ backgroundColor: 'var(--hover-bg)' }}
+                >
                   {getIcon(link.platform)}
                 </span>
                 <span className="tracking-wide">
@@ -108,16 +124,35 @@ const FloatingContact = () => {
       <button
         onClick={() => setIsClicked(!isClicked)}
         onMouseEnter={() => setIsHovered(true)}
-        className="relative w-14 h-14 rounded-full border-2 border-slate-700 overflow-visible shadow-2xl hover:border-[#ffeb00] hover:scale-110 transition-all duration-300 focus:outline-none group bg-slate-800"
+        className="relative w-14 h-14 rounded-full border-2 overflow-visible shadow-2xl hover:scale-110 transition-all duration-300 focus:outline-none group"
+        style={{
+          borderColor: 'var(--border-subtle)',
+          backgroundColor: 'var(--surface-card)',
+        }}
+        onMouseEnter2={null}
         aria-label="Contact and Social Links"
         data-cursor-text="Connect"
       >
-        <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center text-[#ffeb00] bg-[#ffeb00]/10 border border-[#ffeb00]/20">
+        <div
+          className="w-full h-full rounded-full overflow-hidden flex items-center justify-center"
+          style={{
+            color: 'var(--accent-brand)',
+            backgroundColor: 'var(--interactive-base-10)',
+            border: '1px solid var(--interactive-base-20)',
+          }}
+        >
           <User size={28} strokeWidth={2.5} />
         </div>
 
         {/* Online Indicator */}
-        <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-[#111111] rounded-full shadow-[0_0_10px_rgba(34,197,94,0.8)] animate-pulse"></span>
+        <span
+          className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full animate-pulse"
+          style={{
+            backgroundColor: 'var(--status-success)',
+            border: '2px solid var(--surface-card)',
+            boxShadow: '0 0 10px rgba(34,197,94,0.8)',
+          }}
+        ></span>
       </button>
       
       {/* Global CSS for custom scrollbar in this widget */}
@@ -126,15 +161,15 @@ const FloatingContact = () => {
           width: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
+          background: var(--hover-bg);
           border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 235, 0, 0.3);
+          background: var(--interactive-base-30);
           border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 235, 0, 0.6);
+          background: var(--accent-brand);
         }
       `}</style>
     </div>

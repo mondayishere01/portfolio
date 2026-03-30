@@ -14,11 +14,11 @@ const Footer = () => {
     const copyrightText = settings?.copyrightText || "Devesh. All rights reserved.";
 
     return (
-        <footer className="max-w-md pb-4 pt-8 text-xs text-slate-500 sm:pb-0 text-center lg:text-left">
+        <footer className="max-w-md pb-4 pt-8 text-xs sm:pb-0 text-center lg:text-left" style={{ color: 'var(--content-tertiary)' }}>
             <p className="leading-relaxed whitespace-pre-line">
                 {footerText}
             </p>
-            <p className="mt-2 text-slate-600">
+            <p className="mt-2" style={{ color: 'var(--content-faint)' }}>
                 &copy; {new Date().getFullYear()} {copyrightText}
             </p>
         </footer>

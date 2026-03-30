@@ -19,19 +19,17 @@ const AboutSection = ({ about, loading }) => {
     >
       <SectionHeader label="About" />
       {about?.tagline && !loading && (
-        <h3 className="mb-4 text-2xl font-black uppercase tracking-tighter text-white sm:text-3xl lg:text-4xl">
+        <h3 className="mb-4 text-2xl font-black uppercase tracking-tighter sm:text-3xl lg:text-4xl" style={{ color: 'var(--content-primary)' }}>
           {about.tagline}
         </h3>
       )}
       <div className="flex flex-col md:flex-row gap-8 items-start">
-        {/* Image removed as requested */}
-
-        <div className="flex-1 text-slate-400 leading-relaxed">
+        <div className="flex-1 leading-relaxed" style={{ color: 'var(--content-muted)' }}>
           {loading ? (
             <div className="space-y-3">
-              <div className="h-4 w-full rounded bg-slate-700/50 animate-pulse" />
-              <div className="h-4 w-5/6 rounded bg-slate-700/50 animate-pulse" />
-              <div className="h-4 w-4/6 rounded bg-slate-700/50 animate-pulse" />
+              <div className="h-4 w-full rounded animate-pulse" style={{ backgroundColor: 'var(--skeleton)' }} />
+              <div className="h-4 w-5/6 rounded animate-pulse" style={{ backgroundColor: 'var(--skeleton)' }} />
+              <div className="h-4 w-4/6 rounded animate-pulse" style={{ backgroundColor: 'var(--skeleton)' }} />
             </div>
           ) : about?.bio ? (
             <>
@@ -50,11 +48,17 @@ const AboutSection = ({ about, loading }) => {
           )}
         </div>
       </div>
-      {/* Download CV below bio, aligned to section header */}
       {about?.resumeUrl && !loading && (
         <div className="mt-8 flex justify-start">
           <button
-            className="group inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10 cursor-pointer"
+            className="group inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg cursor-pointer"
+            style={{
+              backgroundColor: 'var(--interactive-base)',
+              color: 'var(--content-primary-inv)',
+              boxShadow: '0 10px 15px -3px var(--interactive-base-10)',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--interactive-hover)'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--interactive-base)'}
             onClick={async () => {
               try {
                 const response = await fetch(about.resumeUrl);

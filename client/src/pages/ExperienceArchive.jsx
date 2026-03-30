@@ -21,45 +21,46 @@ const ExperienceArchive = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-black px-6 py-12 md:px-12 md:py-20 lg:pl-3 lg:pr-12">
-            <h1 className="text-4xl font-bold tracking-tight text-slate-200 sm:text-5xl mt-8">Full Experience Archive</h1>
+        <div className="min-h-screen px-6 py-12 md:px-12 md:py-20 lg:pl-3 lg:pr-12" style={{ backgroundColor: 'var(--surface-base)' }}>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mt-8" style={{ color: 'var(--content-body)' }}>Full Experience Archive</h1>
 
             <table className="mt-12 w-full border-collapse text-left">
-                <thead className="sticky top-0 z-10 border-b border-slate-300/10 bg-black/75 px-6 py-5 backdrop-blur">
+                <thead className="sticky top-0 z-10 px-6 py-5 backdrop-blur" style={{ borderBottom: '1px solid var(--border-alpha-10)', backgroundColor: 'var(--surface-base-75)' }}>
                     <tr>
-                        <th className="py-4 pr-8 text-sm font-semibold text-slate-200">Date</th>
-                        <th className="py-4 pr-8 text-sm font-semibold text-slate-200">Role & Company</th>
-                        <th className="hidden py-4 pr-8 text-sm font-semibold text-slate-200 lg:table-cell">Technologies</th>
-                        <th className="hidden py-4 pr-8 text-sm font-semibold text-slate-200 sm:table-cell">Link</th>
+                        <th className="py-4 pr-8 text-sm font-semibold" style={{ color: 'var(--content-body)' }}>Date</th>
+                        <th className="py-4 pr-8 text-sm font-semibold" style={{ color: 'var(--content-body)' }}>Role & Company</th>
+                        <th className="hidden py-4 pr-8 text-sm font-semibold lg:table-cell" style={{ color: 'var(--content-body)' }}>Technologies</th>
+                        <th className="hidden py-4 pr-8 text-sm font-semibold sm:table-cell" style={{ color: 'var(--content-body)' }}>Link</th>
                     </tr>
                 </thead>
                 <tbody>
                     {loading ? (
                         [1, 2, 3].map((i) => (
-                            <tr key={i} className="border-b border-slate-300/10 animate-pulse">
-                                <td className="py-4 pr-8"><div className="h-4 w-24 rounded bg-slate-700/50" /></td>
-                                <td className="py-4 pr-8"><div className="h-4 w-40 rounded bg-slate-700/50" /></td>
-                                <td className="hidden py-4 pr-8 lg:table-cell"><div className="h-4 w-32 rounded bg-slate-700/50" /></td>
-                                <td className="hidden py-4 sm:table-cell"><div className="h-4 w-20 rounded bg-slate-700/50" /></td>
+                            <tr key={i} className="animate-pulse" style={{ borderBottom: '1px solid var(--border-alpha-10)' }}>
+                                <td className="py-4 pr-8"><div className="h-4 w-24 rounded" style={{ backgroundColor: 'var(--skeleton)' }} /></td>
+                                <td className="py-4 pr-8"><div className="h-4 w-40 rounded" style={{ backgroundColor: 'var(--skeleton)' }} /></td>
+                                <td className="hidden py-4 pr-8 lg:table-cell"><div className="h-4 w-32 rounded" style={{ backgroundColor: 'var(--skeleton)' }} /></td>
+                                <td className="hidden py-4 sm:table-cell"><div className="h-4 w-20 rounded" style={{ backgroundColor: 'var(--skeleton)' }} /></td>
                             </tr>
                         ))
                     ) : experiences.length > 0 ? (
                         experiences.map((exp, index) => (
                             <motion.tr
                                 key={exp._id}
-                                className="border-b border-slate-300/10 last:border-none"
+                                className="last:border-none"
+                                style={{ borderBottom: '1px solid var(--border-alpha-10)' }}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                             >
-                                <td className="py-4 pr-8 align-top text-sm text-slate-400">
+                                <td className="py-4 pr-8 align-top text-sm" style={{ color: 'var(--content-muted)' }}>
                                     {exp.date}
                                 </td>
                                 <td className="py-4 pr-8 align-top">
-                                    <div className="font-semibold leading-snug text-slate-200">{exp.title}</div>
-                                    <div className="text-sm text-slate-500 mt-1">{exp.company}</div>
+                                    <div className="font-semibold leading-snug" style={{ color: 'var(--content-body)' }}>{exp.title}</div>
+                                    <div className="text-sm mt-1" style={{ color: 'var(--content-tertiary)' }}>{exp.company}</div>
                                     {exp.description && (
-                                        <div className="mt-2 text-xs leading-relaxed text-slate-400 space-y-1">
+                                        <div className="mt-2 text-xs leading-relaxed space-y-1" style={{ color: 'var(--content-muted)' }}>
                                             {exp.description.split("\n").map((line, i) => (
                                                 <p key={i}>{line}</p>
                                             ))}
@@ -69,7 +70,7 @@ const ExperienceArchive = () => {
                                 <td className="hidden py-4 pr-8 align-top lg:table-cell">
                                     <div className="flex flex-wrap gap-1">
                                         {exp.tags?.map((tag, i) => (
-                                            <span key={i} className="rounded-full bg-[#ffeb00]/10 px-3 py-1 text-xs font-medium text-[#ffeb00]">
+                                            <span key={i} className="rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: 'var(--interactive-base-10)', color: 'var(--accent-brand)' }}>
                                                 {tag}
                                             </span>
                                         ))}
@@ -81,7 +82,10 @@ const ExperienceArchive = () => {
                                             href={exp.companyUrl}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="text-sm text-slate-400 hover:text-[#ffeb00] transition"
+                                            className="text-sm transition"
+                                            style={{ color: 'var(--content-muted)' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-brand)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-muted)'}
                                         >
                                             Link ↗
                                         </a>
@@ -91,7 +95,7 @@ const ExperienceArchive = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="4" className="py-8 text-center text-slate-500">
+                            <td colSpan="4" className="py-8 text-center" style={{ color: 'var(--content-tertiary)' }}>
                                 No experience records found. Add some from the admin panel!
                             </td>
                         </tr>

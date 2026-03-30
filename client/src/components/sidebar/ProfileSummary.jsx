@@ -31,12 +31,12 @@ const ProfileSummary = () => {
   if (loading) {
     return (
       <div className="animate-pulse space-y-4 p-1">
-        <div className="h-5 w-24 rounded bg-white/5" />
-        <div className="h-3 w-full rounded bg-white/5" />
-        <div className="h-3 w-3/4 rounded bg-white/5" />
+        <div className="h-5 w-24 rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
+        <div className="h-3 w-full rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
+        <div className="h-3 w-3/4 rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
         <div className="flex flex-wrap gap-1.5 mt-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-5 w-14 rounded-full bg-white/5" />
+            <div key={i} className="h-5 w-14 rounded-full" style={{ backgroundColor: 'var(--skeleton)' }} />
           ))}
         </div>
       </div>
@@ -52,30 +52,38 @@ const ProfileSummary = () => {
     <div className="space-y-5">
       {/* Name & Title */}
       <Link to="/" className="block group" data-cursor-text="Home">
-        <h3 className="text-lg font-bold text-white group-hover:text-[#ffeb00] transition-colors leading-tight">
+        <h3
+          className="text-lg font-bold transition-colors leading-tight"
+          style={{ color: 'var(--content-primary)' }}
+          onMouseEnter={null}
+        >
           {about?.name || "Devesh"}
         </h3>
-        <p className="text-xs text-white/50 mt-0.5">
+        <p className="text-xs mt-0.5" style={{ color: 'var(--content-muted)' }}>
           {about?.title || "Full Stack Developer"}
         </p>
       </Link>
 
       {/* Short Bio */}
-      <p className="text-xs text-white/40 leading-relaxed">
+      <p className="text-xs leading-relaxed" style={{ color: 'var(--content-tertiary)' }}>
         {shortBio}
       </p>
 
       {/* Skills */}
       {skills.length > 0 && (
         <div>
-          <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/25 mb-2">
+          <h4
+            className="text-[10px] font-bold uppercase tracking-widest mb-2"
+            style={{ color: 'var(--content-ghost)' }}
+          >
             Skills
           </h4>
           <div className="flex flex-wrap gap-1.5">
             {skills.map((skill) => (
               <span
                 key={skill._id}
-                className="rounded-full bg-[#ffeb00]/10 px-2 py-0.5 text-[10px] font-medium text-[#ffeb00]/80"
+                className="rounded-full px-2 py-0.5 text-[10px] font-medium"
+                style={{ backgroundColor: 'var(--interactive-base-10)', color: 'var(--accent-brand)' }}
               >
                 {skill.name}
               </span>
@@ -87,7 +95,10 @@ const ProfileSummary = () => {
       {/* Projects */}
       {projects.length > 0 && (
         <div>
-          <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/25 mb-2">
+          <h4
+            className="text-[10px] font-bold uppercase tracking-widest mb-2"
+            style={{ color: 'var(--content-ghost)' }}
+          >
             Projects
           </h4>
           <div className="space-y-1.5">
@@ -99,14 +110,17 @@ const ProfileSummary = () => {
                   href={proj.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="block text-xs text-white/60 hover:text-[#ffeb00] transition-colors truncate"
+                  className="block text-xs transition-colors truncate"
                   data-cursor-text="Visit"
+                  style={{ color: 'var(--content-muted)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-brand)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-muted)'}
                 >
                   {proj.title}
-                  <span className="text-white/20 ml-1">↗</span>
+                  <span className="ml-1" style={{ color: 'var(--content-ghost)' }}>↗</span>
                 </a>
               ) : (
-                <div key={proj._id} className="text-xs text-white/60 truncate cursor-default">
+                <div key={proj._id} className="text-xs truncate cursor-default" style={{ color: 'var(--content-muted)' }}>
                   {proj.title}
                 </div>
               );

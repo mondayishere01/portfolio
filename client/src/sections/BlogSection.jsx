@@ -47,7 +47,7 @@ const BlogSection = () => {
         {loading ? (
           <div className="space-y-6">
             {[1, 2].map((i) => (
-              <div key={i} className="h-32 w-full rounded-xl bg-slate-800/50 animate-pulse border border-slate-700/50" />
+              <div key={i} className="h-32 w-full rounded-xl animate-pulse" style={{ backgroundColor: 'var(--skeleton)', border: '1px solid var(--border-subtle)' }} />
             ))}
           </div>
         ) : (
@@ -56,29 +56,32 @@ const BlogSection = () => {
               <motion.div
                 key={blog._id}
                 variants={sectionVariants}
-                className="group flex flex-col sm:flex-row gap-4 sm:gap-6 rounded-xl border border-transparent hover:border-white/10 hover:bg-[#111111] hover:shadow-2xl transition-all duration-300 p-4 relative"
+                className="group flex flex-col sm:flex-row gap-4 sm:gap-6 rounded-xl border border-transparent hover:shadow-2xl transition-all duration-300 p-4 relative"
+                style={{ '--hover-card-bg': 'var(--surface-card)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--surface-card)'; e.currentTarget.style.borderColor = 'var(--border-alpha-10)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
               >
                 <Link to={`/blog/${blog._id}`} className="absolute inset-x-0 inset-y-0 z-10" aria-label={blog.title} />
-                <div className="w-full sm:w-40 h-32 shrink-0 overflow-hidden rounded-lg bg-slate-800 relative z-0 pointer-events-none border border-slate-700/50 group-hover:border-slate-600 transition-colors">
+                <div className="w-full sm:w-40 h-32 shrink-0 overflow-hidden rounded-lg relative z-0 pointer-events-none transition-colors" style={{ backgroundColor: 'var(--surface-accent)', border: '1px solid var(--border-subtle)' }}>
                   {blog.imageUrl ? (
                     <img src={blog.imageUrl} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-500 font-medium text-[10px] uppercase tracking-widest bg-slate-800/50">Article</div>
+                    <div className="w-full h-full flex items-center justify-center font-medium text-[10px] uppercase tracking-widest" style={{ color: 'var(--content-tertiary)', backgroundColor: 'var(--skeleton)' }}>Article</div>
                   )}
                 </div>
                 <div className="flex flex-col py-1 relative z-0 pointer-events-none">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#ffeb00] bg-[#ffeb00]/10 px-2 py-0.5 rounded-sm">
+                    <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm" style={{ color: 'var(--accent-brand)', backgroundColor: 'var(--interactive-base-10)' }}>
                         {blog.category}
                     </span>
-                    <span className="text-xs text-slate-500 font-medium">
+                    <span className="text-xs font-medium" style={{ color: 'var(--content-tertiary)' }}>
                         {new Date(blog.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-slate-200 group-hover:text-[#ffeb00] transition line-clamp-2 leading-tight mb-2">
+                  <h3 className="text-lg font-bold transition line-clamp-2 leading-tight mb-2" style={{ color: 'var(--content-body)' }}>
                     {blog.title}
                   </h3>
-                  <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed">
+                  <p className="text-sm line-clamp-2 leading-relaxed" style={{ color: 'var(--content-muted)' }}>
                     {blog.content.replace(/[#*_>]/g, '')}
                   </p>
                 </div>
@@ -89,16 +92,17 @@ const BlogSection = () => {
               <div className="mt-8 flex justify-start sm:ml-4 lg:ml-0 z-20 relative px-4">
                 <Link
                   to="/blog"
-                  className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
+                  className="inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                  style={{
+                    backgroundColor: 'var(--interactive-base)',
+                    color: 'var(--content-primary-inv)',
+                    boxShadow: '0 10px 15px -3px var(--interactive-base-10)',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--interactive-hover)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--interactive-base)'}
                 >
                   View All Articles
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                    aria-hidden="true"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true">
                     <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
                   </svg>
                 </Link>

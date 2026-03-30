@@ -17,7 +17,8 @@ const ProficiencyDots = ({ level }) => (
     {[1, 2, 3, 4, 5].map((i) => (
       <span
         key={i}
-        className={`inline-block w-2 h-2 rounded-full ${i <= level ? "bg-[#ffeb00]" : "bg-slate-600"}`}
+        className="inline-block w-2 h-2 rounded-full"
+        style={{ backgroundColor: i <= level ? 'var(--interactive-base)' : 'var(--border-subtle)' }}
       />
     ))}
   </div>
@@ -50,22 +51,36 @@ const SkillsSection = ({ skills, loading }) => {
           {[...Array(10)].map((_, i) => (
             <div
               key={i}
-              className="h-24 rounded-lg bg-slate-700/30 animate-pulse"
+              className="h-24 rounded-lg animate-pulse"
+              style={{ backgroundColor: 'var(--skeleton)' }}
             />
           ))}
         </div>
       ) : groupedSkills.length > 0 ? (
         <div className="space-y-8">
           {/* Tabs */}
-          <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-4">
+          <div className="flex flex-wrap gap-2 pb-4" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
             {groupedSkills.map((group) => (
               <button
                 key={group.category}
                 onClick={() => setActiveCategory(group.category)}
-                className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-widest transition-all duration-200 ${activeCategory === group.category
-                  ? "bg-[#ffeb00] text-slate-900"
-                  : "text-slate-500 hover:text-slate-300 hover:bg-slate-800/50"
-                  }`}
+                className="px-4 py-2 rounded-md text-xs font-bold uppercase tracking-widest transition-all duration-200"
+                style={{
+                  backgroundColor: activeCategory === group.category ? 'var(--interactive-base)' : 'transparent',
+                  color: activeCategory === group.category ? 'var(--content-primary-inv)' : 'var(--content-tertiary)',
+                }}
+                onMouseEnter={(e) => {
+                  if (activeCategory !== group.category) {
+                    e.currentTarget.style.color = 'var(--content-body)';
+                    e.currentTarget.style.backgroundColor = 'var(--hover-bg)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeCategory !== group.category) {
+                    e.currentTarget.style.color = 'var(--content-tertiary)';
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
               >
                 {group.category}
               </button>
@@ -84,10 +99,22 @@ const SkillsSection = ({ skills, loading }) => {
               {activeGroup.items.map((skill) => (
                 <div
                   key={skill._id}
-                  className="group flex flex-col items-center gap-2 rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 text-center transition-all duration-300 hover:border-[#ffeb00]/30 hover:bg-[#111111] hover:shadow-xl"
+                  className="group flex flex-col items-center gap-2 rounded-xl p-4 text-center transition-all duration-300 hover:shadow-xl"
+                  style={{
+                    border: '1px solid var(--border-subtle)',
+                    backgroundColor: 'var(--surface-accent)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--interactive-base-30)';
+                    e.currentTarget.style.backgroundColor = 'var(--surface-card)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                    e.currentTarget.style.backgroundColor = 'var(--surface-accent)';
+                  }}
                 >
                   {skill.imageUrl ? (
-                    <div className="w-12 h-12 rounded-lg bg-white p-2 group-hover:scale-110 transition-transform flex items-center justify-center shadow-lg">
+                    <div className="w-12 h-12 rounded-lg p-2 group-hover:scale-110 transition-transform flex items-center justify-center shadow-lg" style={{ backgroundColor: 'var(--surface-base)' }}>
                       <img
                         src={skill.imageUrl}
                         alt={skill.name}
@@ -96,11 +123,11 @@ const SkillsSection = ({ skills, loading }) => {
                       />
                     </div>
                   ) : (
-                    <div className="w-12 h-12 rounded-lg bg-slate-700/50 flex items-center justify-center text-xl font-bold text-[#ffeb00]">
+                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-xl font-bold" style={{ backgroundColor: 'var(--skeleton)', color: 'var(--accent-brand)' }}>
                       {skill.name.charAt(0)}
                     </div>
                   )}
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-200 transition-colors leading-tight">
+                  <span className="text-[11px] font-bold uppercase tracking-wider transition-colors leading-tight" style={{ color: 'var(--content-muted)' }}>
                     {skill.name}
                   </span>
                   <ProficiencyDots level={skill.proficiency} />
@@ -110,7 +137,7 @@ const SkillsSection = ({ skills, loading }) => {
           )}
         </div>
       ) : (
-        <p className="text-slate-500 text-sm">
+        <p className="text-sm" style={{ color: 'var(--content-tertiary)' }}>
           Skills will appear here once added via the admin panel.
         </p>
       )}

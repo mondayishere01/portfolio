@@ -15,7 +15,8 @@ const CertificationsSection = ({ certifications, loading }) => (
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="h-6 w-3/4 rounded bg-slate-700/50 animate-pulse"
+            className="h-6 w-3/4 rounded animate-pulse"
+            style={{ backgroundColor: 'var(--skeleton)' }}
           />
         ))}
       </div>
@@ -24,16 +25,22 @@ const CertificationsSection = ({ certifications, loading }) => (
         {certifications.map((cert) => (
           <div key={cert._id} className="group relative flex items-center gap-4 transition-all">
             {cert.imageUrl ? (
-              <div className="w-10 h-10 rounded bg-white p-1 flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-105">
+              <div className="w-10 h-10 rounded p-1 flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-105" style={{ backgroundColor: 'var(--surface-accent)' }}>
                 <img src={cert.imageUrl} alt={cert.title} className="w-full h-full object-contain" />
               </div>
             ) : (
-              <div className="w-10 h-10 rounded bg-[#ffeb00]/5 flex items-center justify-center shrink-0 text-[#ffeb00]/40 group-hover:text-[#ffeb00] transition-colors">
+              <div
+                className="w-10 h-10 rounded flex items-center justify-center shrink-0 transition-colors"
+                style={{ backgroundColor: 'var(--interactive-base-05)', color: 'var(--content-faint)' }}
+              >
                 <Award size={18} />
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-medium text-slate-300 group-hover:text-[#ffeb00] transition-colors leading-snug">
+              <h3
+                className="text-sm font-medium transition-colors leading-snug"
+                style={{ color: 'var(--content-body)' }}
+              >
                 {cert.title}
               </h3>
               {cert.credentialUrl && (
@@ -41,7 +48,10 @@ const CertificationsSection = ({ certifications, loading }) => (
                   href={cert.credentialUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 mt-1 text-[9px] font-bold uppercase tracking-wider text-slate-500 hover:text-[#ffeb00] transition-colors"
+                  className="inline-flex items-center gap-1.5 mt-1 text-[9px] font-bold uppercase tracking-wider transition-colors"
+                  style={{ color: 'var(--content-tertiary)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-brand)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-tertiary)'}
                 >
                   Verify <ExternalLink size={9} />
                 </a>
@@ -51,7 +61,7 @@ const CertificationsSection = ({ certifications, loading }) => (
         ))}
       </div>
     ) : (
-      <p className="text-slate-500 text-sm">
+      <p className="text-sm" style={{ color: 'var(--content-tertiary)' }}>
         Certifications will appear here once added via the admin panel.
       </p>
     )}

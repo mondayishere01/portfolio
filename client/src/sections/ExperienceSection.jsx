@@ -25,11 +25,11 @@ const ExperienceSection = ({ experiences, loading }) => (
         <div className="space-y-8">
           {[1, 2].map((i) => (
             <div key={i} className="grid sm:grid-cols-8 gap-4 animate-pulse">
-              <div className="sm:col-span-2 h-4 w-24 rounded bg-slate-700/50" />
+              <div className="sm:col-span-2 h-4 w-24 rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
               <div className="sm:col-span-6 space-y-2">
-                <div className="h-5 w-48 rounded bg-slate-700/50" />
-                <div className="h-4 w-full rounded bg-slate-700/50" />
-                <div className="h-4 w-3/4 rounded bg-slate-700/50" />
+                <div className="h-5 w-48 rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
+                <div className="h-4 w-full rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
+                <div className="h-4 w-3/4 rounded" style={{ backgroundColor: 'var(--skeleton)' }} />
               </div>
             </div>
           ))}
@@ -58,7 +58,14 @@ const ExperienceSection = ({ experiences, loading }) => (
             <div className="mt-8 flex justify-start">
               <a
                 href="/experience-archive"
-                className="inline-flex items-center gap-2 rounded-md bg-[#ffeb00] px-8 py-3 text-sm font-bold uppercase tracking-widest text-slate-900 hover:bg-[#ffdb00] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#ffeb00]/10"
+                className="inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                style={{
+                  backgroundColor: 'var(--interactive-base)',
+                  color: 'var(--content-primary-inv)',
+                  boxShadow: '0 10px 15px -3px var(--interactive-base-10)',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--interactive-hover)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--interactive-base)'}
               >
                 View Full Experience
                 <svg
