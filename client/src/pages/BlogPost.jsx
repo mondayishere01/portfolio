@@ -5,9 +5,9 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { 
-    ArrowLeft, Calendar, Tag, Clock, List, Info, 
-    AlertTriangle, Lightbulb, Check, Copy, ChevronRight 
+import {
+    ArrowLeft, Calendar, Tag, Clock, List, Info,
+    AlertTriangle, Lightbulb, Check, Copy, ChevronRight
 } from 'lucide-react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
@@ -37,7 +37,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }) => {
                 <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded bg-white/5 text-white/40 backdrop-blur-md border border-white/10">
                     {match[1]}
                 </span>
-                <button 
+                <button
                     onClick={handleCopy}
                     className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all active:scale-90"
                     title="Copy Code"
@@ -64,7 +64,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }) => {
 
 const AlertBlock = ({ children }) => {
     const content = React.Children.toArray(children)[0]?.props?.children?.[0] || '';
-    
+
     let type = 'note';
     let icon = <Info size={18} />;
     let colorClass = 'border-blue-500/50 bg-blue-500/5';
@@ -89,7 +89,7 @@ const AlertBlock = ({ children }) => {
 
     const cleanChildren = React.Children.map(children, child => {
         if (!child?.props) return child;
-        
+
         if (typeof child.props.children === 'string') {
             return {
                 ...child,
@@ -100,15 +100,15 @@ const AlertBlock = ({ children }) => {
             };
         }
         if (Array.isArray(child.props.children)) {
-             return {
-                 ...child,
-                 props: {
-                     ...child.props,
-                     children: child.props.children.map(c => 
-                         typeof c === 'string' ? c.replace(/\[!(NOTE|IMPORTANT|TIP|WARNING)\]/g, '').trim() : c
-                     )
-                 }
-             };
+            return {
+                ...child,
+                props: {
+                    ...child.props,
+                    children: child.props.children.map(c =>
+                        typeof c === 'string' ? c.replace(/\[!(NOTE|IMPORTANT|TIP|WARNING)\]/g, '').trim() : c
+                    )
+                }
+            };
         }
         return child;
     });
@@ -147,7 +147,7 @@ const BlogPost = () => {
             try {
                 const { data } = await api.get(`/blogs/${id}`);
                 setBlog(data);
-                
+
                 // Calculate reading time
                 const words = data.content.split(/\s+/).length;
                 setReadingTime(Math.ceil(words / 225));
@@ -229,8 +229,8 @@ const BlogPost = () => {
     return (
         <div className="min-h-screen px-5 pt-28 pb-12 md:py-20 lg:pl-0 lg:pr-6" style={{ backgroundColor: 'var(--surface-base)' }}>
             {/* Reading Progress Bar */}
-            <motion.div 
-                className="fixed top-0 left-0 right-0 h-1.5 z-[1001] origin-left"
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1 z-[1001] origin-left"
                 style={{ scaleX, backgroundColor: isDark ? '#818cf8' : '#4f46e5' }}
             />
 
@@ -243,59 +243,59 @@ const BlogPost = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: "easeOut" }}
                         >
-                        {/* Header */}
-                        <header className="mb-10">
-                            <div className="flex items-center gap-6 mb-8">
-                                <Link to={`/blog?category=${encodeURIComponent(blog.category)}`} className="rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-widest transition shadow-lg hover:brightness-110 active:scale-95" style={{ backgroundColor: 'var(--interactive-base)', color: 'var(--content-primary-inv)' }}>
-                                    {blog.category}
-                                </Link>
-                                <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-40" style={{ color: 'var(--content-primary)' }}>
-                                    <Calendar size={14} />
-                                    {new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                                </span>
-                                <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-40" style={{ color: 'var(--content-primary)' }}>
-                                    <Clock size={14} />
-                                    {readingTime} min read
-                                </span>
-                            </div>
-                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.95] mb-12" style={{ color: 'var(--content-primary)' }}>
-                                {blog.title}
-                            </h1>
+                            {/* Header */}
+                            <header className="mb-10">
+                                <div className="flex items-center gap-6 mb-8">
+                                    <Link to={`/blog?category=${encodeURIComponent(blog.category)}`} className="rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-widest transition shadow-lg hover:brightness-110 active:scale-95" style={{ backgroundColor: 'var(--interactive-base)', color: 'var(--content-primary-inv)' }}>
+                                        {blog.category}
+                                    </Link>
+                                    <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-40" style={{ color: 'var(--content-primary)' }}>
+                                        <Calendar size={14} />
+                                        {new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                    </span>
+                                    <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-40" style={{ color: 'var(--content-primary)' }}>
+                                        <Clock size={14} />
+                                        {readingTime} min read
+                                    </span>
+                                </div>
+                                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.95] mb-12" style={{ color: 'var(--content-primary)' }}>
+                                    {blog.title}
+                                </h1>
 
-                            {/* Tags */}
-                            {blog.tags && blog.tags.length > 0 && (
-                                <div className="flex items-center gap-3 flex-wrap">
-                                    {blog.tags.map(tag => (
-                                        <Link key={tag} to={`/blog?tag=${encodeURIComponent(tag)}`} className="text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-xl transition-all hover:scale-105" 
-                                            style={{ 
-                                                color: 'var(--content-tertiary)',
-                                                border: '1px solid var(--border-alpha-10)',
-                                                backgroundColor: 'var(--surface-accent)'
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.color = isDark ? '#818cf8' : '#4f46e5';
-                                                e.currentTarget.style.borderColor = isDark ? '#818cf8' : '#4f46e5';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.color = 'var(--content-tertiary)';
-                                                e.currentTarget.style.borderColor = 'var(--border-alpha-10)';
-                                            }}
-                                        >
-                                            #{tag}
-                                        </Link>
-                                    ))}
+                                {/* Tags */}
+                                {blog.tags && blog.tags.length > 0 && (
+                                    <div className="flex items-center gap-3 flex-wrap">
+                                        {blog.tags.map(tag => (
+                                            <Link key={tag} to={`/blog?tag=${encodeURIComponent(tag)}`} className="text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-xl transition-all hover:scale-105"
+                                                style={{
+                                                    color: 'var(--content-tertiary)',
+                                                    border: '1px solid var(--border-alpha-10)',
+                                                    backgroundColor: 'var(--surface-accent)'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.color = isDark ? '#818cf8' : '#4f46e5';
+                                                    e.currentTarget.style.borderColor = isDark ? '#818cf8' : '#4f46e5';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.color = 'var(--content-tertiary)';
+                                                    e.currentTarget.style.borderColor = 'var(--border-alpha-10)';
+                                                }}
+                                            >
+                                                #{tag}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </header>
+
+                            {/* Cover Image */}
+                            {blog.imageUrl && (
+                                <div className="mb-20 rounded-[3rem] overflow-hidden group border border-white/5" style={{ backgroundColor: 'var(--surface-accent)', boxShadow: '0 50px 100px -20px var(--shadow-heavy)' }}>
+                                    <img src={blog.imageUrl} alt={blog.title} className="w-full object-cover max-h-[800px] group-hover:scale-[1.02] transition-transform duration-[2s] ease-out" />
                                 </div>
                             )}
-                        </header>
 
-                        {/* Cover Image */}
-                        {blog.imageUrl && (
-                            <div className="mb-20 rounded-[3rem] overflow-hidden group border border-white/5" style={{ backgroundColor: 'var(--surface-accent)', boxShadow: '0 50px 100px -20px var(--shadow-heavy)' }}>
-                                <img src={blog.imageUrl} alt={blog.title} className="w-full object-cover max-h-[800px] group-hover:scale-[1.02] transition-transform duration-[2s] ease-out" />
-                            </div>
-                        )}
-
-                        <article className={`prose ${isDark ? 'prose-invert' : ''} prose-slate prose-xl max-w-[800px] mx-auto
+                            <article className={`prose ${isDark ? 'prose-invert' : ''} prose-slate prose-xl max-w-[800px] mx-auto
                             prose-headings:font-black prose-headings:tracking-tighter prose-headings:mb-10
                             prose-h2:text-4xl prose-h2:md:text-5xl prose-h2:mt-28 prose-h2:pb-6 prose-h2:border-b prose-h2:border-indigo-500/10
                             prose-h3:text-2xl prose-h3:mt-16
@@ -306,44 +306,44 @@ const BlogPost = () => {
                             prose-li:text-lg prose-li:mb-3
                             prose-blockquote:border-l-indigo-500/50 prose-blockquote:bg-indigo-500/5 prose-blockquote:rounded-r-2xl prose-blockquote:p-8 prose-blockquote:italic
                             prose-hr:my-28 prose-hr:border-white/5`}
-                            style={{
-                                '--tw-prose-headings': isDark ? '#a5b4fc' : '#4f46e5', // Indigo 300 / 600
-                                '--tw-prose-body': 'var(--content-muted)',
-                                '--tw-prose-links': isDark ? '#818cf8' : '#6366f1', // Indigo 400 / 500
-                                '--tw-prose-bold': 'var(--content-primary)',
-                                '--tw-prose-code': isDark ? '#818cf8' : '#6366f1',
-                                '--tw-prose-pre-bg': 'transparent',
-                                '--tw-prose-pre-border': 'transparent',
-                                '--tw-prose-bullets': isDark ? '#818cf8' : '#6366f1',
-                                '--tw-prose-hr': 'var(--border-alpha-15)',
-                            }}
-                        >
-                            <ReactMarkdown 
-                                remarkPlugins={[remarkGfm]}
-                                components={{
-                                    code: CodeBlock,
-                                    blockquote: AlertBlock,
-                                    h2: ({node, ...props}) => {
-                                        const text = React.Children.toArray(props.children)
-                                            .map(child => (typeof child === 'string' ? child : child.props?.children))
-                                            .flat()
-                                            .join('');
-                                        const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
-                                        return <h2 id={id} {...props} />;
-                                    },
-                                    h3: ({node, ...props}) => {
-                                        const text = React.Children.toArray(props.children)
-                                            .map(child => (typeof child === 'string' ? child : child.props?.children))
-                                            .flat()
-                                            .join('');
-                                        const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
-                                        return <h3 id={id} {...props} />;
-                                    }
+                                style={{
+                                    '--tw-prose-headings': isDark ? '#a5b4fc' : '#4f46e5', // Indigo 300 / 600
+                                    '--tw-prose-body': 'var(--content-muted)',
+                                    '--tw-prose-links': isDark ? '#818cf8' : '#6366f1', // Indigo 400 / 500
+                                    '--tw-prose-bold': 'var(--content-primary)',
+                                    '--tw-prose-code': isDark ? '#818cf8' : '#6366f1',
+                                    '--tw-prose-pre-bg': 'transparent',
+                                    '--tw-prose-pre-border': 'transparent',
+                                    '--tw-prose-bullets': isDark ? '#818cf8' : '#6366f1',
+                                    '--tw-prose-hr': 'var(--border-alpha-15)',
                                 }}
                             >
-                                {blog.content}
-                            </ReactMarkdown>
-                        </article>
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        code: CodeBlock,
+                                        blockquote: AlertBlock,
+                                        h2: ({ node, ...props }) => {
+                                            const text = React.Children.toArray(props.children)
+                                                .map(child => (typeof child === 'string' ? child : child.props?.children))
+                                                .flat()
+                                                .join('');
+                                            const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
+                                            return <h2 id={id} {...props} />;
+                                        },
+                                        h3: ({ node, ...props }) => {
+                                            const text = React.Children.toArray(props.children)
+                                                .map(child => (typeof child === 'string' ? child : child.props?.children))
+                                                .flat()
+                                                .join('');
+                                            const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
+                                            return <h3 id={id} {...props} />;
+                                        }
+                                    }}
+                                >
+                                    {blog.content}
+                                </ReactMarkdown>
+                            </article>
                         </motion.div>
                     </div>
 
@@ -351,13 +351,13 @@ const BlogPost = () => {
                     <aside className="lg:col-span-4 mt-16 lg:mt-0 space-y-12">
                         {/* Author Box */}
                         {blog.author && (
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.5, duration: 0.8 }}
-                                className="group relative rounded-[2.5rem] backdrop-blur-2xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all hover:translate-y-[-4px] hover:shadow-[0_30px_70px_rgba(0,0,0,0.6)]" 
-                                style={{ 
-                                    border: '1px solid var(--border-alpha-15)', 
+                                className="group relative rounded-[2.5rem] backdrop-blur-2xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all hover:translate-y-[-4px] hover:shadow-[0_30px_70px_rgba(0,0,0,0.6)]"
+                                style={{
+                                    border: '1px solid var(--border-alpha-15)',
                                     backgroundColor: isDark ? 'rgba(25, 25, 25, 0.8)' : 'var(--surface-card)',
                                     boxShadow: isDark ? '0 0 40px rgba(129, 140, 248, 0.03)' : ''
                                 }}
@@ -399,16 +399,16 @@ const BlogPost = () => {
                         <NewsletterBox />
 
                         {/* Recommendations Box */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.7, duration: 0.8 }}
-                                className="rounded-[2.5rem] p-9 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all" 
-                                style={{ 
-                                    border: '1px solid var(--border-alpha-15)', 
-                                    backgroundColor: isDark ? 'rgba(25, 25, 25, 0.8)' : 'var(--surface-card)',
-                                    boxShadow: isDark ? '0 0 40px rgba(129, 140, 248, 0.03)' : ''
-                                }}
+                            className="rounded-[2.5rem] p-9 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all"
+                            style={{
+                                border: '1px solid var(--border-alpha-15)',
+                                backgroundColor: isDark ? 'rgba(25, 25, 25, 0.8)' : 'var(--surface-card)',
+                                boxShadow: isDark ? '0 0 40px rgba(129, 140, 248, 0.03)' : ''
+                            }}
                         >
                             <h4 className="text-xs font-black uppercase tracking-[0.3em] mb-10 flex items-center gap-3" style={{ color: 'var(--content-primary)' }}>
                                 <div className="w-1.5 h-6 rounded-full bg-indigo-500/20" />
@@ -450,19 +450,19 @@ const BlogPost = () => {
 
                         {/* Table of Contents - Sticky at the bottom of the sidebar stack */}
                         {toc.length > 0 && (
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.3, duration: 0.8 }}
-                                className="hidden lg:block sticky top-28 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all group z-20" 
-                                style={{ 
-                                    border: '1px solid var(--border-alpha-20)', 
+                                className="hidden lg:block sticky top-28 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all group z-20"
+                                style={{
+                                    border: '1px solid var(--border-alpha-20)',
                                     backgroundColor: isDark ? 'rgba(30, 30, 30, 0.9)' : 'var(--surface-card)',
                                     boxShadow: isDark ? '0 0 60px rgba(129, 140, 248, 0.05)' : ''
                                 }}
                             >
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl -z-10 group-hover:scale-150 transition-transform duration-700" />
-                                
+
                                 <h4 className="text-xs font-black uppercase tracking-[0.3em] mb-10 flex items-center gap-3" style={{ color: 'var(--content-primary)' }}>
                                     <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
                                     Directory
@@ -471,9 +471,9 @@ const BlogPost = () => {
                                     {toc.map((item, i) => {
                                         const isActive = activeId === item.id;
                                         return (
-                                            <a 
-                                                key={i} 
-                                                href={`#${item.id}`} 
+                                            <a
+                                                key={i}
+                                                href={`#${item.id}`}
                                                 className={`flex items-center gap-3 py-2.5 text-sm font-bold transition-all hover:translate-x-2 ${isActive ? 'opacity-100 scale-105' : 'opacity-40 hover:opacity-100'} ${item.level === 3 ? 'pl-8 text-xs' : 'pl-0'}`}
                                                 style={{ color: isActive ? (isDark ? '#818cf8' : '#4f46e5') : 'var(--content-muted)' }}
                                             >
@@ -483,7 +483,7 @@ const BlogPost = () => {
                                         );
                                     })}
                                 </nav>
-                                
+
                                 <div className="mt-10 pt-10 border-t border-white/5">
                                     <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] opacity-40">
                                         <Clock size={16} />
@@ -520,11 +520,11 @@ const NewsletterBox = () => {
     };
 
     return (
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.8 }}
-            className="group relative rounded-[2.5rem] p-10 shadow-3xl overflow-hidden" 
+            className="group relative rounded-[2.5rem] p-10 shadow-3xl overflow-hidden"
             style={{ backgroundColor: 'var(--interactive-base)', boxShadow: '0 30px 60px -12px var(--interactive-base-20)' }}
         >
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[80px] -z-0 transition-transform duration-[1s] group-hover:scale-150" />
