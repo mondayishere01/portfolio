@@ -119,8 +119,15 @@ const Navigation = () => {
         }}
       >
         {/* ── Header row ─────────────────────────────────────────── */}
-        <button
+        <div
+          role="button"
           onClick={() => isPill && setIsOpen((v) => !v)}
+          onKeyDown={(e) => {
+            if (isPill && (e.key === "Enter" || e.key === " ")) {
+              e.preventDefault();
+              setIsOpen((v) => !v);
+            }
+          }}
           className={`w-full flex items-center px-5 h-[48px] ${isPill ? "cursor-pointer" : "cursor-default"}`}
           aria-expanded={isOpen}
           aria-label={isOpen ? "Collapse menu" : "Expand menu"}
@@ -231,7 +238,7 @@ const Navigation = () => {
               />
             </div>
           </div>
-        </button>
+        </div>
 
         {/* ── Expandable dropdown (pill only) ────────────────────── */}
         <div

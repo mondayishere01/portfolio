@@ -129,7 +129,6 @@ const FloatingContact = () => {
           borderColor: 'var(--border-subtle)',
           backgroundColor: 'var(--surface-card)',
         }}
-        onMouseEnter2={null}
         aria-label="Contact and Social Links"
         data-cursor-text="Connect"
       >
