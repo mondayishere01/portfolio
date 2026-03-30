@@ -1,17 +1,100 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { ArrowLeft, Calendar, Tag } from 'lucide-react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { ArrowLeft, Calendar, Tag, Clock, List, Info, AlertTriangle, Lightbulb } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api' });
+
+// --- Custom Markdown Components ---
+
+const CodeBlock = ({ node, inline, className, children, ...props }) => {
+    const match = /language-(\w+)/.exec(className || '');
+    return !inline && match ? (
+        <div className="relative group my-8">
+            <div className="absolute right-4 top-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-white/10 text-white/50 backdrop-blur-md border border-white/10">
+                    {match[1]}
+                </span>
+            </div>
+            <SyntaxHighlighter
+                style={oneDark}
+                language={match[1]}
+                PreTag="div"
+                className="!rounded-2xl !p-6 !m-0 !bg-[#0d1117] border border-white/5 shadow-2xl"
+                {...props}
+            >
+                {String(children).replace(/\n$/, '')}
+            </SyntaxHighlighter>
+        </div>
+    ) : (
+        <code className="px-1.5 py-0.5 rounded-md bg-accent-brand/10 text-accent-brand font-mono text-sm" {...props}>
+            {children}
+        </code>
+    );
+};
+
+const AlertBlock = ({ children }) => {
+    const content = React.Children.toArray(children)[0]?.props?.children?.[0] || '';
+    
+    let type = 'note';
+    let icon = <Info size={18} />;
+    let colorClass = 'border-blue-500/50 bg-blue-500/5';
+    let title = 'Note';
+
+    if (content.includes('[!IMPORTANT]')) {
+        type = 'important';
+        icon = <AlertTriangle size={18} />;
+        colorClass = 'border-red-500/50 bg-red-500/5';
+        title = 'Important';
+    } else if (content.includes('[!TIP]')) {
+        type = 'tip';
+        icon = <Lightbulb size={18} />;
+        colorClass = 'border-yellow-500/50 bg-yellow-500/5';
+        title = 'Tip';
+    } else if (content.includes('[!WARNING]')) {
+        type = 'warning';
+        icon = <AlertTriangle size={18} />;
+        colorClass = 'border-orange-500/50 bg-orange-500/5';
+        title = 'Warning';
+    }
+
+    const cleanChildren = React.Children.map(children, child => {
+        if (typeof child.props.children === 'string') {
+            return child.props.children.replace(/\[!(NOTE|IMPORTANT|TIP|WARNING)\]/g, '').trim();
+        }
+        if (Array.isArray(child.props.children)) {
+             return {
+                 ...child,
+                 props: {
+                     ...child.props,
+                     children: child.props.children.map(c => 
+                         typeof c === 'string' ? c.replace(/\[!(NOTE|IMPORTANT|TIP|WARNING)\]/g, '').trim() : c
+                     )
+                 }
+             };
+        }
+        return child;
+    });
+
+    return (
+        <div className={`my-8 p-5 border-l-4 rounded-r-2xl ${colorClass} animate-in fade-in slide-in-from-left-2 duration-500`}>
+            <div className="flex items-center gap-2 mb-2 font-black uppercase tracking-widest text-[10px]" style={{ color: colorClass.split(' ')[0].replace('border-', 'text-').replace('/50', '') }}>
+                {icon}
+                {title}
+            </div>
+            <div className="prose-sm italic opacity-90">
+                {cleanChildren}
+            </div>
+        </div>
+    );
+};
 
 const BlogPost = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [toc, setToc] = useState([]);
+    const [readingTime, setReadingTime] = useState(0);
     const { isDark } = useTheme();
 
     useEffect(() => {
@@ -19,6 +102,23 @@ const BlogPost = () => {
             try {
                 const { data } = await api.get(`/blogs/${id}`);
                 setBlog(data);
+                
+                // Calculate reading time
+                const words = data.content.split(/\s+/).length;
+                setReadingTime(Math.ceil(words / 225));
+
+                // Extract TOC
+                const headings = [];
+                const regex = /^(#{2,3})\s+(.+)$/gm;
+                let match;
+                while ((match = regex.exec(data.content)) !== null) {
+                    headings.push({
+                        level: match[1].length,
+                        text: match[2],
+                        id: match[2].toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
+                    });
+                }
+                setToc(headings);
             } catch (err) {
                 console.error("Failed to fetch blog:", err);
             } finally {
@@ -57,27 +157,41 @@ const BlogPost = () => {
                     <div className="lg:col-span-8">
                         {/* Header */}
                         <header className="mb-10">
-                            <div className="flex items-center gap-3 mb-5">
-                                <Link to={`/blog?category=${encodeURIComponent(blog.category)}`} className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition" style={{ backgroundColor: 'var(--interactive-base-10)', color: 'var(--accent-brand)' }}>
+                            <div className="flex items-center gap-6 mb-6">
+                                <Link to={`/blog?category=${encodeURIComponent(blog.category)}`} className="rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest transition shadow-lg" style={{ backgroundColor: 'var(--interactive-base)', color: 'var(--content-primary-inv)' }}>
                                     {blog.category}
                                 </Link>
-                                <span className="flex items-center gap-1.5 text-xs font-medium" style={{ color: 'var(--content-tertiary)' }}>
+                                <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-60" style={{ color: 'var(--content-primary)' }}>
                                     <Calendar size={14} />
                                     {new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                                 </span>
+                                <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-60" style={{ color: 'var(--content-primary)' }}>
+                                    <Clock size={14} />
+                                    {readingTime} min read
+                                </span>
                             </div>
-                            <h1 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-[1.1] mb-8" style={{ color: 'var(--content-primary)' }}>
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[1] mb-10" style={{ color: 'var(--content-primary)' }}>
                                 {blog.title}
                             </h1>
 
                             {/* Tags */}
                             {blog.tags && blog.tags.length > 0 && (
-                                <div className="flex items-center gap-3 flex-wrap">
-                                    <Tag size={16} style={{ color: 'var(--accent-brand)' }} />
+                                <div className="flex items-center gap-4 flex-wrap">
                                     {blog.tags.map(tag => (
-                                        <Link key={tag} to={`/blog?tag=${encodeURIComponent(tag)}`} className="text-xs font-bold uppercase tracking-widest transition-colors" style={{ color: 'var(--content-tertiary)' }}
-                                            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-brand)'}
-                                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-tertiary)'}
+                                        <Link key={tag} to={`/blog?tag=${encodeURIComponent(tag)}`} className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg transition-all" 
+                                            style={{ 
+                                                color: 'var(--content-tertiary)',
+                                                border: '1px solid var(--border-alpha-10)',
+                                                backgroundColor: 'var(--surface-accent)'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.color = 'var(--accent-brand)';
+                                                e.currentTarget.style.borderColor = 'var(--accent-brand)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.color = 'var(--content-tertiary)';
+                                                e.currentTarget.style.borderColor = 'var(--border-alpha-10)';
+                                            }}
                                         >
                                             #{tag}
                                         </Link>
@@ -88,35 +202,79 @@ const BlogPost = () => {
 
                         {/* Cover Image */}
                         {blog.imageUrl && (
-                            <div className="mb-12 rounded-3xl overflow-hidden" style={{ backgroundColor: 'var(--surface-accent)', border: '1px solid var(--border-alpha-05)', boxShadow: '0 32px 64px -16px var(--shadow-subtle)' }}>
-                                <img src={blog.imageUrl} alt={blog.title} className="w-full object-cover max-h-[600px]" />
+                            <div className="mb-16 rounded-[2.5rem] overflow-hidden" style={{ backgroundColor: 'var(--surface-accent)', border: '1px solid var(--border-alpha-05)', boxShadow: '0 40px 80px -20px var(--shadow-heavy)' }}>
+                                <img src={blog.imageUrl} alt={blog.title} className="w-full object-cover max-h-[700px] hover:scale-105 transition-transform duration-1000" />
                             </div>
                         )}
 
                         {/* Content (Prose) */}
-                        <article className={`prose ${isDark ? 'prose-invert' : ''} prose-slate prose-lg max-w-none 
-                            prose-headings:font-black prose-headings:tracking-tight
-                            prose-p:leading-relaxed
-                            prose-a:no-underline hover:prose-a:underline
-                            prose-img:rounded-3xl prose-pre:border prose-pre:shadow-2xl`}
+                        <article className={`prose ${isDark ? 'prose-invert' : ''} prose-slate prose-xl max-w-none 
+                            prose-headings:font-black prose-headings:tracking-tighter prose-headings:mb-8
+                            prose-h2:text-4xl prose-h2:mt-16
+                            prose-h3:text-2xl prose-h3:mt-10
+                            prose-p:leading-[1.8] prose-p:text-lg prose-p:mb-8
+                            prose-a:no-underline prose-a:font-black hover:prose-a:underline
+                            prose-img:rounded-[2rem] prose-img:my-16 prose-img:shadow-2xl
+                            prose-strong:text-content-primary
+                            prose-li:text-lg prose-li:mb-2`}
                             style={{
                                 '--tw-prose-headings': 'var(--content-primary)',
                                 '--tw-prose-body': 'var(--content-muted)',
                                 '--tw-prose-links': 'var(--accent-brand)',
                                 '--tw-prose-bold': 'var(--content-primary)',
                                 '--tw-prose-code': 'var(--accent-brand)',
-                                '--tw-prose-pre-bg': 'var(--surface-card)',
-                                '--tw-prose-pre-border': 'var(--border-alpha-05)',
+                                '--tw-prose-pre-bg': 'transparent',
+                                '--tw-prose-pre-border': 'transparent',
+                                '--tw-prose-bullets': 'var(--accent-brand)',
                             }}
                         >
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            <ReactMarkdown 
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                    code: CodeBlock,
+                                    blockquote: AlertBlock,
+                                    h2: ({node, ...props}) => <h2 id={props.children[0]?.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')} {...props} />,
+                                    h3: ({node, ...props}) => <h3 id={props.children[0]?.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')} {...props} />
+                                }}
+                            >
                                 {blog.content}
                             </ReactMarkdown>
                         </article>
                     </div>
 
                     {/* Sidebar Column */}
-                    <aside className="lg:col-span-4 mt-16 lg:mt-0 lg:sticky lg:top-24 space-y-10">
+                    <aside className="lg:col-span-4 mt-16 lg:mt-0 space-y-10">
+                        {/* Table of Contents */}
+                        {toc.length > 0 && (
+                            <div className="hidden lg:block sticky top-28 rounded-3xl p-8 shadow-2xl transition-all" style={{ border: '1px solid var(--border-alpha-10)', backgroundColor: 'var(--surface-card)' }}>
+                                <h4 className="text-xs font-black uppercase tracking-[0.2em] mb-8 flex items-center gap-3" style={{ color: 'var(--content-primary)' }}>
+                                    <List size={18} className="text-accent-brand" />
+                                    Table of Contents
+                                </h4>
+                                <nav className="space-y-1">
+                                    {toc.map((item, i) => (
+                                        <a 
+                                            key={i} 
+                                            href={`#${item.id}`} 
+                                            className={`block py-2 text-sm font-bold transition-all hover:translate-x-1 ${item.level === 3 ? 'pl-6 opacity-60 text-xs' : 'pl-0 opacity-80'}`}
+                                            style={{ color: 'var(--content-muted)' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-brand)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--content-muted)'}
+                                        >
+                                            {item.text}
+                                        </a>
+                                    ))}
+                                </nav>
+                                
+                                <div className="mt-8 pt-8 border-t border-white/5">
+                                    <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest opacity-40">
+                                        <Clock size={14} />
+                                        Approx. {readingTime} MIN READ
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Author Box */}
                         {blog.author && (
                             <div className="group relative rounded-3xl backdrop-blur-xl p-6 shadow-2xl transition-all" style={{ border: '1px solid var(--border-alpha-10)', backgroundColor: 'var(--surface-card)' }}>
